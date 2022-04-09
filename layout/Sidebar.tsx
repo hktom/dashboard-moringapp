@@ -62,6 +62,7 @@ const Sidebar = (props: ISidebar) => {
         {menu2.map((item: IMenu) => (
           <ListItemButton
             key={item.label + "_"}
+            onClick={() => router.push(item.path)}
             sx={{
               minHeight: 48,
               justifyContent: open ? "initial" : "center",

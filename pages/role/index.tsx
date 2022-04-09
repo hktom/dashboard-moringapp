@@ -24,24 +24,10 @@ import * as React from "react";
 import Layout from "../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+// import { Role } from "@mui/icons-material";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", flex: 1 },
-  {
-    field: "image",
-    flex: 1,
-    headerName: "Image",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
-        <CardMedia
-          component="img"
-          height="80px"
-          image={params.value}
-          alt="green iguana"
-        />
-      </Box>
-    ),
-  },
   { field: "firstName", headerName: "First name", flex: 1 },
   { field: "lastName", headerName: "Last name", flex: 1 },
   {
@@ -84,7 +70,6 @@ const columns: GridColDef[] = [
 const rows = [
   {
     id: 1,
-    image: "https://picsum.photos/536/354",
     lastName: "Snow",
     firstName: "Jon",
     age: 35,
@@ -92,7 +77,6 @@ const rows = [
   },
   {
     id: 2,
-    image: "https://picsum.photos/536/354",
     lastName: "Lannister",
     firstName: "Cersei",
     age: 42,
@@ -100,7 +84,6 @@ const rows = [
   },
   {
     id: 3,
-    image: "https://picsum.photos/536/354",
     lastName: "Lannister",
     firstName: "Jaime",
     age: 45,
@@ -108,7 +91,6 @@ const rows = [
   },
   {
     id: 4,
-    image: "https://picsum.photos/536/354",
     lastName: "Stark",
     firstName: "Arya",
     age: 16,
@@ -116,7 +98,6 @@ const rows = [
   },
   {
     id: 5,
-    image: "https://picsum.photos/536/354",
     lastName: "Targaryen",
     firstName: "Daenerys",
     age: null,
@@ -124,7 +105,6 @@ const rows = [
   },
   {
     id: 6,
-    image: "https://picsum.photos/536/354",
     lastName: "Melisandre",
     firstName: null,
     age: 150,
@@ -132,7 +112,6 @@ const rows = [
   },
   {
     id: 7,
-    image: "https://picsum.photos/536/354",
     lastName: "Clifford",
     firstName: "Ferrara",
     age: 44,
@@ -140,7 +119,6 @@ const rows = [
   },
   {
     id: 8,
-    image: "https://picsum.photos/536/354",
     lastName: "Frances",
     firstName: "Rossini",
     age: 36,
@@ -148,7 +126,6 @@ const rows = [
   },
   {
     id: 9,
-    image: "https://picsum.photos/536/354",
     lastName: "Roxie",
     firstName: "Harvey",
     age: 65,
@@ -156,7 +133,7 @@ const rows = [
   },
 ];
 
-function Task() {
+function Role() {
   return (
     <>
       <Layout>
@@ -168,7 +145,7 @@ function Task() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Task
+                Role
               </Typography>
 
               <Button
@@ -183,23 +160,11 @@ function Task() {
           </Grid>
           <Grid item xs={12} md={10} sx={{ mx: "auto" }}>
             <Paper elevation={0} sx={{ py: 3, px: 3 }}>
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Search
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  startAdornment={<SearchIcon />}
-                  label="Amount"
-                />
-              </FormControl>
-
-              <Box style={{ height: 650, width: "100%" }} sx={{ mt: 4 }}>
+              <Box style={{ height: 400, width: "100%" }} sx={{ mt: 4 }}>
                 <div style={{ display: "flex", height: "100%" }}>
                   <div style={{ flexGrow: 1 }}>
                     <DataGrid
                       sx={{ border: "none" }}
-                      rowHeight={100}
                       rows={rows}
                       columns={columns}
                       pageSize={5}
@@ -216,4 +181,4 @@ function Task() {
   );
 }
 
-export default Task;
+export default Role;

@@ -20,31 +20,32 @@ import * as React from "react";
 import Layout from "../../layout/Layout";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 150 },
-  { field: "firstName", headerName: "First name", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "id", headerName: "ID", flex: 1 },
+  { field: "firstName", headerName: "First name", flex: 1 },
+  { field: "lastName", headerName: "Last name", flex: 1 },
   {
     field: "age",
     headerName: "Age",
     type: "number",
-    width: 90,
+    flex: 1,
   },
   {
     field: "fullName",
     headerName: "Full name",
     description: "This column has a value getter and is not sortable.",
+    flex: 1,
     sortable: false,
-    width: 180,
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.firstName || ""} ${params.row.lastName || ""}`,
   },
   {
     field: "status",
+    flex: 1,
     headerName: "Status",
-    width: 120,
     renderCell: (params: GridRenderCellParams<String>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Chip
+          size="small"
           label={params.value}
           color="success"
           sx={{
@@ -60,7 +61,13 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35, status: "completed" },
+  {
+    id: 1,
+    lastName: "Snow",
+    firstName: "Jon",
+    age: 35,
+    status: "completed",
+  },
   {
     id: 2,
     lastName: "Lannister",
@@ -167,13 +174,17 @@ function Job() {
             </Typography>
 
             <div style={{ height: 400, width: "100%" }}>
-              <DataGrid
-                sx={{ border: "none" }}
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                rowsPerPageOptions={[5]}
-              />
+              <div style={{ display: "flex", height: "100%" }}>
+                <div style={{ flexGrow: 1 }}>
+                  <DataGrid
+                    sx={{ border: "none" }}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                  />
+                </div>
+              </div>
             </div>
           </Paper>
         </Grid>

@@ -156,7 +156,7 @@ const rows = [
   },
 ];
 
-function Task() {
+function Service() {
   return (
     <>
       <Layout>
@@ -168,7 +168,7 @@ function Task() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Task
+                Services
               </Typography>
 
               <Button
@@ -216,4 +216,4 @@ function Task() {
   );
 }
 
-export default Task;
+export default Service;

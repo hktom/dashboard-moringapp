@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   CardMedia,
@@ -26,19 +27,14 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
+  { field: "id", headerName: "ID", flex: 0.5 },
   {
     field: "image",
     flex: 1,
     headerName: "Image",
     renderCell: (params: GridRenderCellParams<string>) => (
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
-        <CardMedia
-          component="img"
-          height="80px"
-          image={params.value}
-          alt="green iguana"
-        />
+        <Avatar alt="" src={params.value} sx={{ width: 60, height: 60 }} />
       </Box>
     ),
   },
@@ -84,7 +80,7 @@ const columns: GridColDef[] = [
 const rows = [
   {
     id: 1,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Snow",
     firstName: "Jon",
     age: 35,
@@ -92,7 +88,7 @@ const rows = [
   },
   {
     id: 2,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Lannister",
     firstName: "Cersei",
     age: 42,
@@ -100,7 +96,7 @@ const rows = [
   },
   {
     id: 3,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Lannister",
     firstName: "Jaime",
     age: 45,
@@ -108,7 +104,7 @@ const rows = [
   },
   {
     id: 4,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Stark",
     firstName: "Arya",
     age: 16,
@@ -116,7 +112,7 @@ const rows = [
   },
   {
     id: 5,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Targaryen",
     firstName: "Daenerys",
     age: null,
@@ -124,7 +120,7 @@ const rows = [
   },
   {
     id: 6,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Melisandre",
     firstName: null,
     age: 150,
@@ -132,7 +128,7 @@ const rows = [
   },
   {
     id: 7,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Clifford",
     firstName: "Ferrara",
     age: 44,
@@ -140,7 +136,7 @@ const rows = [
   },
   {
     id: 8,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Frances",
     firstName: "Rossini",
     age: 36,
@@ -148,7 +144,7 @@ const rows = [
   },
   {
     id: 9,
-    image: "https://picsum.photos/536/354",
+    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
     lastName: "Roxie",
     firstName: "Harvey",
     age: 65,
@@ -156,7 +152,7 @@ const rows = [
   },
 ];
 
-function Task() {
+function User() {
   return (
     <>
       <Layout>
@@ -168,7 +164,7 @@ function Task() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Task
+                User
               </Typography>
 
               <Button
@@ -216,4 +212,4 @@ function Task() {
   );
 }
 
-export default Task;
+export default User;
