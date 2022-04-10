@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
+import { Avatar, Stack } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -105,22 +106,32 @@ const Layout = ({ children }: DashboardLayoutProps) => {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open} color="secondary" elevation={0}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Box sx={{ display: "flex", justifyContent: "start" }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: 5,
+                ...(open && { display: "none" }),
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Moringapp
+            </Typography>
+          </Box>
+
+          <Stack>
+            <Avatar
+              alt=""
+              src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg"
+              sx={{ width: 35, height: 35 }}
+            />
+          </Stack>
         </Toolbar>
       </AppBar>
 

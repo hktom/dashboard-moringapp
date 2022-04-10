@@ -1,0 +1,1 @@
+export const GET_LIST_VIDEO = 'feelin/Home/GET_LIST_VIDEO';
