@@ -12,9 +12,3 @@ const WrappedApp: FC<AppProps> = ({ Component, pageProps }: any) => (
 );
 
 export default wrapper.withRedux(WrappedApp);
-
-// function MyApp({ Component, pageProps }: AppProps) {
-//   return <Component {...pageProps} />
-// }
-
-// export default MyApp

@@ -1,30 +1,16 @@
 // store.ts
-import { createStore, Store } from "redux";
+import { createStore, Store, applyMiddleware } from "redux";
 import { createWrapper, Context } from "next-redux-wrapper";
-import { reducer } from "./reducer";
-
-export interface State {
-  tick: string;
-}
-
+import { appReducer, IRootState, rootReducer } from "./reducer";
+import createSagaMiddleware from "redux-saga";
+import { rootSaga } from "./saga";
 // create a makeStore function
-const makeStore = (context: Context) => createStore(reducer);
-
-// export an assembled wrapper
-export const wrapper = createWrapper<Store<State>>(makeStore, { debug: true });
-
-/*
-const persistedReducer = persistReducer(persistConfig, appReducer);
-
 const sagaMiddleware = createSagaMiddleware();
-
-export const store = createStore(
-  // appReducer,
-  persistedReducer,
-  applyMiddleware(sagaMiddleware),
+const store = createStore(
+  // rootreducer
+  appReducer,
+  applyMiddleware(sagaMiddleware)
 );
-
-
-export const persister = persistStore(store);
+const makeStore = () => store;
+export const wrapper = createWrapper(makeStore);
 sagaMiddleware.run(rootSaga);
-*/

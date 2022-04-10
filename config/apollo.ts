@@ -9,7 +9,7 @@ import {
   concat,
 } from "@apollo/client";
 
-const httpLink = new HttpLink({ uri: "/graphql" });
+const httpLink = new HttpLink({ uri: "http://127.0.0.1:8000/graphql" });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers

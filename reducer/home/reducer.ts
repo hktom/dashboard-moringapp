@@ -1,47 +1,38 @@
-import { userInfo } from "os";
 import { IHomeActions } from "./actions";
-import { IListVideo } from "./constants";
+import { GET_USER_PROFILE, GET_USER_PROFILE_SUCCESS } from "./constants";
 
-export interface IHomeState {
-  listVideo?: IListVideo[];
-  loadingVideo: boolean;
-  loadingClientProfile: boolean;
-  clientProfile?: any;
-  clientProfileError: string;
-  clientSelectedOrder: number;
-  loadingInsightOrderUpdate: boolean;
-  insightOrder: any;
-  benchmark: any;
-  search: string | undefined;
+export interface IUser {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  gender: string;
+  avatar: string;
+  birth_year: string;
+  street: string;
+  mobile: string;
+  certificate: string;
+  bio: string;
+  zip_code: string;
+  url: string;
 }
 
-export const initialState = {
-  loadingVideo: false,
-  listVideo: [],
-  loadingClientProfile: false,
-  clientProfile: {
-    orders: undefined,
-    user: undefined,
-    admin: undefined,
-    company: {},
-    phoneNumber: "",
-  },
-  clientProfileError: "",
-  clientSelectedOrder: 0,
-  loadingInsightOrderUpdate: false,
-  insightOrder: [],
-  benchmark: null,
-  search: undefined,
-};
+export interface IHomeState {
+  profile?: IUser;
+  role: any;
+  condition: any;
+  city: any;
+  jobs: any;
+  tasks: any;
+}
 
-const filterOrder = (orders: any) => {
-  const tab: Array<any> = [];
-  return orders.filter((order: any) => {
-    if (!tab.includes(order.id)) {
-      tab.push(order.id);
-      return order;
-    }
-  });
+export const initialState: IHomeState = {
+  profile: undefined,
+  role: undefined,
+  condition: undefined,
+  city: undefined,
+  jobs: undefined,
+  tasks: undefined,
 };
 
 export const homeReducer = (
@@ -49,10 +40,10 @@ export const homeReducer = (
   action: IHomeActions
 ): IHomeState => {
   switch (action.type) {
-    case SET_CLIENT_SELECTED_ORDER:
+    case GET_USER_PROFILE_SUCCESS:
       return {
         ...state,
-        clientSelectedOrder: action.data.clientSelectedOrder,
+        profile: action.data?.profile,
       };
 
     default:
