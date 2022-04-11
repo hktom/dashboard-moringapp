@@ -1,154 +1,146 @@
 import { Action } from "redux";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_COUNTRY,
+  ADD_COUNTRY_SUCCESS,
+  ADD_COUNTRY_FAILURE,
+  GET_COUNTRY_LIST,
+  GET_COUNTRY_LIST_SUCCESS,
+  GET_COUNTRY_LIST_FAILURE,
+  UPDATE_COUNTRY,
+  UPDATE_COUNTRY_SUCCESS,
+  UPDATE_COUNTRY_FAILURE,
+  DELETE_COUNTRY,
+  DELETE_COUNTRY_SUCCESS,
+  DELETE_COUNTRY_FAILURE,
 } from "./constants";
 
-export interface ITask {
+export interface ICountry {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  can_be_booked: number;
-  can_be_urgent: number;
-  accept_offer: number;
-  min_price: number;
-  category: any;
-  condition: any;
-  user: any;
-  jobs?: any;
+  name: string;
+  name_fr: string;
+  cities: any[];
   created_at?: any;
   update_at?: any;
 }
 
-export interface IAddTask extends Action<"task/ADD_TASK"> {
-  data: ITask;
+export interface IAddCountry extends Action<"country/ADD_COUNTRY"> {
+  data: ICountry;
 }
 
-export const addTask = (data: ITask): IAddTask => ({
-  type: ADD_TASK,
+export const addCountry = (data: ICountry): IAddCountry => ({
+  type: ADD_COUNTRY,
   data,
 });
 
-export interface IAddTaskSuccess extends Action<"task/ADD_TASK_SUCCESS"> {
-  data: ITask;
+export interface IAddCountrySuccess extends Action<"country/ADD_COUNTRY_SUCCESS"> {
+  data: ICountry;
 }
 
-export const addTaskSuccess = (data: ITask): IAddTaskSuccess => ({
-  type: ADD_TASK_SUCCESS,
+export const addCountrySuccess = (data: ICountry): IAddCountrySuccess => ({
+  type: ADD_COUNTRY_SUCCESS,
   data,
 });
 
-export interface IAddTaskFailure extends Action<"task/ADD_TASK_FAILURE"> {
+export interface IAddCountryFailure extends Action<"country/ADD_COUNTRY_FAILURE"> {
   error: string;
 }
 
-export const addTaskFailure = (error: string): IAddTaskFailure => ({
-  type: ADD_TASK_FAILURE,
+export const addCountryFailure = (error: string): IAddCountryFailure => ({
+  type: ADD_COUNTRY_FAILURE,
   error,
 });
 
-export interface IGetTaskList extends Action<"task/GET_TASK_LIST"> {}
-export const getTaskList = (): IGetTaskList => ({
-  type: GET_TASK_LIST,
+export interface IGetCountryList extends Action<"country/GET_COUNTRY_LIST"> {}
+export const getCountryList = (): IGetCountryList => ({
+  type: GET_COUNTRY_LIST,
 });
 
-export interface IGetTaskListSuccess
-  extends Action<"task/GET_TASK_LIST_SUCCESS"> {
-  data: ITask[];
+export interface IGetCountryListSuccess
+  extends Action<"country/GET_COUNTRY_LIST_SUCCESS"> {
+  data: ICountry[];
 }
 
-export const getTaskListSuccess = (
-  data: ITask[]
-): IGetTaskListSuccess => ({
-  type: GET_TASK_LIST_SUCCESS,
+export const getCountryListSuccess = (data: ICountry[]): IGetCountryListSuccess => ({
+  type: GET_COUNTRY_LIST_SUCCESS,
   data,
 });
 
-export interface IGetTaskListFailure
-  extends Action<"task/GET_TASK_LIST_FAILURE"> {
+export interface IGetCountryListFailure
+  extends Action<"country/GET_COUNTRY_LIST_FAILURE"> {
   error: string;
 }
 
-export const getTaskListFailure = (error: string): IGetTaskListFailure => ({
-  type: GET_TASK_LIST_FAILURE,
+export const getCountryListFailure = (error: string): IGetCountryListFailure => ({
+  type: GET_COUNTRY_LIST_FAILURE,
   error,
 });
 
-export interface IUpdateTasks extends Action<"task/UPDATE_TASK"> {
-  data: ITask;
+export interface IUpdateCountry extends Action<"country/UPDATE_COUNTRY"> {
+  data: ICountry;
 }
-export const updateTask = (data: ITask): IUpdateTasks => ({
-  type: UPDATE_TASK,
+export const updateCountry = (data: ICountry): IUpdateCountry => ({
+  type: UPDATE_COUNTRY,
   data,
 });
 
-export interface IUpdateTaskSuccess
-  extends Action<"task/UPDATE_TASK_SUCCESS"> {
-  data: ITask;
+export interface IUpdateCountrySuccess
+  extends Action<"country/UPDATE_COUNTRY_SUCCESS"> {
+  data: ICountry;
 }
 
-export const updateTaskSuccess = (data: ITask): IUpdateTaskSuccess => ({
-  type: UPDATE_TASK_SUCCESS,
+export const updateCountrySuccess = (data: ICountry): IUpdateCountrySuccess => ({
+  type: UPDATE_COUNTRY_SUCCESS,
   data,
 });
 
-export interface IUpdateTaskFailure
-  extends Action<"task/UPDATE_TASK_FAILURE"> {
+export interface IUpdateCountryFailure
+  extends Action<"country/UPDATE_COUNTRY_FAILURE"> {
   error: string;
 }
 
-export const updateTaskFailure = (error: string): IUpdateTaskFailure => ({
-  type: UPDATE_TASK_FAILURE,
+export const updateCountryFailure = (error: string): IUpdateCountryFailure => ({
+  type: UPDATE_COUNTRY_FAILURE,
   error,
 });
 
-export interface IDeleteTask extends Action<"task/DELETE_TASK"> {
+export interface IDeleteCountry extends Action<"country/DELETE_COUNTRY"> {
   id: string;
 }
-export const deleteTask = (id: string): IDeleteTask => ({
-  type: DELETE_TASK,
+export const deleteCountry = (id: string): IDeleteCountry => ({
+  type: DELETE_COUNTRY,
   id,
 });
 
-export interface IDeleteTaskSuccess extends Action<"task/DELETE_TASK_SUCCESS"> {
+export interface IDeleteCountrySuccess
+  extends Action<"country/DELETE_COUNTRY_SUCCESS"> {
   id: string;
 }
 
-export const deleteTaskSuccess = (id: string): IDeleteTaskSuccess => ({
-  type: DELETE_TASK_SUCCESS,
+export const deleteCountrySuccess = (id: string): IDeleteCountrySuccess => ({
+  type: DELETE_COUNTRY_SUCCESS,
   id,
 });
 
-export interface IDeleteTaskFailure extends Action<"task/DELETE_TASK_FAILURE"> {
+export interface IDeleteCountryFailure
+  extends Action<"country/DELETE_COUNTRY_FAILURE"> {
   error: string;
 }
 
-export const deleteTaskFailure = (error: string): IDeleteTaskFailure => ({
-  type: DELETE_TASK_FAILURE,
+export const deleteCountryFailure = (error: string): IDeleteCountryFailure => ({
+  type: DELETE_COUNTRY_FAILURE,
   error,
 });
 
-export type ITaskActions =
-  | IAddTask
-  | IAddTaskSuccess
-  | IAddTaskFailure
-  | IGetTaskList
-  | IGetTaskListSuccess
-  | IGetTaskListFailure
-  | IUpdateTasks
-  | IUpdateTaskSuccess
-  | IUpdateTaskFailure
-  | IDeleteTask
-  | IDeleteTaskSuccess
-  | IDeleteTaskFailure;
+export type ICountryActions =
+  | IAddCountry
+  | IAddCountrySuccess
+  | IAddCountryFailure
+  | IGetCountryList
+  | IGetCountryListSuccess
+  | IGetCountryListFailure
+  | IUpdateCountry
+  | IUpdateCountrySuccess
+  | IUpdateCountryFailure
+  | IDeleteCountry
+  | IDeleteCountrySuccess
+  | IDeleteCountryFailure;

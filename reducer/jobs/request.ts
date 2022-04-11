@@ -1,29 +1,38 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
-import { ITask } from "./action";
+import { IJob } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
-export const addTaskRequest= (data: ITask) => {
+export const addJobRequest = (data: IJob) => {
   let req = `mutation{
-        createTask(input:{
-            title:"${data.title}"
+        createJob(input:{
+            id: "${uuidv4()}",
+            is_completed:"${data.is_completed}"
+            price_by_hour:"${data.price_by_hour}"
+            total_hours:"${data.total_hours}"
+            street:"${data.street}"
+            the_date:"${data.the_date}"
+            the_time:"${data.the_time}"
             description:"${data.description}"
-            image:"${data.image}"
-            can_be_booked:${data.can_be_booked}
-            can_be_urgent:${data.can_be_urgent}
-            accept_offer:${data.accept_offer}
-            min_price:${data.min_price}
-            category:{connect:${data.category?.id}}
+            payment_due_date:"${data.payment_due_date}"
+            task:{connect:${data.task?.id}}
+            city:{connect:${data.city?.id}}
             condition:{connect:${data.condition?.id}}
             user:"{connect:${data.user?.id}}"
         }){
             id
-            title
+            is_completed
+            price_by_hour
+            total_hours
+            street
+            the_date
+            the_time
             description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            payment_due_date
+            task{
+                id
+                title
+            }
+            city{
                 id
                 name
             }
@@ -35,67 +44,43 @@ export const addTaskRequest= (data: ITask) => {
                 id
                 email
             }
-            created_at
+
         }
     }`;
 
   return mutateMethods(req);
 };
 
-export const updateTaskRequest= (data: ITask) => {
+export const updateJobRequest = (data: IJob) => {
   let req = `mutation{
-          createTask(id:"${data.id}", input:{
-              title:"${data.title}"
-              description:"${data.description}"
-              image:"${data.image}"
-              can_be_booked:${data.can_be_booked}
-              can_be_urgent:${data.can_be_urgent}
-              accept_offer:${data.accept_offer}
-              min_price:${data.min_price}
-              category:{connect:${data.category?.id}}
-              condition:{connect:${data.condition?.id}}
-              user:"{connect:${data.user?.id}}"
+          updateJob(id:"${data.id}", input:{
+            is_completed:"${data.is_completed}"
+            price_by_hour:"${data.price_by_hour}"
+            total_hours:"${data.total_hours}"
+            street:"${data.street}"
+            the_date:"${data.the_date}"
+            the_time:"${data.the_time}"
+            description:"${data.description}"
+            payment_due_date:"${data.payment_due_date}"
+            task:{connect:${data.task?.id}}
+            city:{connect:${data.city?.id}}
+            condition:{connect:${data.condition?.id}}
+            user:"{connect:${data.user?.id}}"
           }){
-              id
-              title
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-              user{
-                  id
-                  email
-              }
-              created_at
-          }
-      }`;
-
-  return mutateMethods(req);
-};
-
-export const getTaskListRequest= () => {
-  let req = `
-    {
-        tasks{
             id
-            title
+            is_completed
+            price_by_hour
+            total_hours
+            street
+            the_date
+            the_time
             description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            payment_due_date
+            task{
+                id
+                title
+            }
+            city{
                 id
                 name
             }
@@ -107,7 +92,41 @@ export const getTaskListRequest= () => {
                 id
                 email
             }
-            created_at
+          }
+      }`;
+
+  return mutateMethods(req);
+};
+
+export const getJobListRequest = () => {
+  let req = `
+    {
+        Jobs{
+            id
+            is_completed
+            price_by_hour
+            total_hours
+            street
+            the_date
+            the_time
+            description
+            payment_due_date
+            task{
+                id
+                title
+            }
+            city{
+                id
+                name
+            }
+            condition{
+                id
+                name
+            }
+            user{
+                id
+                email
+            }
         }
 
     }`;
@@ -115,18 +134,23 @@ export const getTaskListRequest= () => {
   return queryMethods(req);
 };
 
-export const deleteTaskRequest = (data: ITask) => {
+export const deleteJobRequest = (data: IJob) => {
   let req = `mutation{
-            deleteTask(id:"${data.id}"){
+            deleteJob(id:"${data.id}"){
                 id
-                title
+                is_completed
+                price_by_hour
+                total_hours
+                street
+                the_date
+                the_time
                 description
-                image
-                can_be_booked
-                can_be_urgent
-                accept_offer
-                min_price
-                category{
+                payment_due_date
+                task{
+                    id
+                    title
+                }
+                city{
                     id
                     name
                 }
@@ -138,7 +162,6 @@ export const deleteTaskRequest = (data: ITask) => {
                     id
                     email
                 }
-                created_at
             }
         }`;
 

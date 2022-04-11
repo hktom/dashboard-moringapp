@@ -1,139 +1,118 @@
-import { ITask, ITaskActions } from "./action";
+import { IJob, IJobActions } from "./action";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_JOB,
+  ADD_JOB_SUCCESS,
+  ADD_JOB_FAILURE,
+  GET_JOB_LIST,
+  GET_JOB_LIST_SUCCESS,
+  GET_JOB_LIST_FAILURE,
+  UPDATE_JOB,
+  UPDATE_JOB_SUCCESS,
+  UPDATE_JOB_FAILURE,
+  DELETE_JOB,
+  DELETE_JOB_SUCCESS,
+  DELETE_JOB_FAILURE,
 } from "./constants";
 
-interface ITaskState {
-  taskList: ITask[];
-  taskEdit: ITask | undefined;
+interface IJobState {
+  jobList: IJob[];
+  jobEdit: IJob | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
-export const initialState: ITaskState = {
-  taskList: [],
-  taskEdit: undefined,
+export const initialState: IJobState = {
+  jobList: [],
+  jobEdit: undefined,
   error: undefined,
   isLoading: false,
   success: false,
 };
 
-export const taskReducer = (
-  state: ITaskState = initialState,
-  action: ITaskActions
+export const jobReducer = (
+  state: IJobState = initialState,
+  action: IJobActions
 ) => {
   switch (action.type) {
-    case ADD_TASK:
+    case ADD_JOB:
       return {
         ...state,
         isLoading: true,
       };
 
-    case ADD_TASK_SUCCESS:
+    case ADD_JOB_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        jobEdit: action.data,
       };
 
-    case ADD_TASK_FAILURE:
+    case ADD_JOB_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    // case ADD_TASK_IMAGE:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    // case ADD_TASK_IMAGE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     success: true,
-    //     taskEdit: action.data,
-    //   };
-
-    // case ADD_TASK_IMAGE_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case GET_TASK_LIST:
+    case GET_JOB_LIST:
       return {
         ...state,
         isLoading: true,
       };
 
-    case GET_TASK_LIST_SUCCESS:
+    case GET_JOB_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskList: action.data,
+        jobList: action.data,
       };
 
-    case GET_TASK_LIST_FAILURE:
+    case GET_JOB_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case UPDATE_TASK:  
+    case UPDATE_JOB:  
       return {
         ...state,
         isLoading: true,
       };
 
-    case UPDATE_TASK_SUCCESS:
+    case UPDATE_JOB_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        jobEdit: action.data,
       };
 
-    case UPDATE_TASK_FAILURE:
+    case UPDATE_JOB_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case DELETE_TASK:
+    case DELETE_JOB:
       return {
         ...state,
         isLoading: true,
       };
 
-    case DELETE_TASK_SUCCESS:
+    case DELETE_JOB_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: undefined,
+        jobEdit: undefined,
       };
 
-    case DELETE_TASK_FAILURE:
+    case DELETE_JOB_FAILURE:
       return {
         ...state,
         isLoading: false,

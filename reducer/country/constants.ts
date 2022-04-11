@@ -1,16 +1,16 @@
-export const ADD_TASK = "task/ADD_TASK";
-export const ADD_TASK_SUCCESS = "task/ADD_TASK_SUCCESS";
-export const ADD_TASK_FAILURE = "task/ADD_TASK_FAILURE";
+export const ADD_COUNTRY = "country/ADD_COUNTRY";
+export const ADD_COUNTRY_SUCCESS = "country/ADD_COUNTRY_SUCCESS";
+export const ADD_COUNTRY_FAILURE = "country/ADD_COUNTRY_FAILURE";
 
-export const GET_TASK_LIST = "task/GET_TASK_LIST";
-export const GET_TASK_LIST_SUCCESS = "task/GET_TASK_LIST_SUCCESS";
-export const GET_TASK_LIST_FAILURE = "task/GET_TASK_LIST_FAILURE";
+export const GET_COUNTRY_LIST = "country/GET_COUNTRY_LIST";
+export const GET_COUNTRY_LIST_SUCCESS = "country/GET_COUNTRY_LIST_SUCCESS";
+export const GET_COUNTRY_LIST_FAILURE = "country/GET_COUNTRY_LIST_FAILURE";
 
-export const UPDATE_TASK = "task/UPDATE_TASK";
-export const UPDATE_TASK_SUCCESS = "task/UPDATE_TASK_SUCCESS";
-export const UPDATE_TASK_FAILURE = "task/UPDATE_TASK_FAILURE";
+export const UPDATE_COUNTRY = "country/UPDATE_COUNTRY";
+export const UPDATE_COUNTRY_SUCCESS = "country/UPDATE_COUNTRY_SUCCESS";
+export const UPDATE_COUNTRY_FAILURE = "country/UPDATE_COUNTRY_FAILURE";
 
-export const DELETE_TASK = "task/DELETE_TASK";
-export const DELETE_TASK_SUCCESS = "task/DELETE_TASK_SUCCESS";
-export const DELETE_TASK_FAILURE = "task/DELETE_TASK_FAILURE";
+export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
+export const DELETE_COUNTRY_SUCCESS = "country/DELETE_COUNTRY_SUCCESS";
+export const DELETE_COUNTRY_FAILURE = "country/DELETE_COUNTRY_FAILURE";
 

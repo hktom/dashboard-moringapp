@@ -1,39 +1,20 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
-import { ITask } from "./action";
+import { ICountry } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
-export const addTaskRequest= (data: ITask) => {
+export const addCountryRequest = (data: ICountry) => {
   let req = `mutation{
-        createTask(input:{
-            title:"${data.title}"
-            description:"${data.description}"
-            image:"${data.image}"
-            can_be_booked:${data.can_be_booked}
-            can_be_urgent:${data.can_be_urgent}
-            accept_offer:${data.accept_offer}
-            min_price:${data.min_price}
-            category:{connect:${data.category?.id}}
-            condition:{connect:${data.condition?.id}}
-            user:"{connect:${data.user?.id}}"
+        createCountry(input:{
+            id: "${uuidv4()}",
+            name:"${data.name}"
+            name_fr:"${data.name_fr}"
         }){
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            name
+            name_fr
+            cities{
                 id
                 name
-            }
-            condition{
-                id
-                name
-            }
-            user{
-                id
-                email
             }
             created_at
         }
@@ -42,70 +23,37 @@ export const addTaskRequest= (data: ITask) => {
   return mutateMethods(req);
 };
 
-export const updateTaskRequest= (data: ITask) => {
+export const updateCountryRequest = (data: ICountry) => {
   let req = `mutation{
-          createTask(id:"${data.id}", input:{
-              title:"${data.title}"
-              description:"${data.description}"
-              image:"${data.image}"
-              can_be_booked:${data.can_be_booked}
-              can_be_urgent:${data.can_be_urgent}
-              accept_offer:${data.accept_offer}
-              min_price:${data.min_price}
-              category:{connect:${data.category?.id}}
-              condition:{connect:${data.condition?.id}}
-              user:"{connect:${data.user?.id}}"
+          updateCountry(id:"${data.id}", input:{
+            id: "${uuidv4()}",
+            name:"${data.name}"
+            name_fr:"${data.name_fr}"
           }){
-              id
-              title
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-              user{
-                  id
-                  email
-              }
-              created_at
+            id
+            name
+            name_fr
+            cities{
+                id
+                name
+            }
+            created_at
           }
       }`;
 
   return mutateMethods(req);
 };
 
-export const getTaskListRequest= () => {
+export const getCountryListRequest = () => {
   let req = `
     {
-        tasks{
+        Countries{
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            name
+            name_fr
+            cities{
                 id
                 name
-            }
-            condition{
-                id
-                name
-            }
-            user{
-                id
-                email
             }
             created_at
         }
@@ -115,30 +63,11 @@ export const getTaskListRequest= () => {
   return queryMethods(req);
 };
 
-export const deleteTaskRequest = (data: ITask) => {
+export const deleteCountryRequest = (data: ICountry) => {
   let req = `mutation{
-            deleteTask(id:"${data.id}"){
+            deleteCountry(id:"${data.id}"){
                 id
-                title
-                description
-                image
-                can_be_booked
-                can_be_urgent
-                accept_offer
-                min_price
-                category{
-                    id
-                    name
-                }
-                condition{
-                    id
-                    name
-                }
-                user{
-                    id
-                    email
-                }
-                created_at
+               name
             }
         }`;
 

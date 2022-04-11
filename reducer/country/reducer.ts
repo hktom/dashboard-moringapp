@@ -1,139 +1,139 @@
-import { ITask, ITaskActions } from "./action";
+import { ICountry, ICountryActions } from "./action";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_COUNTRY,
+  ADD_COUNTRY_SUCCESS,
+  ADD_COUNTRY_FAILURE,
+  GET_COUNTRY_LIST,
+  GET_COUNTRY_LIST_SUCCESS,
+  GET_COUNTRY_LIST_FAILURE,
+  UPDATE_COUNTRY,
+  UPDATE_COUNTRY_SUCCESS,
+  UPDATE_COUNTRY_FAILURE,
+  DELETE_COUNTRY,
+  DELETE_COUNTRY_SUCCESS,
+  DELETE_COUNTRY_FAILURE,
 } from "./constants";
 
-interface ITaskState {
-  taskList: ITask[];
-  taskEdit: ITask | undefined;
+interface ICountryState {
+  countryList: ICountry[];
+  countryEdit: ICountry | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
-export const initialState: ITaskState = {
-  taskList: [],
-  taskEdit: undefined,
+export const initialState: ICountryState = {
+  countryList: [],
+  countryEdit: undefined,
   error: undefined,
   isLoading: false,
   success: false,
 };
 
-export const taskReducer = (
-  state: ITaskState = initialState,
-  action: ITaskActions
+export const countryReducer = (
+  state: ICountryState = initialState,
+  action: ICountryActions
 ) => {
   switch (action.type) {
-    case ADD_TASK:
+    case ADD_COUNTRY:
       return {
         ...state,
         isLoading: true,
       };
 
-    case ADD_TASK_SUCCESS:
+    case ADD_COUNTRY_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        countryEdit: action.data,
       };
 
-    case ADD_TASK_FAILURE:
+    case ADD_COUNTRY_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    // case ADD_TASK_IMAGE:
+    // case ADD_COUNTRY_IMAGE:
     //   return {
     //     ...state,
     //     isLoading: true,
     //   };
 
-    // case ADD_TASK_IMAGE_SUCCESS:
+    // case ADD_COUNTRY_IMAGE_SUCCESS:
     //   return {
     //     ...state,
     //     isLoading: false,
     //     success: true,
-    //     taskEdit: action.data,
+    //     countryEdit: action.data,
     //   };
 
-    // case ADD_TASK_IMAGE_FAILURE:
+    // case ADD_COUNTRY_IMAGE_FAILURE:
     //   return {
     //     ...state,
     //     isLoading: false,
     //     error: action.error,
     //   };
 
-    case GET_TASK_LIST:
+    case GET_COUNTRY_LIST:
       return {
         ...state,
         isLoading: true,
       };
 
-    case GET_TASK_LIST_SUCCESS:
+    case GET_COUNTRY_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskList: action.data,
+        countryList: action.data,
       };
 
-    case GET_TASK_LIST_FAILURE:
+    case GET_COUNTRY_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case UPDATE_TASK:  
+    case UPDATE_COUNTRY:  
       return {
         ...state,
         isLoading: true,
       };
 
-    case UPDATE_TASK_SUCCESS:
+    case UPDATE_COUNTRY_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        countryEdit: action.data,
       };
 
-    case UPDATE_TASK_FAILURE:
+    case UPDATE_COUNTRY_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case DELETE_TASK:
+    case DELETE_COUNTRY:
       return {
         ...state,
         isLoading: true,
       };
 
-    case DELETE_TASK_SUCCESS:
+    case DELETE_COUNTRY_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: undefined,
+        countryEdit: undefined,
       };
 
-    case DELETE_TASK_FAILURE:
+    case DELETE_COUNTRY_FAILURE:
       return {
         ...state,
         isLoading: false,

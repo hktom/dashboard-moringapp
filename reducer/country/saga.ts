@@ -1,65 +1,65 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addTaskRequest,
-  deleteTaskRequest,
-  updateTaskRequest,
+  addCountryRequest,
+  deleteCountryRequest,
+  updateCountryRequest,
 } from "./request";
 import {
-  addTaskFailure,
-  addTaskSuccess,
-  deleteTaskFailure,
-  deleteTaskSuccess,
-  updateTaskFailure,
-  updateTaskSuccess,
+  addCountryFailure,
+  addCountrySuccess,
+  deleteCountryFailure,
+  deleteCountrySuccess,
+  updateCountryFailure,
+  updateCountrySuccess,
 } from "./action";
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  UPDATE_TASK,
+  ADD_COUNTRY,
+  DELETE_COUNTRY,
+  UPDATE_COUNTRY,
 } from "./constants";
 
-export function* addTaskSaga(action: any): SagaIterator {
+export function* addCountrySaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addCountryRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addTaskFailure(res.errors));
+      yield put(addCountryFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addCountrySuccess(res.data.Country));
     }
   } catch (error: any) {
-    yield put(addTaskFailure(error?.toString()));
+    yield put(addCountryFailure(error?.toString()));
   }
 }
 
-export function* updateTaskSaga(action: any): SagaIterator {
+export function* updateCountrySaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updateCountryRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(updateTaskFailure(res.errors));
+      yield put(updateCountryFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updateCountrySuccess(res.data.Country));
     }
   } catch (error: any) {
-    yield put(updateTaskFailure(error?.toString()));
+    yield put(updateCountryFailure(error?.toString()));
   }
 }
 
-export function* deleteTaskSaga(action: any): SagaIterator {
+export function* deleteCountrySaga(action: any): SagaIterator {
   try {
-    const res = yield call(deleteTaskRequest, action.data);
+    const res = yield call(deleteCountryRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(deleteTaskFailure(res.errors));
+      yield put(deleteCountryFailure(res.errors));
     } else {
-      yield put(deleteTaskSuccess(res.data.task));
+      yield put(deleteCountrySuccess(res.data.Country));
     }
   } catch (error: any) {
-    yield put(deleteTaskFailure(error?.toString()));
+    yield put(deleteCountryFailure(error?.toString()));
   }
 }
 
-export function* taskSagas(): Generator {
-  yield takeEvery(ADD_TASK, addTaskSaga);
-  yield takeEvery(UPDATE_TASK, updateTaskSaga);
-  yield takeEvery(DELETE_TASK, deleteTaskSaga);
+export function* CountrySagas(): Generator {
+  yield takeEvery(ADD_COUNTRY, addCountrySaga);
+  yield takeEvery(UPDATE_COUNTRY, updateCountrySaga);
+  yield takeEvery(DELETE_COUNTRY, deleteCountrySaga);
 }

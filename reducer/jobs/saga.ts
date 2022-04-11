@@ -1,65 +1,65 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addTaskRequest,
-  deleteTaskRequest,
-  updateTaskRequest,
+  addJobRequest,
+  deleteJobRequest,
+  updateJobRequest,
 } from "./request";
 import {
-  addTaskFailure,
-  addTaskSuccess,
-  deleteTaskFailure,
-  deleteTaskSuccess,
-  updateTaskFailure,
-  updateTaskSuccess,
+  addJobFailure,
+  addJobSuccess,
+  deleteJobFailure,
+  deleteJobSuccess,
+  updateJobFailure,
+  updateJobSuccess,
 } from "./action";
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  UPDATE_TASK,
+  ADD_JOB,
+  DELETE_JOB,
+  UPDATE_JOB,
 } from "./constants";
 
-export function* addTaskSaga(action: any): SagaIterator {
+export function* addJobSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addJobRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addTaskFailure(res.errors));
+      yield put(addJobFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addJobSuccess(res.data.Job));
     }
   } catch (error: any) {
-    yield put(addTaskFailure(error?.toString()));
+    yield put(addJobFailure(error?.toString()));
   }
 }
 
-export function* updateTaskSaga(action: any): SagaIterator {
+export function* updateJobSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updateJobRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(updateTaskFailure(res.errors));
+      yield put(updateJobFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updateJobSuccess(res.data.Job));
     }
   } catch (error: any) {
-    yield put(updateTaskFailure(error?.toString()));
+    yield put(updateJobFailure(error?.toString()));
   }
 }
 
-export function* deleteTaskSaga(action: any): SagaIterator {
+export function* deleteJobSaga(action: any): SagaIterator {
   try {
-    const res = yield call(deleteTaskRequest, action.data);
+    const res = yield call(deleteJobRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(deleteTaskFailure(res.errors));
+      yield put(deleteJobFailure(res.errors));
     } else {
-      yield put(deleteTaskSuccess(res.data.task));
+      yield put(deleteJobSuccess(res.data.Job));
     }
   } catch (error: any) {
-    yield put(deleteTaskFailure(error?.toString()));
+    yield put(deleteJobFailure(error?.toString()));
   }
 }
 
-export function* taskSagas(): Generator {
-  yield takeEvery(ADD_TASK, addTaskSaga);
-  yield takeEvery(UPDATE_TASK, updateTaskSaga);
-  yield takeEvery(DELETE_TASK, deleteTaskSaga);
+export function* JobSagas(): Generator {
+  yield takeEvery(ADD_JOB, addJobSaga);
+  yield takeEvery(UPDATE_JOB, updateJobSaga);
+  yield takeEvery(DELETE_JOB, deleteJobSaga);
 }
