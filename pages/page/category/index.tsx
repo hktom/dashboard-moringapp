@@ -21,7 +21,7 @@ import {
 } from "@mui/x-data-grid";
 
 import * as React from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -156,7 +156,7 @@ const rows = [
   },
 ];
 
-function Task() {
+function Category() {
   return (
     <>
       <Layout>
@@ -168,7 +168,7 @@ function Task() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Task
+                Category
               </Typography>
 
               <Button
@@ -216,4 +216,4 @@ function Task() {
   );
 }
 
-export default Task;
+export default Category;

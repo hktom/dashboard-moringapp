@@ -21,10 +21,10 @@ import {
 } from "@mui/x-data-grid";
 
 import * as React from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-// import { Role } from "@mui/icons-material";
+// import { Payment } from "@mui/icons-material";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", flex: 1 },
@@ -133,7 +133,7 @@ const rows = [
   },
 ];
 
-function Role() {
+function Payment() {
   return (
     <>
       <Layout>
@@ -145,17 +145,8 @@ function Role() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Role
+                Payment
               </Typography>
-
-              <Button
-                variant="contained"
-                size="small"
-                color="info"
-                disableElevation
-              >
-                <AddIcon sx={{ fontSize: "1rem" }} /> Add
-              </Button>
             </Box>
           </Grid>
           <Grid item xs={12} md={10} sx={{ mx: "auto" }}>
@@ -181,4 +172,4 @@ function Role() {
   );
 }
 
-export default Role;
+export default Payment;

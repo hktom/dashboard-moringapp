@@ -1,11 +1,14 @@
 import * as React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+// import { getCookie, setCookies } from "cookies-next";
+import Cookies from 'js-cookie';
 import {
   Alert,
   Avatar,
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   Container,
   CssBaseline,
   FormControlLabel,
@@ -17,14 +20,24 @@ import {
 } from "@mui/material";
 import { Copyright } from "@mui/icons-material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { useState } from "react";
-import { ILoginState } from "../reducer/login/reducer";
+import { useEffect, useState } from "react";
+import { ILoginState } from "../../reducer/login/reducer";
 import { useForm } from "react-hook-form";
-import { ILoginData, loginUser } from "../reducer/login/actions";
+import { ILoginData, loginUser } from "../../reducer/login/actions";
+import { IRootState } from "../../config/reducer";
+import { useRouter } from "next/router";
 
 function Login() {
   const dispatch = useDispatch();
-  
+
+  const loginState = useSelector(
+    (state: IRootState): ILoginState => state.login
+  );
+
+  const router = useRouter();
+
+  const goTo = (path: string) => router.push(path);
+
   const {
     register,
     handleSubmit,
@@ -36,6 +49,14 @@ function Login() {
     dispatch(loginUser(data!));
     console.log(data);
   };
+
+
+  useEffect(() => {
+    if (loginState.token) {
+      Cookies.set('token', loginState.token, { expires: 7 });
+      router.push("/page/");
+    }
+  }, [loginState.token, router]);
 
   return (
     <Box
@@ -63,13 +84,17 @@ function Login() {
               Log in
             </Typography>
 
-            <Alert severity="error" sx={{ width: "100%" }}>
-              This is an error alert — check it out!
-            </Alert>
+            {loginState.error && (
+              <Alert severity="error" sx={{ width: "100%" }}>
+                {loginState.error}
+              </Alert>
+            )}
 
-            <Alert severity="success" sx={{ width: "100%" }}>
-              This is a success alert — check it out!
-            </Alert>
+            {loginState.token && (
+              <Alert severity="success" sx={{ width: "100%" }}>
+                You are logged in!
+              </Alert>
+            )}
 
             <Box
               component="form"
@@ -105,11 +130,19 @@ function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={loginState.isLoading}
                 disableElevation
                 color="info"
                 sx={{ mt: 3, mb: 2, py: 1.2 }}
               >
-                Sign In
+                Sign In{" "}
+                {loginState.isLoading && (
+                  <CircularProgress
+                    color="secondary"
+                    size={20}
+                    sx={{ ml: 2 }}
+                  />
+                )}
               </Button>
 
               <Box sx={{ mx: "auto", textAlign: "center" }}>

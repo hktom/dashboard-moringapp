@@ -10,6 +10,7 @@ export interface ILoginState {
   error?: string;
   email: string;
   password: string;
+  token: string;
 }
 
 export const initialState: ILoginState = {
@@ -17,6 +18,7 @@ export const initialState: ILoginState = {
   error: "",
   email: "",
   password: "",
+  token: "",
 };
 
 export const loginReducer = (
@@ -29,12 +31,14 @@ export const loginReducer = (
       return {
         ...state,
         isLoading: true,
+        error: "",
       };
 
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
+        token: action.data,
       };
 
     case LOGIN_USER_FAILURE:

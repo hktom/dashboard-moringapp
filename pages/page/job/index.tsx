@@ -17,7 +17,7 @@ import {
   DataGrid,
 } from "@mui/x-data-grid";
 import * as React from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../../../layout/Layout";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", flex: 1 },

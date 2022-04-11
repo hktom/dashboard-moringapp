@@ -8,6 +8,7 @@ import {
   ApolloLink,
   concat,
 } from "@apollo/client";
+import Cookies from 'js-cookie';
 
 const httpLink = new HttpLink({ uri: "http://127.0.0.1:8000/graphql" });
 
@@ -16,7 +17,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      authorization: localStorage.getItem("token") || null,
+      authorization: Cookies.get("token") || null,
     },
   }));
 

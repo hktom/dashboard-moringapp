@@ -3,7 +3,7 @@ import { Box, Button, Chip, Grid, Paper, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import Layout from "../layout/Layout";
+import Layout from "../../layout/Layout";
 import styles from "../styles/Home.module.css";
 
 import List from "@mui/material/List";
@@ -136,7 +136,7 @@ const Home: NextPage = () => {
         }}
       >
         <Typography component="h1" variant="h2" color="secondary.main">
-          Welcome to Moringapp
+          Welcome {/* Welcome to Moringapp */}
         </Typography>
         <Typography component="p" variant="body1" color="secondary.main">
           Your dashboard has been improved! Explore new features

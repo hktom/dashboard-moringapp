@@ -1,0 +1,17 @@
+// middleware auth
+import { NextRequest, NextResponse } from "next/server";
+
+export function middleware(req: NextRequest) {
+  const token: any = req.cookies.token;
+  let url: string =
+    process.env.NODE_ENV == "production"
+      ? process.env.NEXT_PUBLIC_PRODUCTION_URL!
+      : process.env.NEXT_PUBLIC_DEVELOPMENT_URL!;
+
+  // console.log('ssr token *****',req.cookies.token);
+  if (token) {
+    return NextResponse.redirect(url + "page/");
+  }
+
+  return NextResponse.next();
+}

@@ -7,10 +7,10 @@ import { loginUserFail, loginUserSuccess } from "./actions";
 function* loginUserSaga(action: any): SagaIterator {
   try {
     const res = yield call(loginUserRequest, action.data);
-    if (res.data.hasOwnProperty("errors")) {
-      yield put(loginUserFail(res.data.errors));
+    if (!res.data?.login?.token) {
+      yield put(loginUserFail('credentials not found or invalid'));
     } else {
-      yield put(loginUserSuccess(true));
+      yield put(loginUserSuccess(res.data?.login?.token));
     }
   } catch (error) {
     yield put(loginUserFail(`${error}`));
