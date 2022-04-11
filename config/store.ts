@@ -7,7 +7,6 @@ import { rootSaga } from "./saga";
 // create a makeStore function
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
-  // rootreducer
   appReducer,
   applyMiddleware(sagaMiddleware)
 );

@@ -17,118 +17,53 @@ import {
   DataGrid,
 } from "@mui/x-data-grid";
 import * as React from "react";
+import { useSelector } from "react-redux";
+import { columnsJob } from "../../../components/columnsJob";
+import { IRootState } from "../../../config/reducer";
 import Layout from "../../../layout/Layout";
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "firstName", headerName: "First name", flex: 1 },
-  { field: "lastName", headerName: "Last name", flex: 1 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    flex: 1,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    flex: 1,
-    sortable: false,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-  {
-    field: "status",
-    flex: 1,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<String>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value}
-          color="success"
-          sx={{
-            color: "secondary.main",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    lastName: "Snow",
-    firstName: "Jon",
-    age: 35,
-    status: "completed",
-  },
-  {
-    id: 2,
-    lastName: "Lannister",
-    firstName: "Cersei",
-    age: 42,
-    status: "completed",
-  },
-  {
-    id: 3,
-    lastName: "Lannister",
-    firstName: "Jaime",
-    age: 45,
-    status: "completed",
-  },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16, status: "completed" },
-  {
-    id: 5,
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    status: "completed",
-  },
-  {
-    id: 6,
-    lastName: "Melisandre",
-    firstName: null,
-    age: 150,
-    status: "completed",
-  },
-  {
-    id: 7,
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    age: 44,
-    status: "completed",
-  },
-  {
-    id: 8,
-    lastName: "Frances",
-    firstName: "Rossini",
-    age: 36,
-    status: "completed",
-  },
-  {
-    id: 9,
-    lastName: "Roxie",
-    firstName: "Harvey",
-    age: 65,
-    status: "completed",
-  },
-];
+import { IHomeState } from "../../../reducer/home/reducer";
 
 function Job() {
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const [jobFilters, setJobFilters] = React.useState<{}>({});
+
+  // React.useEffect(() => {
+  //   let data: any = [];
+  //   if (homeState.jobs?.length > 0) {
+  //     homeState.jobs.forEach((item: any) => {
+  //       switch (item?.condition?.name) {
+  //         case "pending":
+  //           data["pending"] = item;
+  //           break;
+
+  //         case "completed":
+  //           data["completed"] = item;
+  //           break;
+
+  //         case "rejected":
+  //           data["rejected"] = item;
+  //           break;
+
+  //         case "waiting_payment":
+  //           data["waiting_payment"] = item;
+  //           break;
+
+  //         default:
+  //           break;
+  //       }
+  //     });
+  //   }
+  //   setJobFilters(data);
+  // }, [homeState, jobFilters]);
+
   return (
     <Layout>
       <Typography variant="h3" component="h1" sx={{ fontWeight: "bold" }}>
         Job
       </Typography>
 
-      <Grid container spacing={3} sx={{ mt: 0 }}>
-        {[1, 2, 3, 4].map((value) => (
+      {/* <Grid container spacing={3} sx={{ mt: 0 }}>
+        {[].map((value) => (
           <Grid item xs={12} md={3} key={value}>
             <Card elevation={1}>
               <CardContent>
@@ -160,7 +95,7 @@ function Job() {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </Grid> */}
 
       <Grid container spacing={3} sx={{ mt: 1 }}>
         <Grid item xs={12}>
@@ -178,8 +113,8 @@ function Job() {
                 <div style={{ flexGrow: 1 }}>
                   <DataGrid
                     sx={{ border: "none" }}
-                    rows={rows}
-                    columns={columns}
+                    rows={homeState.jobs || []}
+                    columns={columnsJob}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
                   />

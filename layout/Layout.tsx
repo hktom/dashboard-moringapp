@@ -10,6 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
 import { Avatar, Stack } from "@mui/material";
+import { getUserProfile } from "../reducer/home/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../config/reducer";
+import { IHomeState } from "../reducer/home/reducer";
 
 const drawerWidth = 240;
 
@@ -94,6 +98,8 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
 
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -101,6 +107,12 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (!homeState.profile) dispatch(getUserProfile());
+  }, [dispatch, homeState]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -127,8 +139,12 @@ const Layout = ({ children }: DashboardLayoutProps) => {
 
           <Stack>
             <Avatar
-              alt=""
-              src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg"
+              alt={
+                homeState.profile?.first_name +
+                " " +
+                homeState.profile?.last_name
+              }
+              src={homeState.profile?.avatar}
               sx={{ width: 35, height: 35 }}
             />
           </Stack>

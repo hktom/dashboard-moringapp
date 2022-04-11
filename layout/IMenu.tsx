@@ -12,8 +12,9 @@ import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 import WrongLocationIcon from "@mui/icons-material/WrongLocation";
 
 export interface IMenu {
-  label: String;
+  label: string;
   icon: React.ReactElement;
+  description?: string;
   path: string | URL;
   sub?: IMenu;
 }
@@ -21,37 +22,45 @@ export const menu1: Array<IMenu> = [
   {
     label: "Dashboard",
     icon: <GridViewIcon sx={{ color: "#fff" }} />,
-    path: "/",
+    path: "/page/",
   },
   {
     label: "Jobs",
+    description:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <EqualizerIcon sx={{ color: "#fff" }} />,
-    path: "/job/",
+    path: "/page/job/",
   },
   {
     label: "Task",
+    description:
+    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <FormatListBulletedIcon sx={{ color: "#fff" }} />,
-    path: "/task/",
+    path: "/page/task/",
   },
   {
     label: "Service",
     icon: <FullscreenExitIcon sx={{ color: "#fff" }} />,
-    path: "/service/",
+    path: "/page/service/",
   },
   {
     label: "Category",
     icon: <ListAltIcon sx={{ color: "#fff" }} />,
-    path: "/category/",
+    path: "/page/category/",
   },
   {
     label: "Payment",
+    description:
+    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <LocalAtmIcon sx={{ color: "#fff" }} />,
-    path: "/payment/",
+    path: "/page/payment/",
   },
   {
     label: "Profile",
+    description:
+    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <ManageAccountsIcon sx={{ color: "#fff" }} />,
-    path: "/profile/",
+    path: "/page/profile/",
   },
 ];
 
@@ -59,21 +68,21 @@ export const menu2: Array<IMenu> = [
   {
     label: "User",
     icon: <PeopleIcon sx={{ color: "#fff" }} />,
-    path: "/user/",
+    path: "/page/user/",
   },
   {
     label: "Role",
     icon: <SecurityIcon sx={{ color: "#fff" }} />,
-    path: "/role",
+    path: "/page/role",
   },
   {
     label: "City",
     icon: <ZoomOutMapIcon sx={{ color: "#fff" }} />,
-    path: "/city",
+    path: "/page/city",
   },
   {
     label: "Country",
     icon: <WrongLocationIcon sx={{ color: "#fff" }} />,
-    path: "/country",
+    path: "/page/country",
   },
 ];

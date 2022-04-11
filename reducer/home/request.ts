@@ -103,5 +103,7 @@ export const getUserProfileRequest = () => {
 
       }
   }`;
+
+//   console.log(request);
   return queryMethods(request);
 };

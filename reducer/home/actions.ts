@@ -6,12 +6,10 @@ import {
 } from "./constants";
 
 export interface IGetUserProfile extends Action<"home/GET_USER_PROFILE"> {
-  error: string;
 }
 
-export const getUserProfile = (error: string): IGetUserProfile => ({
+export const getUserProfile = (): IGetUserProfile => ({
   type: GET_USER_PROFILE,
-  error,
 });
 
 export interface IGetUserProfileSuccess

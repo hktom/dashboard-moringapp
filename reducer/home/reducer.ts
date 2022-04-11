@@ -43,7 +43,26 @@ export const homeReducer = (
     case GET_USER_PROFILE_SUCCESS:
       return {
         ...state,
-        profile: action.data?.profile,
+        role: action.data.role,
+        condition: action.data.condition,
+        city: action.data.city,
+        jobs: action.data.jobs,
+        tasks: action.data.tasks,
+        profile: {
+          id: action.data.id,
+          first_name: action.data.first_name,
+          last_name: action.data.last_name,
+          email: action.data.email,
+          gender: action.data.gender,
+          avatar: action.data.avatar,
+          birth_year: action.data.birth_year,
+          street: action.data.street,
+          mobile: action.data.mobile,
+          certificate: action.data.certificate,
+          bio: action.data.bio,
+          zip_code: action.data.zip_code,
+          url: action.data.url,
+        },
       };
 
     default:
