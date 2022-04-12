@@ -1,3 +1,8 @@
+import { ICity } from "../city/action";
+import { ICondition } from "../condition/action";
+import { IJob } from "../jobs/action";
+import { IRole } from "../role/action";
+import { ITask } from "../task/action";
 import { IHomeActions } from "./actions";
 import { GET_USER_PROFILE, GET_USER_PROFILE_SUCCESS } from "./constants";
 
@@ -18,16 +23,16 @@ export interface IUser {
 }
 
 export interface IHomeState {
-  profile?: IUser;
-  role: any;
-  condition: any;
-  city: any;
-  jobs: any;
-  tasks: any;
+  user: IUser | undefined;
+  role: IRole | undefined;
+  condition: ICondition | undefined;
+  city: ICity | undefined;
+  jobs: IJob[] | undefined;
+  tasks: ITask[] | undefined;
 }
 
 export const initialState: IHomeState = {
-  profile: undefined,
+  user: undefined,
   role: undefined,
   condition: undefined,
   city: undefined,
@@ -48,7 +53,7 @@ export const homeReducer = (
         city: action.data.city,
         jobs: action.data.jobs,
         tasks: action.data.tasks,
-        profile: {
+        user: {
           id: action.data.id,
           first_name: action.data.first_name,
           last_name: action.data.last_name,

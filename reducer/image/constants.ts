@@ -1,0 +1,3 @@
+export const UPLOAD_IMAGE = "image/UPLOAD_IMAGE";
+export const UPLOAD_IMAGE_SUCCESS = "image/UPLOAD_IMAGE_SUCCESS";
+export const UPLOAD_IMAGE_FAILURE = "image/UPLOAD_IMAGE_FAILURE";

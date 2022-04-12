@@ -21,7 +21,7 @@ const Sidebar = (props: ISidebar) => {
     <Drawer
       variant="permanent"
       open={open}
-      PaperProps={{ sx: { backgroundColor: "#0E121E", color: "#fff" } }}
+      PaperProps={{ sx: { backgroundColor: "primary.main", color: "#fff" } }}
     >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>

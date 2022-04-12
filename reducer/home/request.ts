@@ -57,7 +57,7 @@ export const getUserProfileRequest = () => {
             }
           tasks{
               id
-              title
+              name
               description
               image
               can_be_booked

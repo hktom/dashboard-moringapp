@@ -24,9 +24,17 @@ import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../../config/reducer";
+import { IHomeState } from "../../../reducer/home/reducer";
+import { ITaskState } from "../../../reducer/task/reducer";
+import { getTaskList, ITask } from "../../../reducer/task/action";
+import { ICondition } from "../../../reducer/condition/action";
+import { ICategory } from "../../../reducer/category/action";
+import { useRouter } from "next/router";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
+  { field: "title", headerName: "Name", flex: 1 },
   {
     field: "image",
     flex: 1,
@@ -42,32 +50,28 @@ const columns: GridColDef[] = [
       </Box>
     ),
   },
-  { field: "firstName", headerName: "First name", flex: 1 },
-  { field: "lastName", headerName: "Last name", flex: 1 },
+  { field: "can_be_booked", headerName: "Can be booked", flex: 1 },
+  { field: "can_be_urgent", headerName: "Can be Urgent", flex: 1 },
+  { field: "accept_offer", headerName: "Accept offer", flex: 1 },
+  { field: "min_price", headerName: "Min Price ($)", flex: 1 },
+
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    flex: 1,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
+    field: "category",
+    headerName: "Category",
     flex: 1,
     sortable: false,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    valueGetter: (params: GridValueGetterParams<ICategory>) =>
+      params.value?.name,
   },
   {
-    field: "status",
+    field: "condition",
     flex: 1,
     headerName: "Status",
-    renderCell: (params: GridRenderCellParams<string>) => (
+    renderCell: (params: GridRenderCellParams<ICondition>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Chip
           size="small"
-          label={params.value}
+          label={params.value?.name}
           color="success"
           sx={{
             color: "secondary.main",
@@ -81,82 +85,29 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    image: "https://picsum.photos/536/354",
-    lastName: "Snow",
-    firstName: "Jon",
-    age: 35,
-    status: "completed",
-  },
-  {
-    id: 2,
-    image: "https://picsum.photos/536/354",
-    lastName: "Lannister",
-    firstName: "Cersei",
-    age: 42,
-    status: "completed",
-  },
-  {
-    id: 3,
-    image: "https://picsum.photos/536/354",
-    lastName: "Lannister",
-    firstName: "Jaime",
-    age: 45,
-    status: "completed",
-  },
-  {
-    id: 4,
-    image: "https://picsum.photos/536/354",
-    lastName: "Stark",
-    firstName: "Arya",
-    age: 16,
-    status: "completed",
-  },
-  {
-    id: 5,
-    image: "https://picsum.photos/536/354",
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    status: "completed",
-  },
-  {
-    id: 6,
-    image: "https://picsum.photos/536/354",
-    lastName: "Melisandre",
-    firstName: null,
-    age: 150,
-    status: "completed",
-  },
-  {
-    id: 7,
-    image: "https://picsum.photos/536/354",
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    age: 44,
-    status: "completed",
-  },
-  {
-    id: 8,
-    image: "https://picsum.photos/536/354",
-    lastName: "Frances",
-    firstName: "Rossini",
-    age: 36,
-    status: "completed",
-  },
-  {
-    id: 9,
-    image: "https://picsum.photos/536/354",
-    lastName: "Roxie",
-    firstName: "Harvey",
-    age: 65,
-    status: "completed",
-  },
-];
-
 function Task() {
+  const router = useRouter();
+  const [search, setSearch] = React.useState("");
+  const [data, setData] = React.useState<ITask[] | undefined>(undefined);
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const taskState = useSelector((state: IRootState): ITaskState => state.task);
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    if (homeState.role?.name == "admin" && !data) {
+      dispatch(getTaskList());
+      setData(taskState.taskList);
+    } else {
+      setData(homeState.tasks!);
+    }
+  }, [
+    data,
+    dispatch,
+    homeState.role?.name,
+    homeState.tasks,
+    taskState.taskList,
+  ]);
+
   return (
     <>
       <Layout>
@@ -176,6 +127,7 @@ function Task() {
                 size="small"
                 color="info"
                 disableElevation
+                onClick={() => router.push("/page/task/create")}
               >
                 <AddIcon sx={{ fontSize: "1rem" }} /> Add
               </Button>
@@ -200,7 +152,7 @@ function Task() {
                     <DataGrid
                       sx={{ border: "none" }}
                       rowHeight={100}
-                      rows={rows}
+                      rows={data || []}
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}

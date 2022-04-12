@@ -111,7 +111,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!homeState.profile) dispatch(getUserProfile());
+    if (!homeState.user) dispatch(getUserProfile());
   }, [dispatch, homeState]);
 
   return (
@@ -140,11 +140,11 @@ const Layout = ({ children }: DashboardLayoutProps) => {
           <Stack>
             <Avatar
               alt={
-                homeState.profile?.first_name +
+                homeState.user?.first_name +
                 " " +
-                homeState.profile?.last_name
+                homeState.user?.last_name
               }
-              src={homeState.profile?.avatar}
+              src={homeState.user?.avatar}
               sx={{ width: 35, height: 35 }}
             />
           </Stack>

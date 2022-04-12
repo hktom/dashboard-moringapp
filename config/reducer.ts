@@ -16,6 +16,7 @@ import { IRoleState, roleReducer } from "../reducer/role/reducer";
 import { IServiceState, serviceReducer } from "../reducer/service/reducer";
 import { ITaskState, taskReducer } from "../reducer/task/reducer";
 import { IUserState, userReducer } from "../reducer/user/reducer";
+import { IImageState, imageReducer } from "../reducer/image/reducer";
 
 export interface IRootState {
   login: ILoginState;
@@ -29,6 +30,7 @@ export interface IRootState {
   service: IServiceState;
   task: ITaskState;
   user: IUserState;
+  image: IImageState;
 }
 
 export const appReducer = combineReducers<IRootState>({
@@ -43,6 +45,7 @@ export const appReducer = combineReducers<IRootState>({
   service: serviceReducer,
   task: taskReducer,
   user: userReducer,
+  image: imageReducer,
 });
 
 export const rootReducer = (state: IRootState | undefined, action: Action) => {

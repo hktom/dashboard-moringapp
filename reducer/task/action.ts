@@ -16,12 +16,13 @@ import {
 
 export interface ITask {
   id: string;
-  title: string;
+  name: string;
   description: string;
   image: string;
   can_be_booked: number;
   can_be_urgent: number;
   accept_offer: number;
+  price_by_hour: number;
   min_price: number;
   category: any;
   condition: any;
@@ -68,9 +69,7 @@ export interface IGetTaskListSuccess
   data: ITask[];
 }
 
-export const getTaskListSuccess = (
-  data: ITask[]
-): IGetTaskListSuccess => ({
+export const getTaskListSuccess = (data: ITask[]): IGetTaskListSuccess => ({
   type: GET_TASK_LIST_SUCCESS,
   data,
 });
@@ -93,8 +92,7 @@ export const updateTask = (data: ITask): IUpdateTasks => ({
   data,
 });
 
-export interface IUpdateTaskSuccess
-  extends Action<"task/UPDATE_TASK_SUCCESS"> {
+export interface IUpdateTaskSuccess extends Action<"task/UPDATE_TASK_SUCCESS"> {
   data: ITask;
 }
 
@@ -103,8 +101,7 @@ export const updateTaskSuccess = (data: ITask): IUpdateTaskSuccess => ({
   data,
 });
 
-export interface IUpdateTaskFailure
-  extends Action<"task/UPDATE_TASK_FAILURE"> {
+export interface IUpdateTaskFailure extends Action<"task/UPDATE_TASK_FAILURE"> {
   error: string;
 }
 
