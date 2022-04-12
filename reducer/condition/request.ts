@@ -1,10 +1,10 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
-import { IRole } from "./action";
+import { ICondition } from "./action";
 import { v4 as uuidv4 } from "uuid";
 
-export const addRoleRequest = (data: IRole) => {
+export const addConditionRequest = (data: ICondition) => {
   let req = `mutation{
-        createRole(input:{
+        createCondition(input:{
             id: "${uuidv4()}",
             name:"${data.name}"
         }){
@@ -17,9 +17,9 @@ export const addRoleRequest = (data: IRole) => {
   return mutateMethods(req);
 };
 
-export const updateRoleRequest = (data: IRole) => {
+export const updateConditionRequest = (data: ICondition) => {
   let req = `mutation{
-          updateRole(id:"${data.id}", input:{
+          updateCondition(id:"${data.id}", input:{
             name:"${data.name}"
           }){
             id
@@ -31,10 +31,10 @@ export const updateRoleRequest = (data: IRole) => {
   return mutateMethods(req);
 };
 
-export const getRoleListRequest = () => {
+export const getConditionListRequest = () => {
   let req = `
     {
-        roles{
+        Conditions{
             id
             name
             created_at
@@ -45,9 +45,9 @@ export const getRoleListRequest = () => {
   return queryMethods(req);
 };
 
-export const deleteRoleRequest = (data: IRole) => {
+export const deleteConditionRequest = (data: ICondition) => {
   let req = `mutation{
-            deleteRole(id:"${data.id}"){
+            deleteCondition(id:"${data.id}"){
                 id
                 name
                 created_at

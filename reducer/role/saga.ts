@@ -1,65 +1,65 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addTaskRequest,
-  deleteTaskRequest,
-  updateTaskRequest,
+  addRoleRequest,
+  deleteRoleRequest,
+  updateRoleRequest,
 } from "./request";
 import {
-  addTaskFailure,
-  addTaskSuccess,
-  deleteTaskFailure,
-  deleteTaskSuccess,
-  updateTaskFailure,
-  updateTaskSuccess,
+  addRoleFailure,
+  addRoleSuccess,
+  deleteRoleFailure,
+  deleteRoleSuccess,
+  updateRoleFailure,
+  updateRoleSuccess,
 } from "./action";
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  UPDATE_TASK,
+  ADD_ROLE,
+  DELETE_ROLE,
+  UPDATE_ROLE,
 } from "./constants";
 
-export function* addTaskSaga(action: any): SagaIterator {
+export function* addRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addRoleRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addTaskFailure(res.errors));
+      yield put(addRoleFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addRoleSuccess(res.data.Role));
     }
   } catch (error: any) {
-    yield put(addTaskFailure(error?.toString()));
+    yield put(addRoleFailure(error?.toString()));
   }
 }
 
-export function* updateTaskSaga(action: any): SagaIterator {
+export function* updateRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updateRoleRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(updateTaskFailure(res.errors));
+      yield put(updateRoleFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updateRoleSuccess(res.data.Role));
     }
   } catch (error: any) {
-    yield put(updateTaskFailure(error?.toString()));
+    yield put(updateRoleFailure(error?.toString()));
   }
 }
 
-export function* deleteTaskSaga(action: any): SagaIterator {
+export function* deleteRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(deleteTaskRequest, action.data);
+    const res = yield call(deleteRoleRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(deleteTaskFailure(res.errors));
+      yield put(deleteRoleFailure(res.errors));
     } else {
-      yield put(deleteTaskSuccess(res.data.task));
+      yield put(deleteRoleSuccess(res.data.Role));
     }
   } catch (error: any) {
-    yield put(deleteTaskFailure(error?.toString()));
+    yield put(deleteRoleFailure(error?.toString()));
   }
 }
 
-export function* taskSagas(): Generator {
-  yield takeEvery(ADD_TASK, addTaskSaga);
-  yield takeEvery(UPDATE_TASK, updateTaskSaga);
-  yield takeEvery(DELETE_TASK, deleteTaskSaga);
+export function* RoleSagas(): Generator {
+  yield takeEvery(ADD_ROLE, addRoleSaga);
+  yield takeEvery(UPDATE_ROLE, updateRoleSaga);
+  yield takeEvery(DELETE_ROLE, deleteRoleSaga);
 }

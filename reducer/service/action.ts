@@ -1,154 +1,157 @@
 import { Action } from "redux";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_SERVICE,
+  ADD_SERVICE_SUCCESS,
+  ADD_SERVICE_FAILURE,
+  GET_SERVICE_LIST,
+  GET_SERVICE_LIST_SUCCESS,
+  GET_SERVICE_LIST_FAILURE,
+  UPDATE_SERVICE,
+  UPDATE_SERVICE_SUCCESS,
+  UPDATE_SERVICE_FAILURE,
+  DELETE_SERVICE,
+  DELETE_SERVICE_SUCCESS,
+  DELETE_SERVICE_FAILURE,
 } from "./constants";
 
-export interface ITask {
+export interface IService {
   id: string;
-  title: string;
+  name: string;
+  name_fr: string;
   description: string;
+  slug: string;
+  slug_fr: string;
   image: string;
-  can_be_booked: number;
-  can_be_urgent: number;
-  accept_offer: number;
-  min_price: number;
-  category: any;
-  condition: any;
-  user: any;
-  jobs?: any;
   created_at?: any;
   update_at?: any;
 }
 
-export interface IAddTask extends Action<"task/ADD_TASK"> {
-  data: ITask;
+export interface IAddService extends Action<"service/ADD_SERVICE"> {
+  data: IService;
 }
 
-export const addTask = (data: ITask): IAddTask => ({
-  type: ADD_TASK,
+export const addService = (data: IService): IAddService => ({
+  type: ADD_SERVICE,
   data,
 });
 
-export interface IAddTaskSuccess extends Action<"task/ADD_TASK_SUCCESS"> {
-  data: ITask;
+export interface IAddServiceSuccess
+  extends Action<"service/ADD_SERVICE_SUCCESS"> {
+  data: IService;
 }
 
-export const addTaskSuccess = (data: ITask): IAddTaskSuccess => ({
-  type: ADD_TASK_SUCCESS,
+export const addServiceSuccess = (data: IService): IAddServiceSuccess => ({
+  type: ADD_SERVICE_SUCCESS,
   data,
 });
 
-export interface IAddTaskFailure extends Action<"task/ADD_TASK_FAILURE"> {
+export interface IAddServiceFailure
+  extends Action<"service/ADD_SERVICE_FAILURE"> {
   error: string;
 }
 
-export const addTaskFailure = (error: string): IAddTaskFailure => ({
-  type: ADD_TASK_FAILURE,
+export const addServiceFailure = (error: string): IAddServiceFailure => ({
+  type: ADD_SERVICE_FAILURE,
   error,
 });
 
-export interface IGetTaskList extends Action<"task/GET_TASK_LIST"> {}
-export const getTaskList = (): IGetTaskList => ({
-  type: GET_TASK_LIST,
+export interface IGetServiceList extends Action<"service/GET_SERVICE_LIST"> {}
+export const getServiceList = (): IGetServiceList => ({
+  type: GET_SERVICE_LIST,
 });
 
-export interface IGetTaskListSuccess
-  extends Action<"task/GET_TASK_LIST_SUCCESS"> {
-  data: ITask[];
+export interface IGetServiceListSuccess
+  extends Action<"service/GET_SERVICE_LIST_SUCCESS"> {
+  data: IService[];
 }
 
-export const getTaskListSuccess = (
-  data: ITask[]
-): IGetTaskListSuccess => ({
-  type: GET_TASK_LIST_SUCCESS,
+export const getServiceListSuccess = (
+  data: IService[]
+): IGetServiceListSuccess => ({
+  type: GET_SERVICE_LIST_SUCCESS,
   data,
 });
 
-export interface IGetTaskListFailure
-  extends Action<"task/GET_TASK_LIST_FAILURE"> {
+export interface IGetServiceListFailure
+  extends Action<"service/GET_SERVICE_LIST_FAILURE"> {
   error: string;
 }
 
-export const getTaskListFailure = (error: string): IGetTaskListFailure => ({
-  type: GET_TASK_LIST_FAILURE,
+export const getServiceListFailure = (
+  error: string
+): IGetServiceListFailure => ({
+  type: GET_SERVICE_LIST_FAILURE,
   error,
 });
 
-export interface IUpdateTasks extends Action<"task/UPDATE_TASK"> {
-  data: ITask;
+export interface IUpdateServices extends Action<"service/UPDATE_SERVICE"> {
+  data: IService;
 }
-export const updateTask = (data: ITask): IUpdateTasks => ({
-  type: UPDATE_TASK,
+export const updateService = (data: IService): IUpdateServices => ({
+  type: UPDATE_SERVICE,
   data,
 });
 
-export interface IUpdateTaskSuccess
-  extends Action<"task/UPDATE_TASK_SUCCESS"> {
-  data: ITask;
+export interface IUpdateServiceSuccess
+  extends Action<"service/UPDATE_SERVICE_SUCCESS"> {
+  data: IService;
 }
 
-export const updateTaskSuccess = (data: ITask): IUpdateTaskSuccess => ({
-  type: UPDATE_TASK_SUCCESS,
+export const updateServiceSuccess = (
+  data: IService
+): IUpdateServiceSuccess => ({
+  type: UPDATE_SERVICE_SUCCESS,
   data,
 });
 
-export interface IUpdateTaskFailure
-  extends Action<"task/UPDATE_TASK_FAILURE"> {
+export interface IUpdateServiceFailure
+  extends Action<"service/UPDATE_SERVICE_FAILURE"> {
   error: string;
 }
 
-export const updateTaskFailure = (error: string): IUpdateTaskFailure => ({
-  type: UPDATE_TASK_FAILURE,
+export const updateServiceFailure = (error: string): IUpdateServiceFailure => ({
+  type: UPDATE_SERVICE_FAILURE,
   error,
 });
 
-export interface IDeleteTask extends Action<"task/DELETE_TASK"> {
+export interface IDeleteService extends Action<"service/DELETE_SERVICE"> {
   id: string;
 }
-export const deleteTask = (id: string): IDeleteTask => ({
-  type: DELETE_TASK,
+export const deleteService = (id: string): IDeleteService => ({
+  type: DELETE_SERVICE,
   id,
 });
 
-export interface IDeleteTaskSuccess extends Action<"task/DELETE_TASK_SUCCESS"> {
+export interface IDeleteServiceSuccess
+  extends Action<"service/DELETE_SERVICE_SUCCESS"> {
   id: string;
 }
 
-export const deleteTaskSuccess = (id: string): IDeleteTaskSuccess => ({
-  type: DELETE_TASK_SUCCESS,
+export const deleteServiceSuccess = (id: string): IDeleteServiceSuccess => ({
+  type: DELETE_SERVICE_SUCCESS,
   id,
 });
 
-export interface IDeleteTaskFailure extends Action<"task/DELETE_TASK_FAILURE"> {
+export interface IDeleteServiceFailure
+  extends Action<"service/DELETE_SERVICE_FAILURE"> {
   error: string;
 }
 
-export const deleteTaskFailure = (error: string): IDeleteTaskFailure => ({
-  type: DELETE_TASK_FAILURE,
+export const deleteServiceFailure = (error: string): IDeleteServiceFailure => ({
+  type: DELETE_SERVICE_FAILURE,
   error,
 });
 
-export type ITaskActions =
-  | IAddTask
-  | IAddTaskSuccess
-  | IAddTaskFailure
-  | IGetTaskList
-  | IGetTaskListSuccess
-  | IGetTaskListFailure
-  | IUpdateTasks
-  | IUpdateTaskSuccess
-  | IUpdateTaskFailure
-  | IDeleteTask
-  | IDeleteTaskSuccess
-  | IDeleteTaskFailure;
+export type IServiceActions =
+  | IAddService
+  | IAddServiceSuccess
+  | IAddServiceFailure
+  | IGetServiceList
+  | IGetServiceListSuccess
+  | IGetServiceListFailure
+  | IUpdateServices
+  | IUpdateServiceSuccess
+  | IUpdateServiceFailure
+  | IDeleteService
+  | IDeleteServiceSuccess
+  | IDeleteServiceFailure;

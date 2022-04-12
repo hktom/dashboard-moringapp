@@ -1,154 +1,146 @@
 import { Action } from "redux";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_PAYMENT,
+  ADD_PAYMENT_SUCCESS,
+  ADD_PAYMENT_FAILURE,
+  GET_PAYMENT_LIST,
+  GET_PAYMENT_LIST_SUCCESS,
+  GET_PAYMENT_LIST_FAILURE,
+  UPDATE_PAYMENT,
+  UPDATE_PAYMENT_SUCCESS,
+  UPDATE_PAYMENT_FAILURE,
+  DELETE_PAYMENT,
+  DELETE_PAYMENT_SUCCESS,
+  DELETE_PAYMENT_FAILURE,
 } from "./constants";
 
-export interface ITask {
+export interface IPayment {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  can_be_booked: number;
-  can_be_urgent: number;
-  accept_offer: number;
-  min_price: number;
-  category: any;
-  condition: any;
   user: any;
-  jobs?: any;
-  created_at?: any;
-  update_at?: any;
+  job: any;
+  token: string;
+  is_completed: number;
+  gateway: string;
 }
 
-export interface IAddTask extends Action<"task/ADD_TASK"> {
-  data: ITask;
+export interface IAddPayment extends Action<"payment/ADD_PAYMENT"> {
+  data: IPayment;
 }
 
-export const addTask = (data: ITask): IAddTask => ({
-  type: ADD_TASK,
+export const addPayment = (data: IPayment): IAddPayment => ({
+  type: ADD_PAYMENT,
   data,
 });
 
-export interface IAddTaskSuccess extends Action<"task/ADD_TASK_SUCCESS"> {
-  data: ITask;
+export interface IAddPaymentSuccess extends Action<"payment/ADD_PAYMENT_SUCCESS"> {
+  data: IPayment;
 }
 
-export const addTaskSuccess = (data: ITask): IAddTaskSuccess => ({
-  type: ADD_TASK_SUCCESS,
+export const addPaymentSuccess = (data: IPayment): IAddPaymentSuccess => ({
+  type: ADD_PAYMENT_SUCCESS,
   data,
 });
 
-export interface IAddTaskFailure extends Action<"task/ADD_TASK_FAILURE"> {
+export interface IAddPaymentFailure extends Action<"payment/ADD_PAYMENT_FAILURE"> {
   error: string;
 }
 
-export const addTaskFailure = (error: string): IAddTaskFailure => ({
-  type: ADD_TASK_FAILURE,
+export const addPaymentFailure = (error: string): IAddPaymentFailure => ({
+  type: ADD_PAYMENT_FAILURE,
   error,
 });
 
-export interface IGetTaskList extends Action<"task/GET_TASK_LIST"> {}
-export const getTaskList = (): IGetTaskList => ({
-  type: GET_TASK_LIST,
+export interface IGetPaymentList extends Action<"payment/GET_PAYMENT_LIST"> {}
+export const getPaymentList = (): IGetPaymentList => ({
+  type: GET_PAYMENT_LIST,
 });
 
-export interface IGetTaskListSuccess
-  extends Action<"task/GET_TASK_LIST_SUCCESS"> {
-  data: ITask[];
+export interface IGetPaymentListSuccess
+  extends Action<"payment/GET_PAYMENT_LIST_SUCCESS"> {
+  data: IPayment[];
 }
 
-export const getTaskListSuccess = (
-  data: ITask[]
-): IGetTaskListSuccess => ({
-  type: GET_TASK_LIST_SUCCESS,
+export const getPaymentListSuccess = (
+  data: IPayment[]
+): IGetPaymentListSuccess => ({
+  type: GET_PAYMENT_LIST_SUCCESS,
   data,
 });
 
-export interface IGetTaskListFailure
-  extends Action<"task/GET_TASK_LIST_FAILURE"> {
+export interface IGetPaymentListFailure
+  extends Action<"payment/GET_PAYMENT_LIST_FAILURE"> {
   error: string;
 }
 
-export const getTaskListFailure = (error: string): IGetTaskListFailure => ({
-  type: GET_TASK_LIST_FAILURE,
+export const getPaymentListFailure = (error: string): IGetPaymentListFailure => ({
+  type: GET_PAYMENT_LIST_FAILURE,
   error,
 });
 
-export interface IUpdateTasks extends Action<"task/UPDATE_TASK"> {
-  data: ITask;
+export interface IUpdatePayments extends Action<"payment/UPDATE_PAYMENT"> {
+  data: IPayment;
 }
-export const updateTask = (data: ITask): IUpdateTasks => ({
-  type: UPDATE_TASK,
+export const updatePayment = (data: IPayment): IUpdatePayments => ({
+  type: UPDATE_PAYMENT,
   data,
 });
 
-export interface IUpdateTaskSuccess
-  extends Action<"task/UPDATE_TASK_SUCCESS"> {
-  data: ITask;
+export interface IUpdatePaymentSuccess
+  extends Action<"payment/UPDATE_PAYMENT_SUCCESS"> {
+  data: IPayment;
 }
 
-export const updateTaskSuccess = (data: ITask): IUpdateTaskSuccess => ({
-  type: UPDATE_TASK_SUCCESS,
+export const updatePaymentSuccess = (data: IPayment): IUpdatePaymentSuccess => ({
+  type: UPDATE_PAYMENT_SUCCESS,
   data,
 });
 
-export interface IUpdateTaskFailure
-  extends Action<"task/UPDATE_TASK_FAILURE"> {
+export interface IUpdatePaymentFailure
+  extends Action<"payment/UPDATE_PAYMENT_FAILURE"> {
   error: string;
 }
 
-export const updateTaskFailure = (error: string): IUpdateTaskFailure => ({
-  type: UPDATE_TASK_FAILURE,
+export const updatePaymentFailure = (error: string): IUpdatePaymentFailure => ({
+  type: UPDATE_PAYMENT_FAILURE,
   error,
 });
 
-export interface IDeleteTask extends Action<"task/DELETE_TASK"> {
+export interface IDeletePayment extends Action<"payment/DELETE_PAYMENT"> {
   id: string;
 }
-export const deleteTask = (id: string): IDeleteTask => ({
-  type: DELETE_TASK,
+export const deletePayment = (id: string): IDeletePayment => ({
+  type: DELETE_PAYMENT,
   id,
 });
 
-export interface IDeleteTaskSuccess extends Action<"task/DELETE_TASK_SUCCESS"> {
+export interface IDeletePaymentSuccess extends Action<"payment/DELETE_PAYMENT_SUCCESS"> {
   id: string;
 }
 
-export const deleteTaskSuccess = (id: string): IDeleteTaskSuccess => ({
-  type: DELETE_TASK_SUCCESS,
+export const deletePaymentSuccess = (id: string): IDeletePaymentSuccess => ({
+  type: DELETE_PAYMENT_SUCCESS,
   id,
 });
 
-export interface IDeleteTaskFailure extends Action<"task/DELETE_TASK_FAILURE"> {
+export interface IDeletePaymentFailure extends Action<"payment/DELETE_PAYMENT_FAILURE"> {
   error: string;
 }
 
-export const deleteTaskFailure = (error: string): IDeleteTaskFailure => ({
-  type: DELETE_TASK_FAILURE,
+export const deletePaymentFailure = (error: string): IDeletePaymentFailure => ({
+  type: DELETE_PAYMENT_FAILURE,
   error,
 });
 
-export type ITaskActions =
-  | IAddTask
-  | IAddTaskSuccess
-  | IAddTaskFailure
-  | IGetTaskList
-  | IGetTaskListSuccess
-  | IGetTaskListFailure
-  | IUpdateTasks
-  | IUpdateTaskSuccess
-  | IUpdateTaskFailure
-  | IDeleteTask
-  | IDeleteTaskSuccess
-  | IDeleteTaskFailure;
+export type IPaymentActions =
+  | IAddPayment
+  | IAddPaymentSuccess
+  | IAddPaymentFailure
+  | IGetPaymentList
+  | IGetPaymentListSuccess
+  | IGetPaymentListFailure
+  | IUpdatePayments
+  | IUpdatePaymentSuccess
+  | IUpdatePaymentFailure
+  | IDeletePayment
+  | IDeletePaymentSuccess
+  | IDeletePaymentFailure;

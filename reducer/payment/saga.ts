@@ -1,65 +1,65 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addTaskRequest,
-  deleteTaskRequest,
-  updateTaskRequest,
+  addPaymentRequest,
+  deletePaymentRequest,
+  updatePaymentRequest,
 } from "./request";
 import {
-  addTaskFailure,
-  addTaskSuccess,
-  deleteTaskFailure,
-  deleteTaskSuccess,
-  updateTaskFailure,
-  updateTaskSuccess,
+  addPaymentFailure,
+  addPaymentSuccess,
+  deletePaymentFailure,
+  deletePaymentSuccess,
+  updatePaymentFailure,
+  updatePaymentSuccess,
 } from "./action";
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  UPDATE_TASK,
+  ADD_PAYMENT,
+  DELETE_PAYMENT,
+  UPDATE_PAYMENT,
 } from "./constants";
 
-export function* addTaskSaga(action: any): SagaIterator {
+export function* addPaymentSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addPaymentRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addTaskFailure(res.errors));
+      yield put(addPaymentFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addPaymentSuccess(res.data.Payment));
     }
   } catch (error: any) {
-    yield put(addTaskFailure(error?.toString()));
+    yield put(addPaymentFailure(error?.toString()));
   }
 }
 
-export function* updateTaskSaga(action: any): SagaIterator {
+export function* updatePaymentSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updatePaymentRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(updateTaskFailure(res.errors));
+      yield put(updatePaymentFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updatePaymentSuccess(res.data.Payment));
     }
   } catch (error: any) {
-    yield put(updateTaskFailure(error?.toString()));
+    yield put(updatePaymentFailure(error?.toString()));
   }
 }
 
-export function* deleteTaskSaga(action: any): SagaIterator {
+export function* deletePaymentSaga(action: any): SagaIterator {
   try {
-    const res = yield call(deleteTaskRequest, action.data);
+    const res = yield call(deletePaymentRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(deleteTaskFailure(res.errors));
+      yield put(deletePaymentFailure(res.errors));
     } else {
-      yield put(deleteTaskSuccess(res.data.task));
+      yield put(deletePaymentSuccess(res.data.Payment));
     }
   } catch (error: any) {
-    yield put(deleteTaskFailure(error?.toString()));
+    yield put(deletePaymentFailure(error?.toString()));
   }
 }
 
-export function* taskSagas(): Generator {
-  yield takeEvery(ADD_TASK, addTaskSaga);
-  yield takeEvery(UPDATE_TASK, updateTaskSaga);
-  yield takeEvery(DELETE_TASK, deleteTaskSaga);
+export function* PaymentSagas(): Generator {
+  yield takeEvery(ADD_PAYMENT, addPaymentSaga);
+  yield takeEvery(UPDATE_PAYMENT, updatePaymentSaga);
+  yield takeEvery(DELETE_PAYMENT, deletePaymentSaga);
 }

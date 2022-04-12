@@ -1,16 +1,16 @@
-export const ADD_TASK = "task/ADD_TASK";
-export const ADD_TASK_SUCCESS = "task/ADD_TASK_SUCCESS";
-export const ADD_TASK_FAILURE = "task/ADD_TASK_FAILURE";
+export const ADD_SERVICE = "service/ADD_SERVICE";
+export const ADD_SERVICE_SUCCESS = "service/ADD_SERVICE_SUCCESS";
+export const ADD_SERVICE_FAILURE = "service/ADD_SERVICE_FAILURE";
 
-export const GET_TASK_LIST = "task/GET_TASK_LIST";
-export const GET_TASK_LIST_SUCCESS = "task/GET_TASK_LIST_SUCCESS";
-export const GET_TASK_LIST_FAILURE = "task/GET_TASK_LIST_FAILURE";
+export const GET_SERVICE_LIST = "service/GET_SERVICE_LIST";
+export const GET_SERVICE_LIST_SUCCESS = "service/GET_SERVICE_LIST_SUCCESS";
+export const GET_SERVICE_LIST_FAILURE = "service/GET_SERVICE_LIST_FAILURE";
 
-export const UPDATE_TASK = "task/UPDATE_TASK";
-export const UPDATE_TASK_SUCCESS = "task/UPDATE_TASK_SUCCESS";
-export const UPDATE_TASK_FAILURE = "task/UPDATE_TASK_FAILURE";
+export const UPDATE_SERVICE = "service/UPDATE_SERVICE";
+export const UPDATE_SERVICE_SUCCESS = "service/UPDATE_SERVICE_SUCCESS";
+export const UPDATE_SERVICE_FAILURE = "service/UPDATE_SERVICE_FAILURE";
 
-export const DELETE_TASK = "task/DELETE_TASK";
-export const DELETE_TASK_SUCCESS = "task/DELETE_TASK_SUCCESS";
-export const DELETE_TASK_FAILURE = "task/DELETE_TASK_FAILURE";
+export const DELETE_SERVICE = "service/DELETE_SERVICE";
+export const DELETE_SERVICE_SUCCESS = "service/DELETE_SERVICE_SUCCESS";
+export const DELETE_SERVICE_FAILURE = "service/DELETE_SERVICE_FAILURE";
 

@@ -1,20 +1,20 @@
 import { Action } from "redux";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_USER,
+  ADD_USER_SUCCESS,
+  ADD_USER_FAILURE,
+  GET_USER_LIST,
+  GET_USER_LIST_SUCCESS,
+  GET_USER_LIST_FAILURE,
+  UPDATE_USER,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  DELETE_USER,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAILURE,
 } from "./constants";
 
-export interface ITask {
+export interface IUser {
   id: string;
   title: string;
   description: string;
@@ -31,124 +31,124 @@ export interface ITask {
   update_at?: any;
 }
 
-export interface IAddTask extends Action<"task/ADD_TASK"> {
-  data: ITask;
+export interface IAddUser extends Action<"user/ADD_USER"> {
+  data: IUser;
 }
 
-export const addTask = (data: ITask): IAddTask => ({
-  type: ADD_TASK,
+export const addUser = (data: IUser): IAddUser => ({
+  type: ADD_USER,
   data,
 });
 
-export interface IAddTaskSuccess extends Action<"task/ADD_TASK_SUCCESS"> {
-  data: ITask;
+export interface IAddUserSuccess extends Action<"user/ADD_USER_SUCCESS"> {
+  data: IUser;
 }
 
-export const addTaskSuccess = (data: ITask): IAddTaskSuccess => ({
-  type: ADD_TASK_SUCCESS,
+export const addUserSuccess = (data: IUser): IAddUserSuccess => ({
+  type: ADD_USER_SUCCESS,
   data,
 });
 
-export interface IAddTaskFailure extends Action<"task/ADD_TASK_FAILURE"> {
+export interface IAddUserFailure extends Action<"user/ADD_USER_FAILURE"> {
   error: string;
 }
 
-export const addTaskFailure = (error: string): IAddTaskFailure => ({
-  type: ADD_TASK_FAILURE,
+export const addUserFailure = (error: string): IAddUserFailure => ({
+  type: ADD_USER_FAILURE,
   error,
 });
 
-export interface IGetTaskList extends Action<"task/GET_TASK_LIST"> {}
-export const getTaskList = (): IGetTaskList => ({
-  type: GET_TASK_LIST,
+export interface IGetUserList extends Action<"user/GET_USER_LIST"> {}
+export const getUserList = (): IGetUserList => ({
+  type: GET_USER_LIST,
 });
 
-export interface IGetTaskListSuccess
-  extends Action<"task/GET_TASK_LIST_SUCCESS"> {
-  data: ITask[];
+export interface IGetUserListSuccess
+  extends Action<"user/GET_USER_LIST_SUCCESS"> {
+  data: IUser[];
 }
 
-export const getTaskListSuccess = (
-  data: ITask[]
-): IGetTaskListSuccess => ({
-  type: GET_TASK_LIST_SUCCESS,
+export const getUserListSuccess = (
+  data: IUser[]
+): IGetUserListSuccess => ({
+  type: GET_USER_LIST_SUCCESS,
   data,
 });
 
-export interface IGetTaskListFailure
-  extends Action<"task/GET_TASK_LIST_FAILURE"> {
+export interface IGetUserListFailure
+  extends Action<"user/GET_USER_LIST_FAILURE"> {
   error: string;
 }
 
-export const getTaskListFailure = (error: string): IGetTaskListFailure => ({
-  type: GET_TASK_LIST_FAILURE,
+export const getUserListFailure = (error: string): IGetUserListFailure => ({
+  type: GET_USER_LIST_FAILURE,
   error,
 });
 
-export interface IUpdateTasks extends Action<"task/UPDATE_TASK"> {
-  data: ITask;
+export interface IUpdateUsers extends Action<"user/UPDATE_USER"> {
+  data: IUser;
 }
-export const updateTask = (data: ITask): IUpdateTasks => ({
-  type: UPDATE_TASK,
+export const updateUser = (data: IUser): IUpdateUsers => ({
+  type: UPDATE_USER,
   data,
 });
 
-export interface IUpdateTaskSuccess
-  extends Action<"task/UPDATE_TASK_SUCCESS"> {
-  data: ITask;
+export interface IUpdateUserSuccess
+  extends Action<"user/UPDATE_USER_SUCCESS"> {
+  data: IUser;
 }
 
-export const updateTaskSuccess = (data: ITask): IUpdateTaskSuccess => ({
-  type: UPDATE_TASK_SUCCESS,
+export const updateUserSuccess = (data: IUser): IUpdateUserSuccess => ({
+  type: UPDATE_USER_SUCCESS,
   data,
 });
 
-export interface IUpdateTaskFailure
-  extends Action<"task/UPDATE_TASK_FAILURE"> {
+export interface IUpdateUserFailure
+  extends Action<"user/UPDATE_USER_FAILURE"> {
   error: string;
 }
 
-export const updateTaskFailure = (error: string): IUpdateTaskFailure => ({
-  type: UPDATE_TASK_FAILURE,
+export const updateUserFailure = (error: string): IUpdateUserFailure => ({
+  type: UPDATE_USER_FAILURE,
   error,
 });
 
-export interface IDeleteTask extends Action<"task/DELETE_TASK"> {
+export interface IDeleteUser extends Action<"user/DELETE_USER"> {
   id: string;
 }
-export const deleteTask = (id: string): IDeleteTask => ({
-  type: DELETE_TASK,
+export const deleteUser = (id: string): IDeleteUser => ({
+  type: DELETE_USER,
   id,
 });
 
-export interface IDeleteTaskSuccess extends Action<"task/DELETE_TASK_SUCCESS"> {
+export interface IDeleteUserSuccess extends Action<"user/DELETE_USER_SUCCESS"> {
   id: string;
 }
 
-export const deleteTaskSuccess = (id: string): IDeleteTaskSuccess => ({
-  type: DELETE_TASK_SUCCESS,
+export const deleteUserSuccess = (id: string): IDeleteUserSuccess => ({
+  type: DELETE_USER_SUCCESS,
   id,
 });
 
-export interface IDeleteTaskFailure extends Action<"task/DELETE_TASK_FAILURE"> {
+export interface IDeleteUserFailure extends Action<"user/DELETE_USER_FAILURE"> {
   error: string;
 }
 
-export const deleteTaskFailure = (error: string): IDeleteTaskFailure => ({
-  type: DELETE_TASK_FAILURE,
+export const deleteUserFailure = (error: string): IDeleteUserFailure => ({
+  type: DELETE_USER_FAILURE,
   error,
 });
 
-export type ITaskActions =
-  | IAddTask
-  | IAddTaskSuccess
-  | IAddTaskFailure
-  | IGetTaskList
-  | IGetTaskListSuccess
-  | IGetTaskListFailure
-  | IUpdateTasks
-  | IUpdateTaskSuccess
-  | IUpdateTaskFailure
-  | IDeleteTask
-  | IDeleteTaskSuccess
-  | IDeleteTaskFailure;
+export type IUserActions =
+  | IAddUser
+  | IAddUserSuccess
+  | IAddUserFailure
+  | IGetUserList
+  | IGetUserListSuccess
+  | IGetUserListFailure
+  | IUpdateUsers
+  | IUpdateUserSuccess
+  | IUpdateUserFailure
+  | IDeleteUser
+  | IDeleteUserSuccess
+  | IDeleteUserFailure;

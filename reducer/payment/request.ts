@@ -1,113 +1,76 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
-import { ITask } from "./action";
+import { IPayment } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
-export const addTaskRequest= (data: ITask) => {
+export const addPaymentRequest = (data: IPayment) => {
   let req = `mutation{
-        createTask(input:{
-            title:"${data.title}"
-            description:"${data.description}"
-            image:"${data.image}"
-            can_be_booked:${data.can_be_booked}
-            can_be_urgent:${data.can_be_urgent}
-            accept_offer:${data.accept_offer}
-            min_price:${data.min_price}
-            category:{connect:${data.category?.id}}
-            condition:{connect:${data.condition?.id}}
+        createPayment(input:{
+            id: "${uuidv4()}",
+            is_completed:${data.is_completed}
+            token:"${data.token}"
+            gateway:"${data.gateway}"
+            job:{connect:${data.job?.id}}
             user:"{connect:${data.user?.id}}"
         }){
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
-                id
-                name
-            }
-            condition{
-                id
-                name
-            }
             user{
                 id
                 email
             }
-            created_at
+            job{
+                id
+            }
+            token
+            is_completed
+            gateway
         }
     }`;
 
   return mutateMethods(req);
 };
 
-export const updateTaskRequest= (data: ITask) => {
+export const updatePaymentRequest = (data: IPayment) => {
   let req = `mutation{
-          createTask(id:"${data.id}", input:{
-              title:"${data.title}"
-              description:"${data.description}"
-              image:"${data.image}"
-              can_be_booked:${data.can_be_booked}
-              can_be_urgent:${data.can_be_urgent}
-              accept_offer:${data.accept_offer}
-              min_price:${data.min_price}
-              category:{connect:${data.category?.id}}
-              condition:{connect:${data.condition?.id}}
-              user:"{connect:${data.user?.id}}"
+          createPayment(id:"${data.id}", input:{
+            id: "${uuidv4()}",
+            is_completed:${data.is_completed}
+            token:"${data.token}"
+            gateway:"${data.gateway}"
+            job:{connect:${data.job?.id}}
+            user:"{connect:${data.user?.id}}"
           }){
-              id
-              title
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-              user{
-                  id
-                  email
-              }
-              created_at
+            id
+            user{
+                id
+                email
+            }
+            job{
+                id
+            }
+            token
+            is_completed
+            gateway
           }
       }`;
 
   return mutateMethods(req);
 };
 
-export const getTaskListRequest= () => {
+export const getPaymentListRequest = () => {
   let req = `
     {
-        tasks{
+        Payments{
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
-                id
-                name
-            }
-            condition{
-                id
-                name
-            }
             user{
                 id
                 email
             }
-            created_at
+            job{
+                id
+            }
+            token
+            is_completed
+            gateway
         }
 
     }`;
@@ -115,30 +78,20 @@ export const getTaskListRequest= () => {
   return queryMethods(req);
 };
 
-export const deleteTaskRequest = (data: ITask) => {
+export const deletePaymentRequest = (data: IPayment) => {
   let req = `mutation{
-            deleteTask(id:"${data.id}"){
+            deletePayment(id:"${data.id}"){
                 id
-                title
-                description
-                image
-                can_be_booked
-                can_be_urgent
-                accept_offer
-                min_price
-                category{
-                    id
-                    name
-                }
-                condition{
-                    id
-                    name
-                }
                 user{
                     id
                     email
                 }
-                created_at
+                job{
+                    id
+                }
+                token
+                is_completed
+                gateway
             }
         }`;
 

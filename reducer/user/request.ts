@@ -1,9 +1,9 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
-import { ITask } from "./action";
+import { IUser } from "./action";
 
-export const addTaskRequest= (data: ITask) => {
+export const addUserRequest= (data: IUser) => {
   let req = `mutation{
-        createTask(input:{
+        createUser(input:{
             title:"${data.title}"
             description:"${data.description}"
             image:"${data.image}"
@@ -42,9 +42,9 @@ export const addTaskRequest= (data: ITask) => {
   return mutateMethods(req);
 };
 
-export const updateTaskRequest= (data: ITask) => {
+export const updateUserRequest= (data: IUser) => {
   let req = `mutation{
-          createTask(id:"${data.id}", input:{
+          createUser(id:"${data.id}", input:{
               title:"${data.title}"
               description:"${data.description}"
               image:"${data.image}"
@@ -83,10 +83,10 @@ export const updateTaskRequest= (data: ITask) => {
   return mutateMethods(req);
 };
 
-export const getTaskListRequest= () => {
+export const getUserListRequest= () => {
   let req = `
     {
-        tasks{
+        Users{
             id
             title
             description
@@ -115,9 +115,9 @@ export const getTaskListRequest= () => {
   return queryMethods(req);
 };
 
-export const deleteTaskRequest = (data: ITask) => {
+export const deleteUserRequest = (data: IUser) => {
   let req = `mutation{
-            deleteTask(id:"${data.id}"){
+            deleteUser(id:"${data.id}"){
                 id
                 title
                 description

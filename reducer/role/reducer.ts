@@ -1,139 +1,118 @@
-import { ITask, ITaskActions } from "./action";
+import { IRole, IRoleActions } from "./action";
 import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
+  ADD_ROLE,
+  ADD_ROLE_SUCCESS,
+  ADD_ROLE_FAILURE,
+  GET_ROLE_LIST,
+  GET_ROLE_LIST_SUCCESS,
+  GET_ROLE_LIST_FAILURE,
+  UPDATE_ROLE,
+  UPDATE_ROLE_SUCCESS,
+  UPDATE_ROLE_FAILURE,
+  DELETE_ROLE,
+  DELETE_ROLE_SUCCESS,
+  DELETE_ROLE_FAILURE,
 } from "./constants";
 
-interface ITaskState {
-  taskList: ITask[];
-  taskEdit: ITask | undefined;
+interface IRoleState {
+  roleList: IRole[];
+  roleEdit: IRole | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
-export const initialState: ITaskState = {
-  taskList: [],
-  taskEdit: undefined,
+export const initialState: IRoleState = {
+  roleList: [],
+  roleEdit: undefined,
   error: undefined,
   isLoading: false,
   success: false,
 };
 
-export const taskReducer = (
-  state: ITaskState = initialState,
-  action: ITaskActions
+export const roleReducer = (
+  state: IRoleState = initialState,
+  action: IRoleActions
 ) => {
   switch (action.type) {
-    case ADD_TASK:
+    case ADD_ROLE:
       return {
         ...state,
         isLoading: true,
       };
 
-    case ADD_TASK_SUCCESS:
+    case ADD_ROLE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        roleEdit: action.data,
       };
 
-    case ADD_TASK_FAILURE:
+    case ADD_ROLE_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    // case ADD_TASK_IMAGE:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    // case ADD_TASK_IMAGE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     success: true,
-    //     taskEdit: action.data,
-    //   };
-
-    // case ADD_TASK_IMAGE_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case GET_TASK_LIST:
+    case GET_ROLE_LIST:
       return {
         ...state,
         isLoading: true,
       };
 
-    case GET_TASK_LIST_SUCCESS:
+    case GET_ROLE_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskList: action.data,
+        roleList: action.data,
       };
 
-    case GET_TASK_LIST_FAILURE:
+    case GET_ROLE_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case UPDATE_TASK:  
+    case UPDATE_ROLE:  
       return {
         ...state,
         isLoading: true,
       };
 
-    case UPDATE_TASK_SUCCESS:
+    case UPDATE_ROLE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        roleEdit: action.data,
       };
 
-    case UPDATE_TASK_FAILURE:
+    case UPDATE_ROLE_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case DELETE_TASK:
+    case DELETE_ROLE:
       return {
         ...state,
         isLoading: true,
       };
 
-    case DELETE_TASK_SUCCESS:
+    case DELETE_ROLE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: undefined,
+        roleEdit: undefined,
       };
 
-    case DELETE_TASK_FAILURE:
+    case DELETE_ROLE_FAILURE:
       return {
         ...state,
         isLoading: false,

@@ -1,65 +1,65 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addTaskRequest,
-  deleteTaskRequest,
-  updateTaskRequest,
+  addServiceRequest,
+  deleteServiceRequest,
+  updateServiceRequest,
 } from "./request";
 import {
-  addTaskFailure,
-  addTaskSuccess,
-  deleteTaskFailure,
-  deleteTaskSuccess,
-  updateTaskFailure,
-  updateTaskSuccess,
+  addServiceFailure,
+  addServiceSuccess,
+  deleteServiceFailure,
+  deleteServiceSuccess,
+  updateServiceFailure,
+  updateServiceSuccess,
 } from "./action";
 import {
-  ADD_TASK,
-  DELETE_TASK,
-  UPDATE_TASK,
+  ADD_SERVICE,
+  DELETE_SERVICE,
+  UPDATE_SERVICE,
 } from "./constants";
 
-export function* addTaskSaga(action: any): SagaIterator {
+export function* addServiceSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addServiceRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addTaskFailure(res.errors));
+      yield put(addServiceFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addServiceSuccess(res.data.Service));
     }
   } catch (error: any) {
-    yield put(addTaskFailure(error?.toString()));
+    yield put(addServiceFailure(error?.toString()));
   }
 }
 
-export function* updateTaskSaga(action: any): SagaIterator {
+export function* updateServiceSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updateServiceRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(updateTaskFailure(res.errors));
+      yield put(updateServiceFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updateServiceSuccess(res.data.Service));
     }
   } catch (error: any) {
-    yield put(updateTaskFailure(error?.toString()));
+    yield put(updateServiceFailure(error?.toString()));
   }
 }
 
-export function* deleteTaskSaga(action: any): SagaIterator {
+export function* deleteServiceSaga(action: any): SagaIterator {
   try {
-    const res = yield call(deleteTaskRequest, action.data);
+    const res = yield call(deleteServiceRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(deleteTaskFailure(res.errors));
+      yield put(deleteServiceFailure(res.errors));
     } else {
-      yield put(deleteTaskSuccess(res.data.task));
+      yield put(deleteServiceSuccess(res.data.Service));
     }
   } catch (error: any) {
-    yield put(deleteTaskFailure(error?.toString()));
+    yield put(deleteServiceFailure(error?.toString()));
   }
 }
 
-export function* taskSagas(): Generator {
-  yield takeEvery(ADD_TASK, addTaskSaga);
-  yield takeEvery(UPDATE_TASK, updateTaskSaga);
-  yield takeEvery(DELETE_TASK, deleteTaskSaga);
+export function* ServiceSagas(): Generator {
+  yield takeEvery(ADD_SERVICE, addServiceSaga);
+  yield takeEvery(UPDATE_SERVICE, updateServiceSaga);
+  yield takeEvery(DELETE_SERVICE, deleteServiceSaga);
 }

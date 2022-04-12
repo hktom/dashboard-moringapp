@@ -1,118 +1,118 @@
-import { IService, IServiceActions } from "./action";
+import { ICondition, IConditionActions } from "./action";
 import {
-  ADD_SERVICE,
-  ADD_SERVICE_SUCCESS,
-  ADD_SERVICE_FAILURE,
-  GET_SERVICE_LIST,
-  GET_SERVICE_LIST_SUCCESS,
-  GET_SERVICE_LIST_FAILURE,
-  UPDATE_SERVICE,
-  UPDATE_SERVICE_SUCCESS,
-  UPDATE_SERVICE_FAILURE,
-  DELETE_SERVICE,
-  DELETE_SERVICE_SUCCESS,
-  DELETE_SERVICE_FAILURE,
+  ADD_CONDITION,
+  ADD_CONDITION_SUCCESS,
+  ADD_CONDITION_FAILURE,
+  GET_CONDITION_LIST,
+  GET_CONDITION_LIST_SUCCESS,
+  GET_CONDITION_LIST_FAILURE,
+  UPDATE_CONDITION,
+  UPDATE_CONDITION_SUCCESS,
+  UPDATE_CONDITION_FAILURE,
+  DELETE_CONDITION,
+  DELETE_CONDITION_SUCCESS,
+  DELETE_CONDITION_FAILURE,
 } from "./constants";
 
-interface IServiceState {
-  serviceList: IService[];
-  serviceEdit: IService | undefined;
+interface IConditionState {
+  conditionList: ICondition[];
+  conditionEdit: ICondition | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
-export const initialState: IServiceState = {
-  serviceList: [],
-  serviceEdit: undefined,
+export const initialState: IConditionState = {
+  conditionList: [],
+  conditionEdit: undefined,
   error: undefined,
   isLoading: false,
   success: false,
 };
 
-export const serviceReducer = (
-  state: IServiceState = initialState,
-  action: IServiceActions
+export const conditionReducer = (
+  state: IConditionState = initialState,
+  action: IConditionActions
 ) => {
   switch (action.type) {
-    case ADD_SERVICE:
+    case ADD_CONDITION:
       return {
         ...state,
         isLoading: true,
       };
 
-    case ADD_SERVICE_SUCCESS:
+    case ADD_CONDITION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: action.data,
+        conditionEdit: action.data,
       };
 
-    case ADD_SERVICE_FAILURE:
+    case ADD_CONDITION_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case GET_SERVICE_LIST:
+    case GET_CONDITION_LIST:
       return {
         ...state,
         isLoading: true,
       };
 
-    case GET_SERVICE_LIST_SUCCESS:
+    case GET_CONDITION_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        serviceList: action.data,
+        conditionList: action.data,
       };
 
-    case GET_SERVICE_LIST_FAILURE:
+    case GET_CONDITION_LIST_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case UPDATE_SERVICE:
+    case UPDATE_CONDITION:  
       return {
         ...state,
         isLoading: true,
       };
 
-    case UPDATE_SERVICE_SUCCESS:
+    case UPDATE_CONDITION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: action.data,
+        conditionEdit: action.data,
       };
 
-    case UPDATE_SERVICE_FAILURE:
+    case UPDATE_CONDITION_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.error,
       };
 
-    case DELETE_SERVICE:
+    case DELETE_CONDITION:
       return {
         ...state,
         isLoading: true,
       };
 
-    case DELETE_SERVICE_SUCCESS:
+    case DELETE_CONDITION_SUCCESS:
       return {
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: undefined,
+        conditionEdit: undefined,
       };
 
-    case DELETE_SERVICE_FAILURE:
+    case DELETE_CONDITION_FAILURE:
       return {
         ...state,
         isLoading: false,
