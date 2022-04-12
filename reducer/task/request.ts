@@ -1,9 +1,11 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
 import { ITask } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
 export const addTaskRequest= (data: ITask) => {
   let req = `mutation{
         createTask(input:{
+            id: "${uuidv4()}",
             title:"${data.title}"
             description:"${data.description}"
             image:"${data.image}"

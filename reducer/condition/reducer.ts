@@ -14,7 +14,7 @@ import {
   DELETE_CONDITION_FAILURE,
 } from "./constants";
 
-interface IConditionState {
+export interface IConditionState {
   conditionList: ICondition[];
   conditionEdit: ICondition | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IConditionState = {
 export const conditionReducer = (
   state: IConditionState = initialState,
   action: IConditionActions
-) => {
+) :IConditionState=> {
   switch (action.type) {
     case ADD_CONDITION:
       return {
@@ -119,7 +119,6 @@ export const conditionReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

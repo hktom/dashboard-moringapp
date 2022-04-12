@@ -14,7 +14,7 @@ import {
   DELETE_JOB_FAILURE,
 } from "./constants";
 
-interface IJobState {
+export interface IJobState {
   jobList: IJob[];
   jobEdit: IJob | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IJobState = {
 export const jobReducer = (
   state: IJobState = initialState,
   action: IJobActions
-) => {
+): IJobState => {
   switch (action.type) {
     case ADD_JOB:
       return {
@@ -119,7 +119,6 @@ export const jobReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

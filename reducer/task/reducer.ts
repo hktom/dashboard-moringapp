@@ -14,7 +14,7 @@ import {
   DELETE_TASK_FAILURE,
 } from "./constants";
 
-interface ITaskState {
+export interface ITaskState {
   taskList: ITask[];
   taskEdit: ITask | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: ITaskState = {
 export const taskReducer = (
   state: ITaskState = initialState,
   action: ITaskActions
-) => {
+): ITaskState => {
   switch (action.type) {
     case ADD_TASK:
       return {
@@ -140,7 +140,6 @@ export const taskReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

@@ -14,7 +14,7 @@ import {
   DELETE_CITY_FAILURE,
 } from "./constants";
 
-interface ICityState {
+export interface ICityState {
   cityList: ICity[];
   cityEdit: ICity | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: ICityState = {
 export const cityReducer = (
   state: ICityState = initialState,
   action: ICityActions
-) => {
+): ICityState => {
   switch (action.type) {
     case ADD_CITY:
       return {
@@ -56,7 +56,6 @@ export const cityReducer = (
         error: action.error,
       };
 
-
     case GET_CITY_LIST:
       return {
         ...state,
@@ -78,7 +77,7 @@ export const cityReducer = (
         error: action.error,
       };
 
-    case UPDATE_CITY:  
+    case UPDATE_CITY:
       return {
         ...state,
         isLoading: true,
@@ -121,6 +120,6 @@ export const cityReducer = (
       };
 
     default:
-      break;
+      return { ...state };
   }
 };

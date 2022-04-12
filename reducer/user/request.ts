@@ -1,9 +1,11 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
 import { IUser } from "./action";
+import { v4 as uuidv4 } from "uuid";
 
 export const addUserRequest= (data: IUser) => {
   let req = `mutation{
         createUser(input:{
+            id: "${uuidv4()}",
             title:"${data.title}"
             description:"${data.description}"
             image:"${data.image}"

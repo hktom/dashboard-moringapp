@@ -14,7 +14,7 @@ import {
   DELETE_SERVICE_FAILURE,
 } from "./constants";
 
-interface IServiceState {
+export interface IServiceState {
   serviceList: IService[];
   serviceEdit: IService | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IServiceState = {
 export const serviceReducer = (
   state: IServiceState = initialState,
   action: IServiceActions
-) => {
+): IServiceState => {
   switch (action.type) {
     case ADD_SERVICE:
       return {
@@ -119,7 +119,6 @@ export const serviceReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

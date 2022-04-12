@@ -14,7 +14,7 @@ import {
   DELETE_ROLE_FAILURE,
 } from "./constants";
 
-interface IRoleState {
+export interface IRoleState {
   roleList: IRole[];
   roleEdit: IRole | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IRoleState = {
 export const roleReducer = (
   state: IRoleState = initialState,
   action: IRoleActions
-) => {
+): IRoleState => {
   switch (action.type) {
     case ADD_ROLE:
       return {
@@ -119,7 +119,6 @@ export const roleReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

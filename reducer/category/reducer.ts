@@ -14,7 +14,7 @@ import {
   DELETE_CATEGORY_FAILURE,
 } from "./constants";
 
-interface ICategoryState {
+export interface ICategoryState {
   categoryList: ICategory[];
   categoryEdit: ICategory | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: ICategoryState = {
 export const categoryReducer = (
   state: ICategoryState = initialState,
   action: ICategoryActions
-) => {
+): ICategoryState => {
   switch (action.type) {
     case ADD_CATEGORY:
       return {
@@ -77,7 +77,7 @@ export const categoryReducer = (
         error: action.error,
       };
 
-    case UPDATE_CATEGORY:  
+    case UPDATE_CATEGORY:
       return {
         ...state,
         isLoading: true,
@@ -120,6 +120,6 @@ export const categoryReducer = (
       };
 
     default:
-      break;
+      return { ...state };
   }
 };

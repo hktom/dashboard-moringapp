@@ -14,7 +14,7 @@ import {
   DELETE_PAYMENT_FAILURE,
 } from "./constants";
 
-interface IPaymentState {
+export interface IPaymentState {
   paymentList: IPayment[];
   paymentEdit: IPayment | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IPaymentState = {
 export const paymentReducer = (
   state: IPaymentState = initialState,
   action: IPaymentActions
-) => {
+) : IPaymentState=> {
   switch (action.type) {
     case ADD_PAYMENT:
       return {
@@ -140,7 +140,6 @@ export const paymentReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

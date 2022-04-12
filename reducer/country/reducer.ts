@@ -14,7 +14,7 @@ import {
   DELETE_COUNTRY_FAILURE,
 } from "./constants";
 
-interface ICountryState {
+export interface ICountryState {
   countryList: ICountry[];
   countryEdit: ICountry | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: ICountryState = {
 export const countryReducer = (
   state: ICountryState = initialState,
   action: ICountryActions
-) => {
+): ICountryState => {
   switch (action.type) {
     case ADD_COUNTRY:
       return {
@@ -140,7 +140,6 @@ export const countryReducer = (
         error: action.error,
       };
 
-    default:
-      break;
+    default: return {...state};
   }
 };

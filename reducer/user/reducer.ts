@@ -14,7 +14,7 @@ import {
   DELETE_USER_FAILURE,
 } from "./constants";
 
-interface IUserState {
+export interface IUserState {
   userList: IUser[];
   userEdit: IUser | undefined;
   error: string | undefined;
@@ -33,7 +33,7 @@ export const initialState: IUserState = {
 export const userReducer = (
   state: IUserState = initialState,
   action: IUserActions
-) => {
+): IUserState => {
   switch (action.type) {
     case ADD_USER:
       return {
@@ -120,6 +120,6 @@ export const userReducer = (
       };
 
     default:
-      break;
+      return { ...state };
   }
 };
