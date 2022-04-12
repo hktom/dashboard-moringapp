@@ -15,7 +15,7 @@ import {
 } from "./constants";
 
 export interface ICategory {
-  id: string;
+  id?: string;
   name: string;
   name_fr?: string;
   slug: string;
@@ -24,7 +24,7 @@ export interface ICategory {
   description: string;
   service?: any;
   condition?: any;
-  parent?: ICategory[];
+  parent?: any;
   tasks: any[];
   created_at?: any;
   update_at?: any;

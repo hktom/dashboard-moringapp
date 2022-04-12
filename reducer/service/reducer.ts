@@ -12,19 +12,22 @@ import {
   DELETE_SERVICE,
   DELETE_SERVICE_SUCCESS,
   DELETE_SERVICE_FAILURE,
+  GET_SERVICE_SUCCESS,
+  GET_SERVICE,
+  GET_SERVICE_FAILURE,
 } from "./constants";
 
 export interface IServiceState {
-  serviceList: IService[];
-  serviceEdit: IService | undefined;
+  list: IService[];
+  service: IService | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IServiceState = {
-  serviceList: [],
-  serviceEdit: undefined,
+  list: [],
+  service: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -39,6 +42,8 @@ export const serviceReducer = (
       return {
         ...state,
         isLoading: true,
+        error: undefined,
+        success: false,
       };
 
     case ADD_SERVICE_SUCCESS:
@@ -46,7 +51,7 @@ export const serviceReducer = (
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: action.data,
+        service: action.data,
       };
 
     case ADD_SERVICE_FAILURE:
@@ -60,14 +65,15 @@ export const serviceReducer = (
       return {
         ...state,
         isLoading: true,
+        error: undefined,
       };
 
     case GET_SERVICE_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        success: true,
-        serviceList: action.data,
+        // success: true,
+        list: action.data,
       };
 
     case GET_SERVICE_LIST_FAILURE:
@@ -77,10 +83,33 @@ export const serviceReducer = (
         error: action.error,
       };
 
-    case UPDATE_SERVICE:
+    case GET_SERVICE:
       return {
         ...state,
         isLoading: true,
+        error: undefined,
+      };
+
+    case GET_SERVICE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        service: action.data,
+      };
+
+    case GET_SERVICE_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.error,
+      };
+
+    case UPDATE_SERVICE:
+      return {
+        ...state,
+        error: undefined,
+        isLoading: true,
+        success: false,
       };
 
     case UPDATE_SERVICE_SUCCESS:
@@ -88,7 +117,8 @@ export const serviceReducer = (
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: action.data,
+        service: action.data,
+        error: undefined,
       };
 
     case UPDATE_SERVICE_FAILURE:
@@ -102,6 +132,7 @@ export const serviceReducer = (
       return {
         ...state,
         isLoading: true,
+        error: undefined,
       };
 
     case DELETE_SERVICE_SUCCESS:
@@ -109,7 +140,7 @@ export const serviceReducer = (
         ...state,
         isLoading: false,
         success: true,
-        serviceEdit: undefined,
+        service: undefined,
       };
 
     case DELETE_SERVICE_FAILURE:
@@ -119,6 +150,7 @@ export const serviceReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

@@ -1,6 +1,7 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
 import { IService } from "./action";
 import { v4 as uuidv4 } from "uuid";
+var slugify = require("slugify");
 
 export const addServiceRequest = (data: IService) => {
   let req = `mutation{
@@ -10,8 +11,8 @@ export const addServiceRequest = (data: IService) => {
             name_fr:"${data.name_fr}"
             description:"${data.description}"
             image:"${data.image}"
-            slug:${data.slug}
-            slug_fr:${data.slug_fr}
+            slug:"${slugify(`${data.name}`)}"
+            slug_fr:"${slugify(`${data.name_fr}`)}"
         }){
             id
             name
@@ -34,8 +35,8 @@ export const updateServiceRequest = (data: IService) => {
             name_fr:"${data.name_fr}"
             description:"${data.description}"
             image:"${data.image}"
-            slug:${data.slug}
-            slug_fr:${data.slug_fr}
+            slug:"${slugify(`${data.name}`)}"
+            slug_fr:"${slugify(`${data.name_fr}`)}"
           }){
             id
             name
@@ -55,6 +56,25 @@ export const getServiceListRequest = () => {
   let req = `
     {
         services{
+            id
+            name
+            name_fr
+            slug
+            slug_fr
+            description
+            image
+            created_at
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
+export const getServiceRequest = (id:string) => {
+  let req = `
+    {
+        service(id:"${id}"){
             id
             name
             name_fr

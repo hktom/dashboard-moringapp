@@ -14,3 +14,6 @@ export const DELETE_ROLE = "role/DELETE_ROLE";
 export const DELETE_ROLE_SUCCESS = "role/DELETE_ROLE_SUCCESS";
 export const DELETE_ROLE_FAILURE = "role/DELETE_ROLE_FAILURE";
 
+export const GET_ROLE = "role/GET_ROLE";
+export const GET_ROLE_SUCCESS = "role/GET_ROLE_SUCCESS";
+export const GET_ROLE_FAILURE = "role/GET_ROLE_FAILURE";

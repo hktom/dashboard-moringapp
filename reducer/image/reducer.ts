@@ -6,15 +6,15 @@ import {
 } from "./constants";
 
 export interface IImageState {
-  image: string;
-  error: string;
-  loading: boolean;
+  image: string | undefined;
+  error: string | undefined;
+  loading: boolean | undefined;
 }
 
 export const initialState: IImageState = {
-  image: "",
-  error: "",
-  loading: false,
+  image: undefined,
+  error: undefined,
+  loading: undefined,
 };
 
 export const imageReducer = (
@@ -25,6 +25,7 @@ export const imageReducer = (
     case UPLOAD_IMAGE:
       return {
         ...state,
+        image: undefined,
         loading: true,
       };
     case UPLOAD_IMAGE_SUCCESS:
@@ -36,7 +37,7 @@ export const imageReducer = (
     case UPLOAD_IMAGE_FAILURE:
       return {
         ...state,
-        image: "",
+        image: undefined,
         error: action.error,
         loading: false,
       };

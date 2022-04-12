@@ -14,3 +14,6 @@ export const DELETE_COUNTRY = "country/DELETE_COUNTRY";
 export const DELETE_COUNTRY_SUCCESS = "country/DELETE_COUNTRY_SUCCESS";
 export const DELETE_COUNTRY_FAILURE = "country/DELETE_COUNTRY_FAILURE";
 
+export const GET_COUNTRY = "country/GET_COUNTRY";
+export const GET_COUNTRY_SUCCESS = "country/GET_COUNTRY_SUCCESS";
+export const GET_COUNTRY_FAILURE = "country/GET_COUNTRY_FAILURE";

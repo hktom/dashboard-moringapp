@@ -14,3 +14,6 @@ export const DELETE_CATEGORY = "category/DELETE_CATEGORY";
 export const DELETE_CATEGORY_SUCCESS = "category/DELETE_CATEGORY_SUCCESS";
 export const DELETE_CATEGORY_FAILURE = "category/DELETE_CATEGORY_FAILURE";
 
+export const GET_CATEGORY = "category/GET_CATEGORY";
+export const GET_CATEGORY_SUCCESS = "category/GET_CATEGORY_SUCCESS";
+export const GET_CATEGORY_FAILURE = "category/GET_CATEGORY_FAILURE";

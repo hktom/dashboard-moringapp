@@ -14,3 +14,7 @@ export const DELETE_SERVICE = "service/DELETE_SERVICE";
 export const DELETE_SERVICE_SUCCESS = "service/DELETE_SERVICE_SUCCESS";
 export const DELETE_SERVICE_FAILURE = "service/DELETE_SERVICE_FAILURE";
 
+export const GET_SERVICE = "service/GET_SERVICE";
+export const GET_SERVICE_SUCCESS = "service/GET_SERVICE_SUCCESS";
+export const GET_SERVICE_FAILURE = "service/GET_SERVICE_FAILURE";
+

@@ -14,3 +14,6 @@ export const DELETE_PAYMENT = "payment/DELETE_PAYMENT";
 export const DELETE_PAYMENT_SUCCESS = "payment/DELETE_PAYMENT_SUCCESS";
 export const DELETE_PAYMENT_FAILURE = "payment/DELETE_PAYMENT_FAILURE";
 
+export const GET_PAYMENT = "payment/GET_PAYMENT";
+export const GET_PAYMENT_SUCCESS = "payment/GET_PAYMENT_SUCCESS";
+export const GET_PAYMENT_FAILURE = "payment/GET_PAYMENT_FAILURE";

@@ -14,3 +14,6 @@ export const DELETE_USER = "user/DELETE_USER";
 export const DELETE_USER_SUCCESS = "user/DELETE_USER_SUCCESS";
 export const DELETE_USER_FAILURE = "user/DELETE_USER_FAILURE";
 
+export const GET_USER = "user/GET_USER";
+export const GET_USER_SUCCESS = "user/GET_USER_SUCCESS";
+export const GET_USER_FAILURE = "user/GET_USER_FAILURE";

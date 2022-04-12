@@ -14,3 +14,6 @@ export const DELETE_CITY = "city/DELETE_CITY";
 export const DELETE_CITY_SUCCESS = "city/DELETE_CITY_SUCCESS";
 export const DELETE_CITY_FAILURE = "city/DELETE_CITY_FAILURE";
 
+export const GET_CITY = "city/GET_CITY";
+export const GET_CITY_SUCCESS = "city/GET_CITY_SUCCESS";
+export const GET_CITY_FAILURE = "city/GET_CITY_FAILURE";

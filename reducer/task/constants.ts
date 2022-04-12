@@ -14,3 +14,6 @@ export const DELETE_TASK = "task/DELETE_TASK";
 export const DELETE_TASK_SUCCESS = "task/DELETE_TASK_SUCCESS";
 export const DELETE_TASK_FAILURE = "task/DELETE_TASK_FAILURE";
 
+export const GET_TASK = "task/GET_TASK";
+export const GET_TASK_SUCCESS = "task/GET_TASK_SUCCESS";
+export const GET_TASK_FAILURE = "task/GET_TASK_FAILURE";

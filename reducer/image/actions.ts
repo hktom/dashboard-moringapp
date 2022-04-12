@@ -26,10 +26,12 @@ export const uploadImageSuccess = (data: string): IUploadImageSuccess => ({
 
 export interface IUploadImageFailure
   extends Action<"image/UPLOAD_IMAGE_FAILURE"> {
-  error: string;
+  error: string | undefined;
 }
 
-export const uploadImageFailure = (error: string): IUploadImageFailure => ({
+export const uploadImageFailure = (
+  error: string | undefined
+): IUploadImageFailure => ({
   type: UPLOAD_IMAGE_FAILURE,
   error,
 });

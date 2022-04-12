@@ -23,14 +23,13 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { ITask } from "../../../reducer/task/action";
 import { ICategory } from "../../../reducer/category/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { ITaskState } from "../../../reducer/task/reducer";
+import { ICategoryState } from "../../../reducer/category/reducer";
 
-function CreateTask() {
+function CreateCategory() {
   const [age, setAge] = React.useState("");
   const [category, setCategory] = React.useState("");
   const [categoryList, setCategoryList] = React.useState<ICategory[]>([]);
@@ -40,14 +39,16 @@ function CreateTask() {
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
 
-  const taskState = useSelector((state: IRootState): ITaskState => state.task);
+  const categoryState = useSelector(
+    (state: IRootState): ICategoryState => state.category
+  );
 
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<ITask>();
+  } = useForm<ICategory>();
 
   const onSubmit = (data: any) => {
     // dispatch(loginUser(data!));
@@ -70,7 +71,7 @@ function CreateTask() {
       <Grid container>
         <Grid item xs={12} md={10} sx={{ mx: "auto", my: 4 }}>
           <Typography variant="h3" component="h1" sx={{ fontWeight: "bold" }}>
-            Create a new task
+            Create a new category
           </Typography>
 
           <Breadcrumbs aria-label="breadcrumb">
@@ -82,7 +83,7 @@ function CreateTask() {
               color="inherit"
               href="/material-ui/getting-started/installation/"
             >
-              Task
+              category
             </Link>
             {/* <Typography color="text.primary">Breadcrumbs</Typography> */}
           </Breadcrumbs>
@@ -92,13 +93,13 @@ function CreateTask() {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {taskState.error && (
+            {categoryState.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {taskState.error}
+                {categoryState.error}
               </Alert>
             )}
 
-            {taskState.success && (
+            {categoryState.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -118,12 +119,22 @@ function CreateTask() {
                 <Grid item xs={12} md={8}>
                   <TextField
                     id="name"
-                    label="Name"
+                    label="Name EN"
                     variant="outlined"
                     fullWidth
                     color="info"
                     sx={{ my: 1 }}
                     {...register("name", { required: true })}
+                  />
+
+                  <TextField
+                    id="name"
+                    label="Name FR"
+                    variant="outlined"
+                    fullWidth
+                    color="info"
+                    sx={{ my: 1 }}
+                    {...register("name_fr", { required: true })}
                   />
 
                   <TextField
@@ -169,49 +180,14 @@ function CreateTask() {
                     component="h2"
                     sx={{ fontWeight: "bold" }}
                   >
-                    Options
+                    Active category
+                  </Typography>
+
+                  <Typography variant="body2" component="p">
+                    only active category will be displayed on website
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          color="info"
-                          value={can_be_urgent}
-                          onChange={() => setCanBeUrgent(!can_be_urgent)}
-                        />
-                      }
-                      label="Can be urgent"
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          color="info"
-                          value={can_be_booked}
-                          onChange={() => setCanBeBooked(!can_be_booked)}
-                        />
-                      }
-                      label="Can be booked"
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          color="info"
-                          value={accept_offer}
-                          onChange={() => setAcceptOffer(!accept_offer)}
-                        />
-                      }
-                      label="Can accept offer"
-                    />
-                  </FormControl>
-
                   <FormControl fullWidth sx={{ my: 1 }}>
                     <FormControlLabel
                       control={
@@ -222,34 +198,6 @@ function CreateTask() {
                         />
                       }
                       label="Active"
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <InputLabel htmlFor="outlined-adornment-amount">
-                      Price
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-amount"
-                      startAdornment={
-                        <InputAdornment position="start">$</InputAdornment>
-                      }
-                      label="Price"
-                      {...register("price_by_hour", { required: true })}
-                    />
-                  </FormControl>
-
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <InputLabel htmlFor="outlined-adornment-amount">
-                      Min Price
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-amount"
-                      startAdornment={
-                        <InputAdornment position="start">$</InputAdornment>
-                      }
-                      label="Min Price"
-                      {...register("min_price", { required: false })}
                     />
                   </FormControl>
                 </Grid>
@@ -325,4 +273,4 @@ function CreateTask() {
   );
 }
 
-export default CreateTask;
+export default CreateCategory;

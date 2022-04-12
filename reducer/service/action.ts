@@ -12,6 +12,9 @@ import {
   DELETE_SERVICE,
   DELETE_SERVICE_SUCCESS,
   DELETE_SERVICE_FAILURE,
+  GET_SERVICE,
+  GET_SERVICE_SUCCESS,
+  GET_SERVICE_FAILURE,
 } from "./constants";
 
 export interface IService {
@@ -142,6 +145,35 @@ export const deleteServiceFailure = (error: string): IDeleteServiceFailure => ({
   error,
 });
 
+export interface IGetService extends Action<"service/GET_SERVICE"> {
+  data: string;
+}
+
+export const getService = (data: string): IGetService => ({
+  type: GET_SERVICE,
+  data,
+});
+
+export interface IGetServiceSuccess
+  extends Action<"service/GET_SERVICE_SUCCESS"> {
+  data: IService;
+}
+
+export const getServiceSuccess = (data: IService): IGetServiceSuccess => ({
+  type: GET_SERVICE_SUCCESS,
+  data,
+});
+
+export interface IGetServiceFailure
+  extends Action<"service/GET_SERVICE_FAILURE"> {
+  error: string;
+}
+
+export const getServiceFailure = (error: string): IGetServiceFailure => ({
+  type: GET_SERVICE_FAILURE,
+  error,
+});
+
 export type IServiceActions =
   | IAddService
   | IAddServiceSuccess
@@ -154,4 +186,7 @@ export type IServiceActions =
   | IUpdateServiceFailure
   | IDeleteService
   | IDeleteServiceSuccess
-  | IDeleteServiceFailure;
+  | IDeleteServiceFailure
+  | IGetService
+  | IGetServiceSuccess
+  | IGetServiceFailure;

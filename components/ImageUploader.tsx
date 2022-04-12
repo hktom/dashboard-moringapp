@@ -1,4 +1,10 @@
-import { Box, Button, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardMedia,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,8 +14,8 @@ import { uploadImage, uploadImageFailure } from "../reducer/image/actions";
 import { IImageState } from "../reducer/image/reducer";
 
 interface IProps {
-  setImageField: (image: string) => void;
-  image: string;
+  setImageField: (image: string | undefined) => void;
+  image: string | undefined;
 }
 
 function ImageUploader(props: IProps) {
@@ -30,8 +36,8 @@ function ImageUploader(props: IProps) {
   };
 
   const removeImage = () => {
-    dispatch(uploadImageFailure("remove image"));
-    // setImageField("");
+    setImageField(undefined);
+    dispatch(uploadImageFailure(undefined));
   };
 
   const fileInputClicked = () => {
@@ -41,10 +47,6 @@ function ImageUploader(props: IProps) {
   React.useEffect(() => {
     if (imageState.image && !image) {
       setImageField(imageState.image);
-    }
-
-    if (!imageState.image) {
-      setImageField("");
     }
   }, [imageState, setImageField, image]);
 
@@ -77,22 +79,25 @@ function ImageUploader(props: IProps) {
           </Button>
         </Box>
       ) : (
-        <Box
-          onClick={fileInputClicked}
-          sx={{
-            display: "flex",
-            cursor: "pointer",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "200px",
-            border: `2px dashed ${grey[200]}`,
-            backgroundColor: grey[100],
-          }}
-        >
-          <Typography variant="body1" component="p">
-            Upload image
-          </Typography>
-        </Box>
+        <>
+          <Box
+            onClick={fileInputClicked}
+            sx={{
+              display: "flex",
+              cursor: "pointer",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "200px",
+              border: `2px dashed ${grey[200]}`,
+              backgroundColor: grey[100],
+            }}
+          >
+            <Typography variant="body1" component="p">
+              Upload image
+            </Typography>
+          </Box>
+          {imageState.loading && <LinearProgress color="info" />}
+        </>
       )}
       <input
         ref={fileInputRef}

@@ -14,3 +14,6 @@ export const DELETE_JOB = "job/DELETE_JOB";
 export const DELETE_JOB_SUCCESS = "job/DELETE_JOB_SUCCESS";
 export const DELETE_JOB_FAILURE = "job/DELETE_JOB_FAILURE";
 
+export const GET_JOB = "job/GET_JOB";
+export const GET_JOB_SUCCESS = "job/GET_JOB_SUCCESS";
+export const GET_JOB_FAILURE = "job/GET_JOB_FAILURE";
