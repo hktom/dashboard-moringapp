@@ -110,7 +110,7 @@ export const getCategoryListRequest = () => {
             }
             tasks{
                 id
-                title
+                name
                 image
             }
             parent{
@@ -147,7 +147,7 @@ export const getCategoryRequest = (id: string) => {
               }
               tasks{
                   id
-                  title
+                  name
                   image
               }
               parent{

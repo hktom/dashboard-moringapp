@@ -25,46 +25,111 @@ import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import { ICategory } from "../../../reducer/category/action";
 import ImageUploader from "../../../components/ImageUploader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
 import { ICategoryState } from "../../../reducer/category/reducer";
+import {
+  addCategory,
+  getCategory,
+  updateCategory,
+} from "../../../reducer/category/action";
+import { uploadImageFailure } from "../../../reducer/image/actions";
+import {
+  getConditionList,
+  ICondition,
+} from "../../../reducer/condition/action";
+import { IConditionState } from "../../../reducer/condition/reducer";
 
-function CreateCategory() {
-  const [age, setAge] = React.useState("");
-  const [category, setCategory] = React.useState("");
-  const [categoryList, setCategoryList] = React.useState<ICategory[]>([]);
-  const [can_be_booked, setCanBeBooked] = React.useState<boolean>(false);
-  const [can_be_urgent, setCanBeUrgent] = React.useState<boolean>(false);
-  const [accept_offer, setAcceptOffer] = React.useState<boolean>(false);
+interface IProps {
+  pid?: string;
+}
+
+function CreateCategory(props: IProps) {
+  const { pid } = props;
+
+  // const [condition, setCondition] = React.useState<string | null>(null);
+  // const [category, setCategory] = React.useState<string>("");
+  // const [categoryList, setCategoryList] = React.useState<
+  //   ICategory[] | undefined
+  // >([]);
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
 
-  const categoryState = useSelector(
+  const state = useSelector(
     (state: IRootState): ICategoryState => state.category
   );
+
+  const conditionState = useSelector(
+    (state: IRootState): IConditionState => state.condition
+  );
+
+  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     watch,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<ICategory>();
 
+  // const onSubmit = (data: any) => {
+  //   // dispatch(loginUser(data!));
+  //   console.log(
+  //     data,
+  //     +can_be_booked,
+  //     +can_be_urgent,
+  //     +accept_offer,
+  //     +active,
+  //     image
+  //   );
+  // };
+
+  // const handleChangeCategory = (event: SelectChangeEvent) => {
+  //   setCategory(event.target.value as string);
+  // };
+
   const onSubmit = (data: any) => {
-    // dispatch(loginUser(data!));
-    console.log(
-      data,
-      +can_be_booked,
-      +can_be_urgent,
-      +accept_offer,
-      +active,
-      image
-    );
+    if (pid) {
+      dispatch(updateCategory({ ...data, id: pid }));
+    } else {
+      dispatch(addCategory(data));
+    }
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
+  React.useEffect(() => {
+    // if (!conditionState.list) {
+    //   dispatch(getConditionList());
+    // } else {
+    //   setCategoryList(state.list);
+    // }
+
+    if (state.success) {
+      setImage(undefined);
+      dispatch(uploadImageFailure(undefined));
+      // reset({ data: {} });
+    }
+
+    if (pid) {
+      dispatch(getCategory(pid));
+    }
+
+    if (state.category && pid) {
+      setValue("name", state.category.name);
+      setValue("name_fr", state.category.name_fr);
+      setValue("description", state.category.description);
+    }
+  }, [
+    dispatch,
+    reset,
+    state.success,
+    setValue,
+    pid,
+    state.category,
+    conditionState.list,
+    state.list,
+  ]);
 
   return (
     <Layout>
@@ -93,13 +158,13 @@ function CreateCategory() {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {categoryState.error && (
+            {state.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {categoryState.error}
+                {state.error}
               </Alert>
             )}
 
-            {categoryState.success && (
+            {state.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -204,7 +269,7 @@ function CreateCategory() {
               </Grid>
             </Paper>
 
-            <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
+            {/* <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
               <Grid container>
                 <Grid item xs={12} md={4}>
                   <Typography
@@ -217,22 +282,26 @@ function CreateCategory() {
                 </Grid>
                 <Grid item xs={12} md={8}>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="demo-simple-select-label">
+                      Category
+                    </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={age}
-                      label="Age"
-                      onChange={handleChange}
+                      value={category}
+                      label="Category"
+                      onChange={handleChangeCategory}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {categoryList?.map((item: ICategory) => (
+                        <MenuItem value={item.id} key={item.id}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
               </Grid>
-            </Paper>
+            </Paper> */}
 
             <Grid container sx={{ mt: 4 }}>
               <Grid item xs={12} md={8}>

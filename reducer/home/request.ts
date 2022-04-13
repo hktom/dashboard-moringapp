@@ -1,29 +1,46 @@
 import { queryMethods } from "../../config/apollo";
 
-export const getUserProfileRequest = () => {
-  const request = `{
-      me{
+export const queryMe = `
+me{
+    id
+    first_name
+    last_name
+    email
+    gender
+    avatar
+    birth_year
+    street
+    mobile
+    certificate
+    bio
+    zip_code
+    url
+    role{
+        id
+        name
+    }
+    condition{
+        id
+        name
+    }
+    city{
+        id
+        name
+        country{
+            id
+            name
+        }
+    }
+    jobs{
           id
-          first_name
-          last_name
-          email
-          gender
-          avatar
-          birth_year
+          is_completed
+          price_by_hour
+          total_hours
           street
-          mobile
-          certificate
-          bio
-          zip_code
-          url
-          role{
-              id
-              name
-          }
-          condition{
-              id
-              name
-          }
+          description
+          the_date
+          the_time
+          payment_due_date
           city{
               id
               name
@@ -32,78 +49,115 @@ export const getUserProfileRequest = () => {
                   name
               }
           }
-          jobs{
+          condition{
+              id
+              name
+          }
+      }
+    tasks{
+        id
+        name
+        description
+        image
+        can_be_booked
+        can_be_urgent
+        accept_offer
+        min_price
+        created_at
+        jobs{
+            id
+            is_completed
+            price_by_hour
+            total_hours
+            street
+            description
+            the_date
+            the_time
+            payment_due_date
+            city{
                 id
-                is_completed
-                price_by_hour
-                total_hours
-                street
-                description
-                the_date
-                the_time
-                payment_due_date
-                city{
-                    id
-                    name
-                    country{
-                        id
-                        name
-                    }
-                }
-                condition{
+                name
+                country{
                     id
                     name
                 }
             }
-          tasks{
-              id
-              name
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              created_at
-              jobs{
-                  id
-                  is_completed
-                  price_by_hour
-                  total_hours
-                  street
-                  description
-                  the_date
-                  the_time
-                  payment_due_date
-                  city{
-                      id
-                      name
-                      country{
-                          id
-                          name
-                      }
-                  }
-                  condition{
-                      id
-                      name
-                  }
-              }
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-          }
-          created_at
-          updated_at
+            condition{
+                id
+                name
+            }
+        }
+        category{
+            id
+            name
+        }
+        condition{
+            id
+            name
+        }
+    }
+    created_at
+    updated_at
 
 
-      }
+}
+`;
+
+export const getUserProfileRequest = () => {
+  const request = `{
+      me:${queryMe}
+      roles:roles{
+        id
+        name
+        value
+    }
+    services:services{
+        id
+        name
+        name_fr
+        condition{
+            id
+            value
+        }
+    }
+    categories:categories{
+        id
+        name
+        name_fr
+        condition{
+            id
+            value
+        }
+    }
+    cities:cities{
+        id
+        name
+        name_fr
+        country{
+            id
+            name
+            name_fr
+        }
+    }
+    conditions:conditions{
+        id
+        name
+        name_fr
+        value
+    }
+    countries:countries{
+        id
+        name
+        name_fr
+    }
+    services:services{
+        id
+        name
+        name_fr
+        image
+    }
   }`;
 
-//   console.log(request);
+  //   console.log(request);
   return queryMethods(request);
 };

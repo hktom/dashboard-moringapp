@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addCategoryRequest,
   deleteCategoryRequest,
+  getCategoryListRequest,
+  getCategoryRequest,
   updateCategoryRequest,
 } from "./request";
 import {
@@ -29,7 +31,7 @@ import {
 
 export function* getCategoryListSaga(): SagaIterator {
   try {
-    const res = yield call(getCategoryList);
+    const res = yield call(getCategoryListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCategoryListFailure(res.data?.errors || res.errors));
     } else {
@@ -42,7 +44,7 @@ export function* getCategoryListSaga(): SagaIterator {
 
 export function* getCategorySaga(action: any): SagaIterator {
   try {
-    const res = yield call(getCategory, action.data);
+    const res = yield call(getCategoryRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCategoryFailure(res.data?.errors || res.errors));
     } else {

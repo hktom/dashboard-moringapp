@@ -18,56 +18,56 @@ import {
   GridValueGetterParams,
   GridRenderCellParams,
   DataGrid,
+  GridRowParams,
+  MuiEvent,
 } from "@mui/x-data-grid";
 
 import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../../config/reducer";
+import { getCategoryList } from "../../../reducer/category/action";
+import { ICategoryState } from "../../../reducer/category/reducer";
+import { HOST_URL } from "../../../config/apollo";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
+  { field: "name", headerName: "Name EN", width: 200 },
+  { field: "name_fr", headerName: "Name FR", width: 200 },
   {
     field: "image",
-    flex: 1,
+    width: 200,
     headerName: "Image",
     renderCell: (params: GridRenderCellParams<string>) => (
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
-          height="80px"
-          image={params.value}
+          height="150px"
+          image={`${HOST_URL}${params.value}`}
           alt="green iguana"
         />
       </Box>
     ),
   },
-  { field: "firstName", headerName: "First name", flex: 1 },
-  { field: "lastName", headerName: "Last name", flex: 1 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    flex: 1,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    flex: 1,
+    field: "service",
+    headerName: "Service",
+    width: 200,
     sortable: false,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+      `${params.row.service?.name || ""}`,
   },
   {
-    field: "status",
-    flex: 1,
+    field: "condition",
+    width: 200,
     headerName: "Status",
-    renderCell: (params: GridRenderCellParams<string>) => (
+    renderCell: (params: GridRenderCellParams<any>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Chip
           size="small"
-          label={params.value}
+          label={params.value?.condition?.name}
           color="success"
           sx={{
             color: "secondary.main",
@@ -81,82 +81,19 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    image: "https://picsum.photos/536/354",
-    lastName: "Snow",
-    firstName: "Jon",
-    age: 35,
-    status: "completed",
-  },
-  {
-    id: 2,
-    image: "https://picsum.photos/536/354",
-    lastName: "Lannister",
-    firstName: "Cersei",
-    age: 42,
-    status: "completed",
-  },
-  {
-    id: 3,
-    image: "https://picsum.photos/536/354",
-    lastName: "Lannister",
-    firstName: "Jaime",
-    age: 45,
-    status: "completed",
-  },
-  {
-    id: 4,
-    image: "https://picsum.photos/536/354",
-    lastName: "Stark",
-    firstName: "Arya",
-    age: 16,
-    status: "completed",
-  },
-  {
-    id: 5,
-    image: "https://picsum.photos/536/354",
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    status: "completed",
-  },
-  {
-    id: 6,
-    image: "https://picsum.photos/536/354",
-    lastName: "Melisandre",
-    firstName: null,
-    age: 150,
-    status: "completed",
-  },
-  {
-    id: 7,
-    image: "https://picsum.photos/536/354",
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    age: 44,
-    status: "completed",
-  },
-  {
-    id: 8,
-    image: "https://picsum.photos/536/354",
-    lastName: "Frances",
-    firstName: "Rossini",
-    age: 36,
-    status: "completed",
-  },
-  {
-    id: 9,
-    image: "https://picsum.photos/536/354",
-    lastName: "Roxie",
-    firstName: "Harvey",
-    age: 65,
-    status: "completed",
-  },
-];
-
 function Category() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const CategoryState = useSelector(
+    (state: IRootState): ICategoryState => state.category
+  );
+
+  React.useEffect(() => {
+    if (!CategoryState.list) {
+      dispatch(getCategoryList());
+    }
+  }, [dispatch, CategoryState]);
+
   return (
     <>
       <Layout>
@@ -172,6 +109,7 @@ function Category() {
               </Typography>
 
               <Button
+                onClick={() => router.push("/page/category/create")}
                 variant="contained"
                 size="small"
                 color="info"
@@ -200,10 +138,17 @@ function Category() {
                     <DataGrid
                       sx={{ border: "none" }}
                       rowHeight={100}
-                      rows={rows}
+                      rows={CategoryState.list || []}
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}
+                      onRowClick={(
+                        params: GridRowParams,
+                        event: MuiEvent<React.MouseEvent>
+                      ) => {
+                        router.push("/page/category/edit/" + params.id);
+                        console.log("params", params);
+                      }}
                     />
                   </div>
                 </div>

@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface ICategoryState {
-  list: ICategory[];
+  list: ICategory[] | undefined;
   category: ICategory | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface ICategoryState {
 }
 
 export const initialState: ICategoryState = {
-  list: [],
+  list: undefined,
   category: undefined,
   error: undefined,
   isLoading: false,
@@ -63,26 +63,26 @@ export const categoryReducer = (
           category: action.data,
         };
 
-    case GET_CATEGORY_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_CATEGORY_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_CATEGORY_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 
-    case GET_CATEGORY_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_CATEGORY_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case UPDATE_CATEGORY:
       return {
