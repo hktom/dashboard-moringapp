@@ -12,6 +12,9 @@ import {
   DELETE_USER,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILURE,
+  GET_USER,
+  GET_USER_FAILURE,
+  GET_USER_SUCCESS,
 } from "./constants";
 
 export interface IUser {
@@ -68,9 +71,7 @@ export interface IGetUserListSuccess
   data: IUser[];
 }
 
-export const getUserListSuccess = (
-  data: IUser[]
-): IGetUserListSuccess => ({
+export const getUserListSuccess = (data: IUser[]): IGetUserListSuccess => ({
   type: GET_USER_LIST_SUCCESS,
   data,
 });
@@ -93,8 +94,7 @@ export const updateUser = (data: IUser): IUpdateUsers => ({
   data,
 });
 
-export interface IUpdateUserSuccess
-  extends Action<"user/UPDATE_USER_SUCCESS"> {
+export interface IUpdateUserSuccess extends Action<"user/UPDATE_USER_SUCCESS"> {
   data: IUser;
 }
 
@@ -103,8 +103,7 @@ export const updateUserSuccess = (data: IUser): IUpdateUserSuccess => ({
   data,
 });
 
-export interface IUpdateUserFailure
-  extends Action<"user/UPDATE_USER_FAILURE"> {
+export interface IUpdateUserFailure extends Action<"user/UPDATE_USER_FAILURE"> {
   error: string;
 }
 
@@ -139,6 +138,33 @@ export const deleteUserFailure = (error: string): IDeleteUserFailure => ({
   error,
 });
 
+export interface IGetUser extends Action<"user/GET_USER"> {
+  data: string;
+}
+
+export const getUser = (data: string): IGetUser => ({
+  type: GET_USER,
+  data,
+});
+
+export interface IGetUserSuccess extends Action<"user/GET_USER_SUCCESS"> {
+  data: IUser;
+}
+
+export const getUserSuccess = (data: IUser): IGetUserSuccess => ({
+  type: GET_USER_SUCCESS,
+  data,
+});
+
+export interface IGetUserFailure extends Action<"user/GET_USER_FAILURE"> {
+  error: string;
+}
+
+export const getUserFailure = (error: string): IGetUserFailure => ({
+  type: GET_USER_FAILURE,
+  error,
+});
+
 export type IUserActions =
   | IAddUser
   | IAddUserSuccess
@@ -151,4 +177,7 @@ export type IUserActions =
   | IUpdateUserFailure
   | IDeleteUser
   | IDeleteUserSuccess
-  | IDeleteUserFailure;
+  | IDeleteUserFailure
+  | IGetUser
+  | IGetUserSuccess
+  | IGetUserFailure;

@@ -12,6 +12,9 @@ import {
   DELETE_CATEGORY,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_FAILURE,
+  GET_CATEGORY,
+  GET_CATEGORY_FAILURE,
+  GET_CATEGORY_SUCCESS,
 } from "./constants";
 
 export interface ICategory {
@@ -39,7 +42,8 @@ export const addCategory = (data: ICategory): IAddCategory => ({
   data,
 });
 
-export interface IAddCategorySuccess extends Action<"category/ADD_CATEGORY_SUCCESS"> {
+export interface IAddCategorySuccess
+  extends Action<"category/ADD_CATEGORY_SUCCESS"> {
   data: ICategory;
 }
 
@@ -48,7 +52,8 @@ export const addCategorySuccess = (data: ICategory): IAddCategorySuccess => ({
   data,
 });
 
-export interface IAddCategoryFailure extends Action<"category/ADD_CATEGORY_FAILURE"> {
+export interface IAddCategoryFailure
+  extends Action<"category/ADD_CATEGORY_FAILURE"> {
   error: string;
 }
 
@@ -57,7 +62,8 @@ export const addCategoryFailure = (error: string): IAddCategoryFailure => ({
   error,
 });
 
-export interface IGetCategoryList extends Action<"category/GET_CATEGORY_LIST"> {}
+export interface IGetCategoryList
+  extends Action<"category/GET_CATEGORY_LIST"> {}
 export const getCategoryList = (): IGetCategoryList => ({
   type: GET_CATEGORY_LIST,
 });
@@ -79,7 +85,9 @@ export interface IGetCategoryListFailure
   error: string;
 }
 
-export const getCategoryListFailure = (error: string): IGetCategoryListFailure => ({
+export const getCategoryListFailure = (
+  error: string
+): IGetCategoryListFailure => ({
   type: GET_CATEGORY_LIST_FAILURE,
   error,
 });
@@ -97,7 +105,9 @@ export interface IUpdateCategorySuccess
   data: ICategory;
 }
 
-export const updateCategorySuccess = (data: ICategory): IUpdateCategorySuccess => ({
+export const updateCategorySuccess = (
+  data: ICategory
+): IUpdateCategorySuccess => ({
   type: UPDATE_CATEGORY_SUCCESS,
   data,
 });
@@ -107,7 +117,9 @@ export interface IUpdateCategoryFailure
   error: string;
 }
 
-export const updateCategoryFailure = (error: string): IUpdateCategoryFailure => ({
+export const updateCategoryFailure = (
+  error: string
+): IUpdateCategoryFailure => ({
   type: UPDATE_CATEGORY_FAILURE,
   error,
 });
@@ -120,7 +132,8 @@ export const deleteCategory = (id: string): IDeleteCategory => ({
   id,
 });
 
-export interface IDeleteCategorySuccess extends Action<"category/DELETE_CATEGORY_SUCCESS"> {
+export interface IDeleteCategorySuccess
+  extends Action<"category/DELETE_CATEGORY_SUCCESS"> {
   id: string;
 }
 
@@ -129,12 +142,44 @@ export const deleteCategorySuccess = (id: string): IDeleteCategorySuccess => ({
   id,
 });
 
-export interface IDeleteCategoryFailure extends Action<"category/DELETE_CATEGORY_FAILURE"> {
+export interface IDeleteCategoryFailure
+  extends Action<"category/DELETE_CATEGORY_FAILURE"> {
   error: string;
 }
 
-export const deleteCategoryFailure = (error: string): IDeleteCategoryFailure => ({
+export const deleteCategoryFailure = (
+  error: string
+): IDeleteCategoryFailure => ({
   type: DELETE_CATEGORY_FAILURE,
+  error,
+});
+
+export interface IGetCategory extends Action<"category/GET_CATEGORY"> {
+  data: string;
+}
+
+export const getCategory = (data: string): IGetCategory => ({
+  type: GET_CATEGORY,
+  data,
+});
+
+export interface IGetCategorySuccess
+  extends Action<"category/GET_CATEGORY_SUCCESS"> {
+  data: ICategory;
+}
+
+export const getCategorySuccess = (data: ICategory): IGetCategorySuccess => ({
+  type: GET_CATEGORY_SUCCESS,
+  data,
+});
+
+export interface IGetCategoryFailure
+  extends Action<"category/GET_CATEGORY_FAILURE"> {
+  error: string;
+}
+
+export const getCategoryFailure = (error: string): IGetCategoryFailure => ({
+  type: GET_CATEGORY_FAILURE,
   error,
 });
 
@@ -150,4 +195,7 @@ export type ICategoryActions =
   | IUpdateCategoryFailure
   | IDeleteCategory
   | IDeleteCategorySuccess
-  | IDeleteCategoryFailure;
+  | IDeleteCategoryFailure
+  | IGetCategory
+  | IGetCategorySuccess
+  | IGetCategoryFailure;

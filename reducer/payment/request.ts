@@ -78,6 +78,28 @@ export const getPaymentListRequest = () => {
   return queryMethods(req);
 };
 
+export const getPaymentRequest = (id: string) => {
+  let req = `
+    {
+        Payment(id:"${id}"){
+            id
+            user{
+                id
+                email
+            }
+            job{
+                id
+            }
+            token
+            is_completed
+            gateway
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
 export const deletePaymentRequest = (data: IPayment) => {
   let req = `mutation{
             deletePayment(id:"${data.id}"){

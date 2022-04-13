@@ -64,6 +64,25 @@ export const getCityListRequest = () => {
   return queryMethods(req);
 };
 
+export const getCityRequest = (id:string) => {
+  let req = `
+    {
+        city(id:"${id}"){
+            id
+            name
+            name_fr
+            country{
+                id
+                name
+            }
+            created_at
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
 export const deleteCityRequest = (data: ICity) => {
   let req = `mutation{
             deleteCity(id:"${data.id}"){

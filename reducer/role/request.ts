@@ -45,6 +45,20 @@ export const getRoleListRequest = () => {
   return queryMethods(req);
 };
 
+export const getRoleRequest = (id: string) => {
+  let req = `
+    {
+        role(id:"${id}"){
+            id
+            name
+            created_at
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
 export const deleteRoleRequest = (data: IRole) => {
   let req = `mutation{
             deleteRole(id:"${data.id}"){

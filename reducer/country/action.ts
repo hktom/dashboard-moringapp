@@ -12,6 +12,9 @@ import {
   DELETE_COUNTRY,
   DELETE_COUNTRY_SUCCESS,
   DELETE_COUNTRY_FAILURE,
+  GET_COUNTRY,
+  GET_COUNTRY_FAILURE,
+  GET_COUNTRY_SUCCESS,
 } from "./constants";
 
 export interface ICountry {
@@ -32,7 +35,8 @@ export const addCountry = (data: ICountry): IAddCountry => ({
   data,
 });
 
-export interface IAddCountrySuccess extends Action<"country/ADD_COUNTRY_SUCCESS"> {
+export interface IAddCountrySuccess
+  extends Action<"country/ADD_COUNTRY_SUCCESS"> {
   data: ICountry;
 }
 
@@ -41,7 +45,8 @@ export const addCountrySuccess = (data: ICountry): IAddCountrySuccess => ({
   data,
 });
 
-export interface IAddCountryFailure extends Action<"country/ADD_COUNTRY_FAILURE"> {
+export interface IAddCountryFailure
+  extends Action<"country/ADD_COUNTRY_FAILURE"> {
   error: string;
 }
 
@@ -60,7 +65,9 @@ export interface IGetCountryListSuccess
   data: ICountry[];
 }
 
-export const getCountryListSuccess = (data: ICountry[]): IGetCountryListSuccess => ({
+export const getCountryListSuccess = (
+  data: ICountry[]
+): IGetCountryListSuccess => ({
   type: GET_COUNTRY_LIST_SUCCESS,
   data,
 });
@@ -70,7 +77,9 @@ export interface IGetCountryListFailure
   error: string;
 }
 
-export const getCountryListFailure = (error: string): IGetCountryListFailure => ({
+export const getCountryListFailure = (
+  error: string
+): IGetCountryListFailure => ({
   type: GET_COUNTRY_LIST_FAILURE,
   error,
 });
@@ -88,7 +97,9 @@ export interface IUpdateCountrySuccess
   data: ICountry;
 }
 
-export const updateCountrySuccess = (data: ICountry): IUpdateCountrySuccess => ({
+export const updateCountrySuccess = (
+  data: ICountry
+): IUpdateCountrySuccess => ({
   type: UPDATE_COUNTRY_SUCCESS,
   data,
 });
@@ -131,6 +142,35 @@ export const deleteCountryFailure = (error: string): IDeleteCountryFailure => ({
   error,
 });
 
+export interface IGetCountry extends Action<"country/GET_COUNTRY"> {
+  data: string;
+}
+
+export const getCountry = (data: string): IGetCountry => ({
+  type: GET_COUNTRY,
+  data,
+});
+
+export interface IGetCountrySuccess
+  extends Action<"country/GET_COUNTRY_SUCCESS"> {
+  data: ICountry;
+}
+
+export const getCountrySuccess = (data: ICountry): IGetCountrySuccess => ({
+  type: GET_COUNTRY_SUCCESS,
+  data,
+});
+
+export interface IGetCountryFailure
+  extends Action<"country/GET_COUNTRY_FAILURE"> {
+  error: string;
+}
+
+export const getCountryFailure = (error: string): IGetCountryFailure => ({
+  type: GET_COUNTRY_FAILURE,
+  error,
+});
+
 export type ICountryActions =
   | IAddCountry
   | IAddCountrySuccess
@@ -143,4 +183,7 @@ export type ICountryActions =
   | IUpdateCountryFailure
   | IDeleteCountry
   | IDeleteCountrySuccess
-  | IDeleteCountryFailure;
+  | IDeleteCountryFailure
+  | IGetCountry
+  | IGetCountrySuccess
+  | IGetCountryFailure;

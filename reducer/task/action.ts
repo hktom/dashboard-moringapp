@@ -12,6 +12,9 @@ import {
   DELETE_TASK,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
+  GET_TASK,
+  GET_TASK_FAILURE,
+  GET_TASK_SUCCESS,
 } from "./constants";
 
 export interface ITask {
@@ -136,6 +139,33 @@ export const deleteTaskFailure = (error: string): IDeleteTaskFailure => ({
   error,
 });
 
+export interface IGetTask extends Action<"task/GET_TASK"> {
+  data: string;
+}
+
+export const getTask = (data: string): IGetTask => ({
+  type: GET_TASK,
+  data,
+});
+
+export interface IGetTaskSuccess extends Action<"task/GET_TASK_SUCCESS"> {
+  data: ITask;
+}
+
+export const getTaskSuccess = (data: ITask): IGetTaskSuccess => ({
+  type: GET_TASK_SUCCESS,
+  data,
+});
+
+export interface IGetTaskFailure extends Action<"task/GET_TASK_FAILURE"> {
+  error: string;
+}
+
+export const getTaskFailure = (error: string): IGetTaskFailure => ({
+  type: GET_TASK_FAILURE,
+  error,
+});
+
 export type ITaskActions =
   | IAddTask
   | IAddTaskSuccess
@@ -148,4 +178,7 @@ export type ITaskActions =
   | IUpdateTaskFailure
   | IDeleteTask
   | IDeleteTaskSuccess
-  | IDeleteTaskFailure;
+  | IDeleteTaskFailure
+  | IGetTask
+  | IGetTaskSuccess
+  | IGetTaskFailure;

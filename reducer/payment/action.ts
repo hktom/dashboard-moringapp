@@ -12,6 +12,9 @@ import {
   DELETE_PAYMENT,
   DELETE_PAYMENT_SUCCESS,
   DELETE_PAYMENT_FAILURE,
+  GET_PAYMENT,
+  GET_PAYMENT_FAILURE,
+  GET_PAYMENT_SUCCESS,
 } from "./constants";
 
 export interface IPayment {
@@ -32,7 +35,8 @@ export const addPayment = (data: IPayment): IAddPayment => ({
   data,
 });
 
-export interface IAddPaymentSuccess extends Action<"payment/ADD_PAYMENT_SUCCESS"> {
+export interface IAddPaymentSuccess
+  extends Action<"payment/ADD_PAYMENT_SUCCESS"> {
   data: IPayment;
 }
 
@@ -41,7 +45,8 @@ export const addPaymentSuccess = (data: IPayment): IAddPaymentSuccess => ({
   data,
 });
 
-export interface IAddPaymentFailure extends Action<"payment/ADD_PAYMENT_FAILURE"> {
+export interface IAddPaymentFailure
+  extends Action<"payment/ADD_PAYMENT_FAILURE"> {
   error: string;
 }
 
@@ -72,7 +77,9 @@ export interface IGetPaymentListFailure
   error: string;
 }
 
-export const getPaymentListFailure = (error: string): IGetPaymentListFailure => ({
+export const getPaymentListFailure = (
+  error: string
+): IGetPaymentListFailure => ({
   type: GET_PAYMENT_LIST_FAILURE,
   error,
 });
@@ -90,7 +97,9 @@ export interface IUpdatePaymentSuccess
   data: IPayment;
 }
 
-export const updatePaymentSuccess = (data: IPayment): IUpdatePaymentSuccess => ({
+export const updatePaymentSuccess = (
+  data: IPayment
+): IUpdatePaymentSuccess => ({
   type: UPDATE_PAYMENT_SUCCESS,
   data,
 });
@@ -113,7 +122,8 @@ export const deletePayment = (id: string): IDeletePayment => ({
   id,
 });
 
-export interface IDeletePaymentSuccess extends Action<"payment/DELETE_PAYMENT_SUCCESS"> {
+export interface IDeletePaymentSuccess
+  extends Action<"payment/DELETE_PAYMENT_SUCCESS"> {
   id: string;
 }
 
@@ -122,12 +132,42 @@ export const deletePaymentSuccess = (id: string): IDeletePaymentSuccess => ({
   id,
 });
 
-export interface IDeletePaymentFailure extends Action<"payment/DELETE_PAYMENT_FAILURE"> {
+export interface IDeletePaymentFailure
+  extends Action<"payment/DELETE_PAYMENT_FAILURE"> {
   error: string;
 }
 
 export const deletePaymentFailure = (error: string): IDeletePaymentFailure => ({
   type: DELETE_PAYMENT_FAILURE,
+  error,
+});
+
+export interface IGetPayment extends Action<"payment/GET_PAYMENT"> {
+  data: string;
+}
+
+export const getPayment = (data: string): IGetPayment => ({
+  type: GET_PAYMENT,
+  data,
+});
+
+export interface IGetPaymentSuccess
+  extends Action<"payment/GET_PAYMENT_SUCCESS"> {
+  data: IPayment;
+}
+
+export const getPaymentSuccess = (data: IPayment): IGetPaymentSuccess => ({
+  type: GET_PAYMENT_SUCCESS,
+  data,
+});
+
+export interface IGetPaymentFailure
+  extends Action<"payment/GET_PAYMENT_FAILURE"> {
+  error: string;
+}
+
+export const getPaymentFailure = (error: string): IGetPaymentFailure => ({
+  type: GET_PAYMENT_FAILURE,
   error,
 });
 
@@ -143,4 +183,7 @@ export type IPaymentActions =
   | IUpdatePaymentFailure
   | IDeletePayment
   | IDeletePaymentSuccess
-  | IDeletePaymentFailure;
+  | IDeletePaymentFailure
+  | IGetPayment
+  | IGetPaymentSuccess
+  | IGetPaymentFailure;

@@ -12,19 +12,20 @@ import {
   DELETE_COUNTRY,
   DELETE_COUNTRY_SUCCESS,
   DELETE_COUNTRY_FAILURE,
+  GET_COUNTRY_SUCCESS,
 } from "./constants";
 
 export interface ICountryState {
-  countryList: ICountry[];
-  countryEdit: ICountry | undefined;
+  list: ICountry[];
+  country: ICountry | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: ICountryState = {
-  countryList: [],
-  countryEdit: undefined,
+  list: [],
+  country: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const countryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        countryEdit: action.data,
+        country: action.data,
       };
 
     case ADD_COUNTRY_FAILURE:
@@ -56,26 +57,11 @@ export const countryReducer = (
         error: action.error,
       };
 
-    // case ADD_COUNTRY_IMAGE:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    // case ADD_COUNTRY_IMAGE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     success: true,
-    //     countryEdit: action.data,
-    //   };
-
-    // case ADD_COUNTRY_IMAGE_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
+    case GET_COUNTRY_SUCCESS:
+      return {
+        ...state,
+        country: action.data,
+      };
 
     case GET_COUNTRY_LIST:
       return {
@@ -88,7 +74,7 @@ export const countryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        countryList: action.data,
+        list: action.data,
       };
 
     case GET_COUNTRY_LIST_FAILURE:
@@ -98,7 +84,7 @@ export const countryReducer = (
         error: action.error,
       };
 
-    case UPDATE_COUNTRY:  
+    case UPDATE_COUNTRY:
       return {
         ...state,
         isLoading: true,
@@ -109,7 +95,7 @@ export const countryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        countryEdit: action.data,
+        country: action.data,
       };
 
     case UPDATE_COUNTRY_FAILURE:
@@ -130,7 +116,7 @@ export const countryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        countryEdit: undefined,
+        country: undefined,
       };
 
     case DELETE_COUNTRY_FAILURE:
@@ -140,6 +126,7 @@ export const countryReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

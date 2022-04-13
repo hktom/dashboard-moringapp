@@ -12,6 +12,9 @@ import {
   DELETE_CONDITION,
   DELETE_CONDITION_SUCCESS,
   DELETE_CONDITION_FAILURE,
+  GET_CONDITION,
+  GET_CONDITION_FAILURE,
+  GET_CONDITION_SUCCESS,
 } from "./constants";
 
 export interface ICondition {
@@ -31,16 +34,20 @@ export const addCondition = (data: ICondition): IAddCondition => ({
   data,
 });
 
-export interface IAddConditionSuccess extends Action<"condition/ADD_CONDITION_SUCCESS"> {
+export interface IAddConditionSuccess
+  extends Action<"condition/ADD_CONDITION_SUCCESS"> {
   data: ICondition;
 }
 
-export const addConditionSuccess = (data: ICondition): IAddConditionSuccess => ({
+export const addConditionSuccess = (
+  data: ICondition
+): IAddConditionSuccess => ({
   type: ADD_CONDITION_SUCCESS,
   data,
 });
 
-export interface IAddConditionFailure extends Action<"condition/ADD_CONDITION_FAILURE"> {
+export interface IAddConditionFailure
+  extends Action<"condition/ADD_CONDITION_FAILURE"> {
   error: string;
 }
 
@@ -49,7 +56,8 @@ export const addConditionFailure = (error: string): IAddConditionFailure => ({
   error,
 });
 
-export interface IGetConditionList extends Action<"condition/GET_CONDITION_LIST"> {}
+export interface IGetConditionList
+  extends Action<"condition/GET_CONDITION_LIST"> {}
 export const getConditionList = (): IGetConditionList => ({
   type: GET_CONDITION_LIST,
 });
@@ -71,12 +79,15 @@ export interface IGetConditionListFailure
   error: string;
 }
 
-export const getConditionListFailure = (error: string): IGetConditionListFailure => ({
+export const getConditionListFailure = (
+  error: string
+): IGetConditionListFailure => ({
   type: GET_CONDITION_LIST_FAILURE,
   error,
 });
 
-export interface IUpdateConditions extends Action<"condition/UPDATE_CONDITION"> {
+export interface IUpdateConditions
+  extends Action<"condition/UPDATE_CONDITION"> {
   data: ICondition;
 }
 export const updateCondition = (data: ICondition): IUpdateConditions => ({
@@ -89,7 +100,9 @@ export interface IUpdateConditionSuccess
   data: ICondition;
 }
 
-export const updateConditionSuccess = (data: ICondition): IUpdateConditionSuccess => ({
+export const updateConditionSuccess = (
+  data: ICondition
+): IUpdateConditionSuccess => ({
   type: UPDATE_CONDITION_SUCCESS,
   data,
 });
@@ -99,7 +112,9 @@ export interface IUpdateConditionFailure
   error: string;
 }
 
-export const updateConditionFailure = (error: string): IUpdateConditionFailure => ({
+export const updateConditionFailure = (
+  error: string
+): IUpdateConditionFailure => ({
   type: UPDATE_CONDITION_FAILURE,
   error,
 });
@@ -112,21 +127,58 @@ export const deleteCondition = (id: string): IDeleteCondition => ({
   id,
 });
 
-export interface IDeleteConditionSuccess extends Action<"condition/DELETE_CONDITION_SUCCESS"> {
+export interface IDeleteConditionSuccess
+  extends Action<"condition/DELETE_CONDITION_SUCCESS"> {
   id: string;
 }
 
-export const deleteConditionSuccess = (id: string): IDeleteConditionSuccess => ({
+export const deleteConditionSuccess = (
+  id: string
+): IDeleteConditionSuccess => ({
   type: DELETE_CONDITION_SUCCESS,
   id,
 });
 
-export interface IDeleteConditionFailure extends Action<"condition/DELETE_CONDITION_FAILURE"> {
+export interface IDeleteConditionFailure
+  extends Action<"condition/DELETE_CONDITION_FAILURE"> {
   error: string;
 }
 
-export const deleteConditionFailure = (error: string): IDeleteConditionFailure => ({
+export const deleteConditionFailure = (
+  error: string
+): IDeleteConditionFailure => ({
   type: DELETE_CONDITION_FAILURE,
+  error,
+});
+
+export interface IGetCondition extends Action<"condition/GET_CONDITION"> {
+  data: string;
+}
+
+export const getCondition = (data: string): IGetCondition => ({
+  type: GET_CONDITION,
+  data,
+});
+
+export interface IGetConditionSuccess
+  extends Action<"condition/GET_CONDITION_SUCCESS"> {
+  data: ICondition;
+}
+
+export const getConditionSuccess = (
+  data: ICondition
+): IGetConditionSuccess => ({
+  type: GET_CONDITION_SUCCESS,
+  data,
+});
+
+export interface IGetConditionFailure
+  extends Action<"condition/GET_CONDITION_FAILURE"> {
+  error: string;
+}
+
+export const getConditionFailure = (error: string): IGetConditionFailure => ({
+  type: GET_CONDITION_FAILURE,
   error,
 });
 
@@ -142,4 +194,7 @@ export type IConditionActions =
   | IUpdateConditionFailure
   | IDeleteCondition
   | IDeleteConditionSuccess
-  | IDeleteConditionFailure;
+  | IDeleteConditionFailure
+  | IGetCondition
+  | IGetConditionSuccess
+  | IGetConditionFailure;

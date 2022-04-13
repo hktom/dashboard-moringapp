@@ -12,19 +12,20 @@ import {
   DELETE_JOB,
   DELETE_JOB_SUCCESS,
   DELETE_JOB_FAILURE,
+  GET_JOB_SUCCESS,
 } from "./constants";
 
 export interface IJobState {
-  jobList: IJob[];
-  jobEdit: IJob | undefined;
+  list: IJob[];
+  job: IJob | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IJobState = {
-  jobList: [],
-  jobEdit: undefined,
+  list: [],
+  job: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const jobReducer = (
         ...state,
         isLoading: false,
         success: true,
-        jobEdit: action.data,
+        job: action.data,
       };
 
     case ADD_JOB_FAILURE:
@@ -54,6 +55,12 @@ export const jobReducer = (
         ...state,
         isLoading: false,
         error: action.error,
+      };
+
+    case GET_JOB_SUCCESS:
+      return {
+        ...state,
+        job: action.data,
       };
 
     case GET_JOB_LIST:
@@ -67,7 +74,7 @@ export const jobReducer = (
         ...state,
         isLoading: false,
         success: true,
-        jobList: action.data,
+        list: action.data,
       };
 
     case GET_JOB_LIST_FAILURE:
@@ -77,7 +84,7 @@ export const jobReducer = (
         error: action.error,
       };
 
-    case UPDATE_JOB:  
+    case UPDATE_JOB:
       return {
         ...state,
         isLoading: true,
@@ -88,7 +95,7 @@ export const jobReducer = (
         ...state,
         isLoading: false,
         success: true,
-        jobEdit: action.data,
+        job: action.data,
       };
 
     case UPDATE_JOB_FAILURE:
@@ -109,7 +116,7 @@ export const jobReducer = (
         ...state,
         isLoading: false,
         success: true,
-        jobEdit: undefined,
+        job: undefined,
       };
 
     case DELETE_JOB_FAILURE:
@@ -119,6 +126,7 @@ export const jobReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

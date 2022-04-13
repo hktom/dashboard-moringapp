@@ -12,6 +12,9 @@ import {
   DELETE_ROLE,
   DELETE_ROLE_SUCCESS,
   DELETE_ROLE_FAILURE,
+  GET_ROLE,
+  GET_ROLE_FAILURE,
+  GET_ROLE_SUCCESS,
 } from "./constants";
 
 export interface IRole {
@@ -58,9 +61,7 @@ export interface IGetRoleListSuccess
   data: IRole[];
 }
 
-export const getRoleListSuccess = (
-  data: IRole[]
-): IGetRoleListSuccess => ({
+export const getRoleListSuccess = (data: IRole[]): IGetRoleListSuccess => ({
   type: GET_ROLE_LIST_SUCCESS,
   data,
 });
@@ -83,8 +84,7 @@ export const updateRole = (data: IRole): IUpdateRoles => ({
   data,
 });
 
-export interface IUpdateRoleSuccess
-  extends Action<"role/UPDATE_ROLE_SUCCESS"> {
+export interface IUpdateRoleSuccess extends Action<"role/UPDATE_ROLE_SUCCESS"> {
   data: IRole;
 }
 
@@ -93,8 +93,7 @@ export const updateRoleSuccess = (data: IRole): IUpdateRoleSuccess => ({
   data,
 });
 
-export interface IUpdateRoleFailure
-  extends Action<"role/UPDATE_ROLE_FAILURE"> {
+export interface IUpdateRoleFailure extends Action<"role/UPDATE_ROLE_FAILURE"> {
   error: string;
 }
 
@@ -129,6 +128,33 @@ export const deleteRoleFailure = (error: string): IDeleteRoleFailure => ({
   error,
 });
 
+export interface IGetRole extends Action<"role/GET_ROLE"> {
+  data: string;
+}
+
+export const getRole = (data: string): IGetRole => ({
+  type: GET_ROLE,
+  data,
+});
+
+export interface IGetRoleSuccess extends Action<"role/GET_ROLE_SUCCESS"> {
+  data: IRole;
+}
+
+export const getRoleSuccess = (data: IRole): IGetRoleSuccess => ({
+  type: GET_ROLE_SUCCESS,
+  data,
+});
+
+export interface IGetRoleFailure extends Action<"role/GET_ROLE_FAILURE"> {
+  error: string;
+}
+
+export const getRoleFailure = (error: string): IGetRoleFailure => ({
+  type: GET_ROLE_FAILURE,
+  error,
+});
+
 export type IRoleActions =
   | IAddRole
   | IAddRoleSuccess
@@ -141,4 +167,7 @@ export type IRoleActions =
   | IUpdateRoleFailure
   | IDeleteRole
   | IDeleteRoleSuccess
-  | IDeleteRoleFailure;
+  | IDeleteRoleFailure
+  | IGetRole
+  | IGetRoleSuccess
+  | IGetRoleFailure;

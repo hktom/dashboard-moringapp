@@ -12,19 +12,20 @@ import {
   DELETE_CONDITION,
   DELETE_CONDITION_SUCCESS,
   DELETE_CONDITION_FAILURE,
+  GET_CONDITION_SUCCESS,
 } from "./constants";
 
 export interface IConditionState {
-  conditionList: ICondition[];
-  conditionEdit: ICondition | undefined;
+  list: ICondition[];
+  condition: ICondition | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IConditionState = {
-  conditionList: [],
-  conditionEdit: undefined,
+  list: [],
+  condition: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const conditionReducer = (
         ...state,
         isLoading: false,
         success: true,
-        conditionEdit: action.data,
+        condition: action.data,
       };
 
     case ADD_CONDITION_FAILURE:
@@ -55,6 +56,12 @@ export const conditionReducer = (
         isLoading: false,
         error: action.error,
       };
+
+      case GET_CONDITION_SUCCESS:
+        return {
+          ...state,
+          condition: action.data,
+        };
 
     case GET_CONDITION_LIST:
       return {
@@ -67,7 +74,7 @@ export const conditionReducer = (
         ...state,
         isLoading: false,
         success: true,
-        conditionList: action.data,
+        list: action.data,
       };
 
     case GET_CONDITION_LIST_FAILURE:
@@ -88,7 +95,7 @@ export const conditionReducer = (
         ...state,
         isLoading: false,
         success: true,
-        conditionEdit: action.data,
+        condition: action.data,
       };
 
     case UPDATE_CONDITION_FAILURE:
@@ -109,7 +116,7 @@ export const conditionReducer = (
         ...state,
         isLoading: false,
         success: true,
-        conditionEdit: undefined,
+        condition: undefined,
       };
 
     case DELETE_CONDITION_FAILURE:

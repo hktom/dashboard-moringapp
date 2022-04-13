@@ -45,6 +45,20 @@ export const getConditionListRequest = () => {
   return queryMethods(req);
 };
 
+export const getConditionRequest = (id: string) => {
+  let req = `
+    {
+        Condition(id:"${id}"){
+            id
+            name
+            created_at
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
 export const deleteConditionRequest = (data: ICondition) => {
   let req = `mutation{
             deleteCondition(id:"${data.id}"){

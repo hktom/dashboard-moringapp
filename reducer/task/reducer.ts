@@ -12,19 +12,20 @@ import {
   DELETE_TASK,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
+  GET_TASK_SUCCESS,
 } from "./constants";
 
 export interface ITaskState {
-  taskList: ITask[];
-  taskEdit: ITask | undefined;
+  list: ITask[];
+  task: ITask | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: ITaskState = {
-  taskList: [],
-  taskEdit: undefined,
+  list: [],
+  task: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const taskReducer = (
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        task: action.data,
       };
 
     case ADD_TASK_FAILURE:
@@ -56,26 +57,11 @@ export const taskReducer = (
         error: action.error,
       };
 
-    // case ADD_TASK_IMAGE:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    // case ADD_TASK_IMAGE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     success: true,
-    //     taskEdit: action.data,
-    //   };
-
-    // case ADD_TASK_IMAGE_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
+    case GET_TASK_SUCCESS:
+      return {
+        ...state,
+        task: action.data,
+      };
 
     case GET_TASK_LIST:
       return {
@@ -88,7 +74,7 @@ export const taskReducer = (
         ...state,
         isLoading: false,
         success: true,
-        taskList: action.data,
+        list: action.data,
       };
 
     case GET_TASK_LIST_FAILURE:
@@ -98,7 +84,7 @@ export const taskReducer = (
         error: action.error,
       };
 
-    case UPDATE_TASK:  
+    case UPDATE_TASK:
       return {
         ...state,
         isLoading: true,
@@ -109,7 +95,7 @@ export const taskReducer = (
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: action.data,
+        task: action.data,
       };
 
     case UPDATE_TASK_FAILURE:
@@ -130,7 +116,7 @@ export const taskReducer = (
         ...state,
         isLoading: false,
         success: true,
-        taskEdit: undefined,
+        task: undefined,
       };
 
     case DELETE_TASK_FAILURE:
@@ -140,6 +126,7 @@ export const taskReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

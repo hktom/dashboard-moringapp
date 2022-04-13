@@ -10,10 +10,48 @@ import {
   addCategorySuccess,
   deleteCategoryFailure,
   deleteCategorySuccess,
+  getCategory,
+  getCategoryFailure,
+  getCategoryList,
+  getCategoryListFailure,
+  getCategoryListSuccess,
+  getCategorySuccess,
   updateCategoryFailure,
   updateCategorySuccess,
 } from "./action";
-import { ADD_CATEGORY, DELETE_CATEGORY, UPDATE_CATEGORY } from "./constants";
+import {
+  ADD_CATEGORY,
+  DELETE_CATEGORY,
+  GET_CATEGORY,
+  GET_CATEGORY_LIST,
+  UPDATE_CATEGORY,
+} from "./constants";
+
+export function* getCategoryListSaga(): SagaIterator {
+  try {
+    const res = yield call(getCategoryList);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getCategoryListFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getCategoryListSuccess(res.data?.categories));
+    }
+  } catch (error) {
+    yield put(getCategoryListFailure(`${error}`));
+  }
+}
+
+export function* getCategorySaga(action: any): SagaIterator {
+  try {
+    const res = yield call(getCategory, action.data);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getCategoryFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getCategorySuccess(res.data?.categories));
+    }
+  } catch (error) {
+    yield put(getCategoryFailure(`${error}`));
+  }
+}
 
 export function* addCategorySaga(action: any): SagaIterator {
   try {
@@ -55,6 +93,8 @@ export function* deleteCategorySaga(action: any): SagaIterator {
 }
 
 export function* CategorySagas(): Generator {
+  yield takeEvery(GET_CATEGORY_LIST, getCategoryListSaga);
+  yield takeEvery(GET_CATEGORY, getCategorySaga);
   yield takeEvery(ADD_CATEGORY, addCategorySaga);
   yield takeEvery(UPDATE_CATEGORY, updateCategorySaga);
   yield takeEvery(DELETE_CATEGORY, deleteCategorySaga);

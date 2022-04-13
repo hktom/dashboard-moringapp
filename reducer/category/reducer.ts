@@ -12,19 +12,20 @@ import {
   DELETE_CATEGORY,
   DELETE_CATEGORY_SUCCESS,
   DELETE_CATEGORY_FAILURE,
+  GET_CATEGORY_SUCCESS,
 } from "./constants";
 
 export interface ICategoryState {
-  categoryList: ICategory[];
-  categoryEdit: ICategory | undefined;
+  list: ICategory[];
+  category: ICategory | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: ICategoryState = {
-  categoryList: [],
-  categoryEdit: undefined,
+  list: [],
+  category: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const categoryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        categoryEdit: action.data,
+        category: action.data,
       };
 
     case ADD_CATEGORY_FAILURE:
@@ -55,6 +56,12 @@ export const categoryReducer = (
         isLoading: false,
         error: action.error,
       };
+
+      case GET_CATEGORY_SUCCESS:
+        return {
+          ...state,
+          category: action.data,
+        };
 
     case GET_CATEGORY_LIST:
       return {
@@ -67,7 +74,7 @@ export const categoryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        categoryList: action.data,
+        list: action.data,
       };
 
     case GET_CATEGORY_LIST_FAILURE:
@@ -88,7 +95,7 @@ export const categoryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        categoryEdit: action.data,
+        category: action.data,
       };
 
     case UPDATE_CATEGORY_FAILURE:
@@ -109,7 +116,7 @@ export const categoryReducer = (
         ...state,
         isLoading: false,
         success: true,
-        categoryEdit: undefined,
+        category: undefined,
       };
 
     case DELETE_CATEGORY_FAILURE:

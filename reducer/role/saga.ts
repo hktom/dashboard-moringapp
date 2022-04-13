@@ -10,14 +10,48 @@ import {
   addRoleSuccess,
   deleteRoleFailure,
   deleteRoleSuccess,
+  getRole,
+  getRoleFailure,
+  getRoleList,
+  getRoleListFailure,
+  getRoleListSuccess,
+  getRoleSuccess,
   updateRoleFailure,
   updateRoleSuccess,
 } from "./action";
 import {
   ADD_ROLE,
   DELETE_ROLE,
+  GET_ROLE,
+  GET_ROLE_LIST,
   UPDATE_ROLE,
 } from "./constants";
+
+export function* getRoleListSaga(): SagaIterator {
+  try {
+    const res = yield call(getRoleList);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getRoleListFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getRoleListSuccess(res.data?.roles));
+    }
+  } catch (error) {
+    yield put(getRoleListFailure(`${error}`));
+  }
+}
+
+export function* getRoleSaga(action: any): SagaIterator {
+  try {
+    const res = yield call(getRole, action.data);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getRoleFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getRoleSuccess(res.data?.roles));
+    }
+  } catch (error) {
+    yield put(getRoleFailure(`${error}`));
+  }
+}
 
 export function* addRoleSaga(action: any): SagaIterator {
   try {
@@ -59,6 +93,8 @@ export function* deleteRoleSaga(action: any): SagaIterator {
 }
 
 export function* RoleSagas(): Generator {
+  yield takeEvery(GET_ROLE, getRoleSaga);
+  yield takeEvery(GET_ROLE_LIST, getRoleListSaga);
   yield takeEvery(ADD_ROLE, addRoleSaga);
   yield takeEvery(UPDATE_ROLE, updateRoleSaga);
   yield takeEvery(DELETE_ROLE, deleteRoleSaga);

@@ -134,6 +134,42 @@ export const getJobListRequest = () => {
   return queryMethods(req);
 };
 
+export const getJobRequest = (id:string) => {
+    let req = `
+      {
+          Job(id:"${id}"){
+              id
+              is_completed
+              price_by_hour
+              total_hours
+              street
+              the_date
+              the_time
+              description
+              payment_due_date
+              task{
+                  id
+                  title
+              }
+              city{
+                  id
+                  name
+              }
+              condition{
+                  id
+                  name
+              }
+              user{
+                  id
+                  email
+              }
+          }
+  
+      }`;
+  
+    return queryMethods(req);
+  };
+
 export const deleteJobRequest = (data: IJob) => {
   let req = `mutation{
             deleteJob(id:"${data.id}"){

@@ -12,19 +12,20 @@ import {
   DELETE_CITY,
   DELETE_CITY_SUCCESS,
   DELETE_CITY_FAILURE,
+  GET_CITY_SUCCESS,
 } from "./constants";
 
 export interface ICityState {
-  cityList: ICity[];
-  cityEdit: ICity | undefined;
+  list: ICity[];
+  city: ICity | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: ICityState = {
-  cityList: [],
-  cityEdit: undefined,
+  list: [],
+  city: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const cityReducer = (
         ...state,
         isLoading: false,
         success: true,
-        cityEdit: action.data,
+        city: action.data,
       };
 
     case ADD_CITY_FAILURE:
@@ -54,6 +55,12 @@ export const cityReducer = (
         ...state,
         isLoading: false,
         error: action.error,
+      };
+
+    case GET_CITY_SUCCESS:
+      return {
+        ...state,
+        city: action.data,
       };
 
     case GET_CITY_LIST:
@@ -67,7 +74,7 @@ export const cityReducer = (
         ...state,
         isLoading: false,
         success: true,
-        cityList: action.data,
+        list: action.data,
       };
 
     case GET_CITY_LIST_FAILURE:
@@ -88,7 +95,7 @@ export const cityReducer = (
         ...state,
         isLoading: false,
         success: true,
-        cityEdit: action.data,
+        city: action.data,
       };
 
     case UPDATE_CITY_FAILURE:
@@ -109,7 +116,7 @@ export const cityReducer = (
         ...state,
         isLoading: false,
         success: true,
-        cityEdit: undefined,
+        city: undefined,
       };
 
     case DELETE_CITY_FAILURE:

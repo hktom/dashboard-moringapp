@@ -14,6 +14,9 @@ import {
   DELETE_JOB,
   DELETE_JOB_SUCCESS,
   DELETE_JOB_FAILURE,
+  GET_JOB,
+  GET_JOB_FAILURE,
+  GET_JOB_SUCCESS,
 } from "./constants";
 
 export interface IJob {
@@ -65,8 +68,7 @@ export const getJobList = (): IGetJobList => ({
   type: GET_JOB_LIST,
 });
 
-export interface IGetJobListSuccess
-  extends Action<"job/GET_JOB_LIST_SUCCESS"> {
+export interface IGetJobListSuccess extends Action<"job/GET_JOB_LIST_SUCCESS"> {
   data: IJob[];
 }
 
@@ -75,8 +77,7 @@ export const getJobListSuccess = (data: IJob[]): IGetJobListSuccess => ({
   data,
 });
 
-export interface IGetJobListFailure
-  extends Action<"job/GET_JOB_LIST_FAILURE"> {
+export interface IGetJobListFailure extends Action<"job/GET_JOB_LIST_FAILURE"> {
   error: string;
 }
 
@@ -137,6 +138,33 @@ export const deleteJobFailure = (error: string): IDeleteJobFailure => ({
   error,
 });
 
+export interface IGetJob extends Action<"job/GET_JOB"> {
+  data: string;
+}
+
+export const getJob = (data: string): IGetJob => ({
+  type: GET_JOB,
+  data,
+});
+
+export interface IGetJobSuccess extends Action<"job/GET_JOB_SUCCESS"> {
+  data: IJob;
+}
+
+export const getJobSuccess = (data: IJob): IGetJobSuccess => ({
+  type: GET_JOB_SUCCESS,
+  data,
+});
+
+export interface IGetJobFailure extends Action<"job/GET_JOB_FAILURE"> {
+  error: string;
+}
+
+export const getJobFailure = (error: string): IGetJobFailure => ({
+  type: GET_JOB_FAILURE,
+  error,
+});
+
 export type IJobActions =
   | IAddJob
   | IAddJobSuccess
@@ -149,4 +177,7 @@ export type IJobActions =
   | IUpdateJobFailure
   | IDeleteJob
   | IDeleteJobSuccess
-  | IDeleteJobFailure;
+  | IDeleteJobFailure
+  | IGetJob
+  | IGetJobSuccess
+  | IGetJobFailure;

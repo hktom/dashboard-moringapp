@@ -12,19 +12,20 @@ import {
   DELETE_USER,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILURE,
+  GET_USER_SUCCESS,
 } from "./constants";
 
 export interface IUserState {
-  userList: IUser[];
-  userEdit: IUser | undefined;
+  list: IUser[];
+  user: IUser | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IUserState = {
-  userList: [],
-  userEdit: undefined,
+  list: [],
+  user: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const userReducer = (
         ...state,
         isLoading: false,
         success: true,
-        userEdit: action.data,
+        user: action.data,
       };
 
     case ADD_USER_FAILURE:
@@ -54,6 +55,12 @@ export const userReducer = (
         ...state,
         isLoading: false,
         error: action.error,
+      };
+
+    case GET_USER_SUCCESS:
+      return {
+        ...state,
+        user: action.data,
       };
 
     case GET_USER_LIST:
@@ -67,7 +74,7 @@ export const userReducer = (
         ...state,
         isLoading: false,
         success: true,
-        userList: action.data,
+        list: action.data,
       };
 
     case GET_USER_LIST_FAILURE:
@@ -88,7 +95,7 @@ export const userReducer = (
         ...state,
         isLoading: false,
         success: true,
-        userEdit: action.data,
+        user: action.data,
       };
 
     case UPDATE_USER_FAILURE:
@@ -109,7 +116,7 @@ export const userReducer = (
         ...state,
         isLoading: false,
         success: true,
-        userEdit: undefined,
+        user: undefined,
       };
 
     case DELETE_USER_FAILURE:

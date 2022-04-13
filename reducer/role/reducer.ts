@@ -12,19 +12,20 @@ import {
   DELETE_ROLE,
   DELETE_ROLE_SUCCESS,
   DELETE_ROLE_FAILURE,
+  GET_ROLE_SUCCESS,
 } from "./constants";
 
 export interface IRoleState {
-  roleList: IRole[];
-  roleEdit: IRole | undefined;
+  list: IRole[];
+  role: IRole | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IRoleState = {
-  roleList: [],
-  roleEdit: undefined,
+  list: [],
+  role: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -46,7 +47,7 @@ export const roleReducer = (
         ...state,
         isLoading: false,
         success: true,
-        roleEdit: action.data,
+        role: action.data,
       };
 
     case ADD_ROLE_FAILURE:
@@ -67,7 +68,7 @@ export const roleReducer = (
         ...state,
         isLoading: false,
         success: true,
-        roleList: action.data,
+        list: action.data,
       };
 
     case GET_ROLE_LIST_FAILURE:
@@ -77,7 +78,13 @@ export const roleReducer = (
         error: action.error,
       };
 
-    case UPDATE_ROLE:  
+    case GET_ROLE_SUCCESS:
+      return {
+        ...state,
+        role: action.data,
+      };
+
+    case UPDATE_ROLE:
       return {
         ...state,
         isLoading: true,
@@ -88,7 +95,7 @@ export const roleReducer = (
         ...state,
         isLoading: false,
         success: true,
-        roleEdit: action.data,
+        role: action.data,
       };
 
     case UPDATE_ROLE_FAILURE:
@@ -109,7 +116,7 @@ export const roleReducer = (
         ...state,
         isLoading: false,
         success: true,
-        roleEdit: undefined,
+        role: undefined,
       };
 
     case DELETE_ROLE_FAILURE:
@@ -119,6 +126,7 @@ export const roleReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

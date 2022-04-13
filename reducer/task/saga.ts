@@ -10,14 +10,48 @@ import {
   addTaskSuccess,
   deleteTaskFailure,
   deleteTaskSuccess,
+  getTask,
+  getTaskFailure,
+  getTaskList,
+  getTaskListFailure,
+  getTaskListSuccess,
+  getTaskSuccess,
   updateTaskFailure,
   updateTaskSuccess,
 } from "./action";
 import {
   ADD_TASK,
   DELETE_TASK,
+  GET_TASK,
+  GET_TASK_LIST,
   UPDATE_TASK,
 } from "./constants";
+
+export function* getTaskListSaga(): SagaIterator {
+  try {
+    const res = yield call(getTaskList);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getTaskListFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getTaskListSuccess(res.data?.tasks));
+    }
+  } catch (error) {
+    yield put(getTaskListFailure(`${error}`));
+  }
+}
+
+export function* getTaskSaga(action:any):SagaIterator{
+  try{
+    const res = yield call(getTask, action.data);
+    if(res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")){
+      yield put(getTaskFailure(res.data?.errors || res.errors));
+    }else{
+      yield put(getTaskSuccess(res.data?.tasks));
+    }
+  }catch(error){
+    yield put(getTaskFailure(`${error}`));
+  }
+}
 
 export function* addTaskSaga(action: any): SagaIterator {
   try {
@@ -59,6 +93,8 @@ export function* deleteTaskSaga(action: any): SagaIterator {
 }
 
 export function* taskSagas(): Generator {
+  yield takeEvery(GET_TASK, getTaskSaga);
+  yield takeEvery(GET_TASK_LIST, getTaskListSaga);
   yield takeEvery(ADD_TASK, addTaskSaga);
   yield takeEvery(UPDATE_TASK, updateTaskSaga);
   yield takeEvery(DELETE_TASK, deleteTaskSaga);

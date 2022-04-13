@@ -12,19 +12,20 @@ import {
   DELETE_PAYMENT,
   DELETE_PAYMENT_SUCCESS,
   DELETE_PAYMENT_FAILURE,
+  GET_PAYMENT_SUCCESS,
 } from "./constants";
 
 export interface IPaymentState {
-  paymentList: IPayment[];
-  paymentEdit: IPayment | undefined;
+  list: IPayment[];
+  payment: IPayment | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IPaymentState = {
-  paymentList: [],
-  paymentEdit: undefined,
+  list: [],
+  payment: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -33,7 +34,7 @@ export const initialState: IPaymentState = {
 export const paymentReducer = (
   state: IPaymentState = initialState,
   action: IPaymentActions
-) : IPaymentState=> {
+): IPaymentState => {
   switch (action.type) {
     case ADD_PAYMENT:
       return {
@@ -46,7 +47,7 @@ export const paymentReducer = (
         ...state,
         isLoading: false,
         success: true,
-        paymentEdit: action.data,
+        payment: action.data,
       };
 
     case ADD_PAYMENT_FAILURE:
@@ -56,26 +57,11 @@ export const paymentReducer = (
         error: action.error,
       };
 
-    // case ADD_PAYMENT_IMAGE:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    // case ADD_PAYMENT_IMAGE_SUCCESS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     success: true,
-    //     paymentEdit: action.data,
-    //   };
-
-    // case ADD_PAYMENT_IMAGE_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
+    case GET_PAYMENT_SUCCESS:
+      return {
+        ...state,
+        payment: action.data,
+      };
 
     case GET_PAYMENT_LIST:
       return {
@@ -88,7 +74,7 @@ export const paymentReducer = (
         ...state,
         isLoading: false,
         success: true,
-        paymentList: action.data,
+        list: action.data,
       };
 
     case GET_PAYMENT_LIST_FAILURE:
@@ -98,7 +84,7 @@ export const paymentReducer = (
         error: action.error,
       };
 
-    case UPDATE_PAYMENT:  
+    case UPDATE_PAYMENT:
       return {
         ...state,
         isLoading: true,
@@ -109,7 +95,7 @@ export const paymentReducer = (
         ...state,
         isLoading: false,
         success: true,
-        paymentEdit: action.data,
+        payment: action.data,
       };
 
     case UPDATE_PAYMENT_FAILURE:
@@ -130,7 +116,7 @@ export const paymentReducer = (
         ...state,
         isLoading: false,
         success: true,
-        paymentEdit: undefined,
+        payment: undefined,
       };
 
     case DELETE_PAYMENT_FAILURE:
@@ -140,6 +126,7 @@ export const paymentReducer = (
         error: action.error,
       };
 
-    default: return {...state};
+    default:
+      return { ...state };
   }
 };

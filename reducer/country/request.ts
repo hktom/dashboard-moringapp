@@ -63,6 +63,25 @@ export const getCountryListRequest = () => {
   return queryMethods(req);
 };
 
+export const getCountryRequest = (id:string) => {
+  let req = `
+    {
+        Country(id:"${id}"){
+            id
+            name
+            name_fr
+            cities{
+                id
+                name
+            }
+            created_at
+        }
+
+    }`;
+
+  return queryMethods(req);
+};
+
 export const deleteCountryRequest = (data: ICountry) => {
   let req = `mutation{
             deleteCountry(id:"${data.id}"){

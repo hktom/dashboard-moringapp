@@ -12,6 +12,9 @@ import {
   DELETE_CITY,
   DELETE_CITY_SUCCESS,
   DELETE_CITY_FAILURE,
+  GET_CITY,
+  GET_CITY_FAILURE,
+  GET_CITY_SUCCESS,
 } from "./constants";
 
 export interface ICity {
@@ -60,9 +63,7 @@ export interface IGetCityListSuccess
   data: ICity[];
 }
 
-export const getCityListSuccess = (
-  data: ICity[]
-): IGetCityListSuccess => ({
+export const getCityListSuccess = (data: ICity[]): IGetCityListSuccess => ({
   type: GET_CITY_LIST_SUCCESS,
   data,
 });
@@ -85,8 +86,7 @@ export const updateCity = (data: ICity): IUpdateCity => ({
   data,
 });
 
-export interface IUpdateCitySuccess
-  extends Action<"city/UPDATE_CITY_SUCCESS"> {
+export interface IUpdateCitySuccess extends Action<"city/UPDATE_CITY_SUCCESS"> {
   data: ICity;
 }
 
@@ -95,8 +95,7 @@ export const updateCitySuccess = (data: ICity): IUpdateCitySuccess => ({
   data,
 });
 
-export interface IUpdateCityFailure
-  extends Action<"city/UPDATE_CITY_FAILURE"> {
+export interface IUpdateCityFailure extends Action<"city/UPDATE_CITY_FAILURE"> {
   error: string;
 }
 
@@ -131,6 +130,33 @@ export const deleteCityFailure = (error: string): IDeleteCityFailure => ({
   error,
 });
 
+export interface IGetCity extends Action<"city/GET_CITY"> {
+  data: string;
+}
+
+export const getCity = (data: string): IGetCity => ({
+  type: GET_CITY,
+  data,
+});
+
+export interface IGetCitySuccess extends Action<"city/GET_CITY_SUCCESS"> {
+  data: ICity;
+}
+
+export const getCitySuccess = (data: ICity): IGetCitySuccess => ({
+  type: GET_CITY_SUCCESS,
+  data,
+});
+
+export interface IGetCityFailure extends Action<"city/GET_CITY_FAILURE"> {
+  error: string;
+}
+
+export const getCityFailure = (error: string): IGetCityFailure => ({
+  type: GET_CITY_FAILURE,
+  error,
+});
+
 export type ICityActions =
   | IAddCity
   | IAddCitySuccess
@@ -143,4 +169,7 @@ export type ICityActions =
   | IUpdateCityFailure
   | IDeleteCity
   | IDeleteCitySuccess
-  | IDeleteCityFailure;
+  | IDeleteCityFailure
+  | IGetCity
+  | IGetCitySuccess
+  | IGetCityFailure;

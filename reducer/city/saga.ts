@@ -10,14 +10,42 @@ import {
   addCitySuccess,
   deleteCityFailure,
   deleteCitySuccess,
+  getCity,
+  getCityFailure,
+  getCityList,
+  getCityListFailure,
+  getCityListSuccess,
+  getCitySuccess,
   updateCityFailure,
   updateCitySuccess,
 } from "./action";
-import {
-  ADD_CITY,
-  DELETE_CITY,
-  UPDATE_CITY,
-} from "./constants";
+import { ADD_CITY, DELETE_CITY, GET_CITY, GET_CITY_LIST, UPDATE_CITY } from "./constants";
+
+export function* getCityListSaga(): SagaIterator {
+  try {
+    const res = yield call(getCityList);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getCityListFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getCityListSuccess(res.data?.cities));
+    }
+  } catch (error) {
+    yield put(getCityListFailure(`${error}`));
+  }
+}
+
+export function* getCitySaga(action: any): SagaIterator {
+  try {
+    const res = yield call(getCity, action.data);
+    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+      yield put(getCityFailure(res.data?.errors || res.errors));
+    } else {
+      yield put(getCitySuccess(res.data?.cities));
+    }
+  } catch (error) {
+    yield put(getCityFailure(`${error}`));
+  }
+}
 
 export function* addCitySaga(action: any): SagaIterator {
   try {
@@ -59,6 +87,8 @@ export function* deleteCitySaga(action: any): SagaIterator {
 }
 
 export function* CitySagas(): Generator {
+  yield takeEvery(GET_CITY, getCitySaga);
+  yield takeEvery(GET_CITY_LIST, getCityListSaga);
   yield takeEvery(ADD_CITY, addCitySaga);
   yield takeEvery(UPDATE_CITY, updateCitySaga);
   yield takeEvery(DELETE_CITY, deleteCitySaga);

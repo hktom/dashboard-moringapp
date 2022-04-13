@@ -2,7 +2,7 @@ import { queryMethods, mutateMethods } from "../../config/apollo";
 import { ITask } from "./action";
 import { v4 as uuidv4 } from "uuid";
 
-export const addTaskRequest= (data: ITask) => {
+export const addTaskRequest = (data: ITask) => {
   let req = `mutation{
         createTask(input:{
             id: "${uuidv4()}",
@@ -46,7 +46,7 @@ export const addTaskRequest= (data: ITask) => {
   return mutateMethods(req);
 };
 
-export const updateTaskRequest= (data: ITask) => {
+export const updateTaskRequest = (data: ITask) => {
   let req = `mutation{
           createTask(id:"${data.id}", input:{
               name:"${data.name}"
@@ -89,7 +89,7 @@ export const updateTaskRequest= (data: ITask) => {
   return mutateMethods(req);
 };
 
-export const getTaskListRequest= () => {
+export const getTaskListRequest = () => {
   let req = `
     {
         tasks{
@@ -118,6 +118,39 @@ export const getTaskListRequest= () => {
         }
 
     }`;
+
+  return queryMethods(req);
+};
+
+export const getTaskRequest = (id: string) => {
+  let req = `
+      {
+          task(id:"${id}"){
+              name
+              title
+              description
+              image
+              can_be_booked
+              can_be_urgent
+              accept_offer
+              min_price
+              prince_by_hour
+              category{
+                  id
+                  name
+              }
+              condition{
+                  id
+                  name
+              }
+              user{
+                  id
+                  email
+              }
+              created_at
+          }
+  
+      }`;
 
   return queryMethods(req);
 };
