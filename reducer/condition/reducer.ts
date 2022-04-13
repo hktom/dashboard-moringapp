@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface IConditionState {
-  list: ICondition[];
+  list: ICondition[] | undefined;
   condition: ICondition | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface IConditionState {
 }
 
 export const initialState: IConditionState = {
-  list: [],
+  list: undefined,
   condition: undefined,
   error: undefined,
   isLoading: false,
@@ -63,11 +63,11 @@ export const conditionReducer = (
           condition: action.data,
         };
 
-    case GET_CONDITION_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_CONDITION_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_CONDITION_LIST_SUCCESS:
       return {
@@ -77,12 +77,12 @@ export const conditionReducer = (
         list: action.data,
       };
 
-    case GET_CONDITION_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_CONDITION_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case UPDATE_CONDITION:  
       return {

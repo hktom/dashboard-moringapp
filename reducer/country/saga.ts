@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addCountryRequest,
   deleteCountryRequest,
+  getCountryListRequest,
+  getCountryRequest,
   updateCountryRequest,
 } from "./request";
 import {
@@ -28,7 +30,7 @@ import {
 
 export function* getCountryListSaga(): SagaIterator {
   try {
-    const res = yield call(getCountryList);
+    const res = yield call(getCountryListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCountryListFailure(res.data?.errors || res.errors));
     } else {
@@ -39,13 +41,13 @@ export function* getCountryListSaga(): SagaIterator {
   }
 }
 
-export function* getCountry(action: any): SagaIterator {
+export function* getCountrySaga(action: any): SagaIterator {
   try {
-    const res = yield call(getCountry, action.data);
+    const res = yield call(getCountryRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCountryFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getCountrySuccess(res.data?.countries));
+      yield put(getCountrySuccess(res.data?.country));
     }
   } catch (error) {
     yield put(getCountryFailure(`${error}`));
@@ -92,8 +94,8 @@ export function* deleteCountrySaga(action: any): SagaIterator {
 }
 
 export function* CountrySagas(): Generator {
-  yield takeEvery(GET_COUNTRY, getCountry);
-  yield takeEvery(GET_COUNTRY_LIST, getCountryList);
+  yield takeEvery(GET_COUNTRY, getCountrySaga);
+  yield takeEvery(GET_COUNTRY_LIST, getCountryListSaga);
   yield takeEvery(ADD_COUNTRY, addCountrySaga);
   yield takeEvery(UPDATE_COUNTRY, updateCountrySaga);
   yield takeEvery(DELETE_COUNTRY, deleteCountrySaga);

@@ -58,6 +58,7 @@ export const addConditionFailure = (error: string): IAddConditionFailure => ({
 
 export interface IGetConditionList
   extends Action<"condition/GET_CONDITION_LIST"> {}
+  
 export const getConditionList = (): IGetConditionList => ({
   type: GET_CONDITION_LIST,
 });

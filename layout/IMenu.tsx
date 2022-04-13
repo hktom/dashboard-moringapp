@@ -85,4 +85,9 @@ export const menu2: Array<IMenu> = [
     icon: <WrongLocationIcon sx={{ color: "#fff" }} />,
     path: "/page/country",
   },
+  {
+    label: "Condition",
+    icon: <SecurityIcon sx={{ color: "#fff" }} />,
+    path: "/page/condition",
+  },
 ];

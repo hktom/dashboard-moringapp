@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addCityRequest,
   deleteCityRequest,
+  getCityListRequest,
+  getCityRequest,
   updateCityRequest,
 } from "./request";
 import {
@@ -19,11 +21,17 @@ import {
   updateCityFailure,
   updateCitySuccess,
 } from "./action";
-import { ADD_CITY, DELETE_CITY, GET_CITY, GET_CITY_LIST, UPDATE_CITY } from "./constants";
+import {
+  ADD_CITY,
+  DELETE_CITY,
+  GET_CITY,
+  GET_CITY_LIST,
+  UPDATE_CITY,
+} from "./constants";
 
 export function* getCityListSaga(): SagaIterator {
   try {
-    const res = yield call(getCityList);
+    const res = yield call(getCityListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCityListFailure(res.data?.errors || res.errors));
     } else {
@@ -36,7 +44,7 @@ export function* getCityListSaga(): SagaIterator {
 
 export function* getCitySaga(action: any): SagaIterator {
   try {
-    const res = yield call(getCity, action.data);
+    const res = yield call(getCityRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCityFailure(res.data?.errors || res.errors));
     } else {

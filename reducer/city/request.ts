@@ -8,7 +8,7 @@ export const addCityRequest = (data: ICity) => {
             id: "${uuidv4()}",
             name:"${data.name}"
             name_fr:"${data.name_fr}"
-            country:{connect:${data.country?.id}}
+            country:{connect:"${data.country?.id}"}
         }){
             id
             name

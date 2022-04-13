@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface ICityState {
-  list: ICity[];
+  list: ICity[] | undefined;
   city: ICity | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface ICityState {
 }
 
 export const initialState: ICityState = {
-  list: [],
+  list: undefined,
   city: undefined,
   error: undefined,
   isLoading: false,
@@ -63,26 +63,26 @@ export const cityReducer = (
         city: action.data,
       };
 
-    case GET_CITY_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_CITY_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_CITY_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 
-    case GET_CITY_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_CITY_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case UPDATE_CITY:
       return {

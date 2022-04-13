@@ -17,12 +17,14 @@ import { IServiceState, serviceReducer } from "../reducer/service/reducer";
 import { ITaskState, taskReducer } from "../reducer/task/reducer";
 import { IUserState, userReducer } from "../reducer/user/reducer";
 import { IImageState, imageReducer } from "../reducer/image/reducer";
+import { countryReducer, ICountryState } from "../reducer/country/reducer";
 
 export interface IRootState {
   login: ILoginState;
   home: IHomeState;
   category: ICategoryState;
   city: ICityState;
+  country: ICountryState;
   condition: IConditionState;
   job: IJobState;
   payment: IPaymentState;
@@ -38,6 +40,7 @@ export const appReducer = combineReducers<IRootState>({
   home: homeReducer,
   category: categoryReducer,
   city: cityReducer,
+  country: countryReducer,
   condition: conditionReducer,
   job: jobReducer,
   payment: paymentReducer,

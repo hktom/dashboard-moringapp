@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addRoleRequest,
   deleteRoleRequest,
+  getRoleListRequest,
+  getRoleRequest,
   updateRoleRequest,
 } from "./request";
 import {
@@ -29,7 +31,7 @@ import {
 
 export function* getRoleListSaga(): SagaIterator {
   try {
-    const res = yield call(getRoleList);
+    const res = yield call(getRoleListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getRoleListFailure(res.data?.errors || res.errors));
     } else {
@@ -42,11 +44,11 @@ export function* getRoleListSaga(): SagaIterator {
 
 export function* getRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(getRole, action.data);
+    const res = yield call(getRoleRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getRoleFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getRoleSuccess(res.data?.roles));
+      yield put(getRoleSuccess(res.data?.role));
     }
   } catch (error) {
     yield put(getRoleFailure(`${error}`));
@@ -59,7 +61,7 @@ export function* addRoleSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addRoleFailure(res.errors));
     } else {
-      yield put(addRoleSuccess(res.data.Role));
+      yield put(addRoleSuccess(res.data.role));
     }
   } catch (error: any) {
     yield put(addRoleFailure(error?.toString()));
@@ -72,7 +74,7 @@ export function* updateRoleSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateRoleFailure(res.errors));
     } else {
-      yield put(updateRoleSuccess(res.data.Role));
+      yield put(updateRoleSuccess(res.data.role));
     }
   } catch (error: any) {
     yield put(updateRoleFailure(error?.toString()));
@@ -85,7 +87,7 @@ export function* deleteRoleSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(deleteRoleFailure(res.errors));
     } else {
-      yield put(deleteRoleSuccess(res.data.Role));
+      yield put(deleteRoleSuccess(res.data.role));
     }
   } catch (error: any) {
     yield put(deleteRoleFailure(error?.toString()));

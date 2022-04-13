@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addConditionRequest,
   deleteConditionRequest,
+  getConditionListRequest,
+  getConditionRequest,
   updateConditionRequest,
 } from "./request";
 import {
@@ -28,7 +30,7 @@ import {
 
 export function* getConditionListSaga(): SagaIterator {
   try {
-    const res = yield call(getConditionList);
+    const res = yield call(getConditionListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getConditionListFailure(res.data?.errors || res.errors));
     } else {
@@ -39,13 +41,13 @@ export function* getConditionListSaga(): SagaIterator {
   }
 }
 
-export function* getCondition(action: any): SagaIterator {
+export function* getConditionSaga(action: any): SagaIterator {
   try {
-    const res = yield call(getCondition, action.data);
+    const res = yield call(getConditionRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getConditionFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getConditionSuccess(res.data?.conditions));
+      yield put(getConditionSuccess(res.data?.condition));
     }
   } catch (error) {
     yield put(getConditionFailure(`${error}`));
@@ -58,7 +60,7 @@ export function* addConditionSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addConditionFailure(res.errors));
     } else {
-      yield put(addConditionSuccess(res.data.Condition));
+      yield put(addConditionSuccess(res.data.condition));
     }
   } catch (error: any) {
     yield put(addConditionFailure(error?.toString()));
@@ -71,7 +73,7 @@ export function* updateConditionSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateConditionFailure(res.errors));
     } else {
-      yield put(updateConditionSuccess(res.data.Condition));
+      yield put(updateConditionSuccess(res.data.condition));
     }
   } catch (error: any) {
     yield put(updateConditionFailure(error?.toString()));
@@ -84,7 +86,7 @@ export function* deleteConditionSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(deleteConditionFailure(res.errors));
     } else {
-      yield put(deleteConditionSuccess(res.data.Condition));
+      yield put(deleteConditionSuccess(res.data.condition));
     }
   } catch (error: any) {
     yield put(deleteConditionFailure(error?.toString()));
@@ -92,8 +94,8 @@ export function* deleteConditionSaga(action: any): SagaIterator {
 }
 
 export function* ConditionSagas(): Generator {
-  yield takeEvery(GET_CONDITION, getCondition);
-  yield takeEvery(GET_CONDITION_LIST, getConditionList);
+  yield takeEvery(GET_CONDITION, getConditionSaga);
+  yield takeEvery(GET_CONDITION_LIST, getConditionListSaga);
   yield takeEvery(ADD_CONDITION, addConditionSaga);
   yield takeEvery(UPDATE_CONDITION, updateConditionSaga);
   yield takeEvery(DELETE_CONDITION, deleteConditionSaga);

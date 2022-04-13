@@ -26,30 +26,31 @@ import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
 import { IRootState } from "../../../config/reducer";
-import { getCountryList } from "../../../reducer/country/action";
-import { ICountryState } from "../../../reducer/country/reducer";
+import { IConditionState } from "../../../reducer/condition/reducer";
+import { getConditionList } from "../../../reducer/condition/action";
 
 const columns: GridColDef[] = [
-  { field: "name", headerName: "Name", flex: 2 },
-  { field: "name_fr", headerName: "Name FR", flex: 2 },
+  { field: "name", headerName: "Name", width: 250 },
+  { field: "name_fr", headerName: "Name FR", width: 250 },
+  { field: "created_at", headerName: "Created at", width: 250 },
 ];
 
-function Country() {
+function Condition() {
+
   const dispatch = useDispatch();
   const router = useRouter();
   const state = useSelector(
-    (state: IRootState): ICountryState => state.country
+    (state: IRootState): IConditionState => state.condition
   );
 
   React.useEffect(() => {
     if (!state.list) {
-      dispatch(getCountryList());
+      dispatch(getConditionList());
     }
   }, [dispatch, state]);
-
   return (
     <>
       <Layout>
@@ -61,11 +62,11 @@ function Country() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Country
+                Condition
               </Typography>
 
               <Button
-                onClick={() => router.push("/page/country/create")}
+                onClick={() => router.push("/page/condition/create")}
                 variant="contained"
                 size="small"
                 color="info"
@@ -77,17 +78,6 @@ function Country() {
           </Grid>
           <Grid item xs={12} md={10} sx={{ mx: "auto" }}>
             <Paper elevation={0} sx={{ py: 3, px: 3 }}>
-              <FormControl fullWidth sx={{ m: 1 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Search
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-amount"
-                  startAdornment={<SearchIcon />}
-                  label="Amount"
-                />
-              </FormControl>
-
               <Box style={{ height: 400, width: "100%" }} sx={{ mt: 4 }}>
                 <div style={{ display: "flex", height: "100%" }}>
                   <div style={{ flexGrow: 1 }}>
@@ -101,7 +91,7 @@ function Country() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/country/edit/" + params.id);
+                        router.push("/page/condition/edit/" + params.id);
                         console.log("params", params);
                       }}
                     />
@@ -116,4 +106,4 @@ function Country() {
   );
 }
 
-export default Country;
+export default Condition;

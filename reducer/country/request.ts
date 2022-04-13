@@ -47,7 +47,7 @@ export const updateCountryRequest = (data: ICountry) => {
 export const getCountryListRequest = () => {
   let req = `
     {
-        Countries{
+        countries{
             id
             name
             name_fr
@@ -66,7 +66,7 @@ export const getCountryListRequest = () => {
 export const getCountryRequest = (id:string) => {
   let req = `
     {
-        Country(id:"${id}"){
+        country(id:"${id}"){
             id
             name
             name_fr

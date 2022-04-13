@@ -34,9 +34,10 @@ export const updateConditionRequest = (data: ICondition) => {
 export const getConditionListRequest = () => {
   let req = `
     {
-        Conditions{
+        conditions{
             id
             name
+            name_fr
             created_at
         }
 
@@ -48,9 +49,10 @@ export const getConditionListRequest = () => {
 export const getConditionRequest = (id: string) => {
   let req = `
     {
-        Condition(id:"${id}"){
+        condition(id:"${id}"){
             id
             name
+            name_fr
             created_at
         }
 

@@ -48,6 +48,7 @@ export const roleReducer = (
         isLoading: false,
         success: true,
         role: action.data,
+        // list: [...state.list, action.data],
       };
 
     case ADD_ROLE_FAILURE:
@@ -57,26 +58,24 @@ export const roleReducer = (
         error: action.error,
       };
 
-    case GET_ROLE_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_ROLE_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_ROLE_LIST_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        success: true,
         list: action.data,
       };
 
-    case GET_ROLE_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_ROLE_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case GET_ROLE_SUCCESS:
       return {
@@ -96,6 +95,7 @@ export const roleReducer = (
         isLoading: false,
         success: true,
         role: action.data,
+        // list: [...state.list, action.data],
       };
 
     case UPDATE_ROLE_FAILURE:

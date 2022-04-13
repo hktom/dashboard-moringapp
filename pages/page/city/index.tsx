@@ -24,124 +24,36 @@ import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { IRootState } from "../../../config/reducer";
+import { getCityList } from "../../../reducer/city/action";
+import { ICityState } from "../../../reducer/city/reducer";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "firstName", headerName: "First name", flex: 1 },
-  { field: "lastName", headerName: "Last name", flex: 1 },
+  { field: "name", headerName: "Name EN", flex: 2 },
+  { field: "name_fr", headerName: "Name FR", flex: 2 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    flex: 1,
-  },
-  {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    flex: 1,
+    field: "country",
+    headerName: "Country",
+    flex: 2,
     sortable: false,
     valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  },
-  {
-    field: "status",
-    flex: 1,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value}
-          color="success"
-          sx={{
-            color: "secondary.main",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-
-    lastName: "Snow",
-    firstName: "Jon",
-    age: 35,
-    status: "completed",
-  },
-  {
-    id: 2,
-
-    lastName: "Lannister",
-    firstName: "Cersei",
-    age: 42,
-    status: "completed",
-  },
-  {
-    id: 3,
-
-    lastName: "Lannister",
-    firstName: "Jaime",
-    age: 45,
-    status: "completed",
-  },
-  {
-    id: 4,
-
-    lastName: "Stark",
-    firstName: "Arya",
-    age: 16,
-    status: "completed",
-  },
-  {
-    id: 5,
-
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    status: "completed",
-  },
-  {
-    id: 6,
-
-    lastName: "Melisandre",
-    firstName: null,
-    age: 150,
-    status: "completed",
-  },
-  {
-    id: 7,
-
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    age: 44,
-    status: "completed",
-  },
-  {
-    id: 8,
-
-    lastName: "Frances",
-    firstName: "Rossini",
-    age: 36,
-    status: "completed",
-  },
-  {
-    id: 9,
-
-    lastName: "Roxie",
-    firstName: "Harvey",
-    age: 65,
-    status: "completed",
+      `${params.row?.country?.name}`,
   },
 ];
 
 function City() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const state = useSelector((state: IRootState): ICityState => state.city);
+
+  React.useEffect(() => {
+    if (!state.list) {
+      dispatch(getCityList());
+    }
+  }, [dispatch, state]);
+
   return (
     <>
       <Layout>
@@ -157,6 +69,7 @@ function City() {
               </Typography>
 
               <Button
+                onClick={() => router.push("/page/city/create")}
                 variant="contained"
                 size="small"
                 color="info"
@@ -184,7 +97,7 @@ function City() {
                   <div style={{ flexGrow: 1 }}>
                     <DataGrid
                       sx={{ border: "none" }}
-                      rows={rows}
+                      rows={state.list || []}
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}

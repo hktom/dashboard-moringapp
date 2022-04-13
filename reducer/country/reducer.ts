@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface ICountryState {
-  list: ICountry[];
+  list: ICountry[] | undefined;
   country: ICountry | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface ICountryState {
 }
 
 export const initialState: ICountryState = {
-  list: [],
+  list: undefined,
   country: undefined,
   error: undefined,
   isLoading: false,
@@ -63,26 +63,26 @@ export const countryReducer = (
         country: action.data,
       };
 
-    case GET_COUNTRY_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_COUNTRY_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_COUNTRY_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 
-    case GET_COUNTRY_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_COUNTRY_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case UPDATE_COUNTRY:
       return {
