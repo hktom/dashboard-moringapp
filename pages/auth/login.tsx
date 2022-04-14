@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { getCookie, setCookies } from "cookies-next";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 import {
   Alert,
   Avatar,
@@ -50,13 +50,13 @@ function Login() {
     console.log(data);
   };
 
-
   useEffect(() => {
-    if (loginState.token) {
-      Cookies.set('token', loginState.token, { expires: 7 });
-      router.push("/page/");
+    if (loginState.login?.token) {
+      Cookies.set("token", loginState.login.token!, { expires: 7 });
+      // router.push("/page/");
+      window.location.href = "/page/";
     }
-  }, [loginState.token, router]);
+  }, [loginState.login, router]);
 
   return (
     <Box
@@ -84,13 +84,13 @@ function Login() {
               Log in
             </Typography>
 
-            {loginState.error && (
+            {loginState.login.error && (
               <Alert severity="error" sx={{ width: "100%" }}>
-                {loginState.error}
+                {loginState.login.error}
               </Alert>
             )}
 
-            {loginState.token && (
+            {loginState.login.token && (
               <Alert severity="success" sx={{ width: "100%" }}>
                 You are logged in!
               </Alert>
@@ -130,13 +130,13 @@ function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                disabled={loginState.isLoading}
+                disabled={loginState.login.loading}
                 disableElevation
                 color="info"
                 sx={{ mt: 3, mb: 2, py: 1.2 }}
               >
                 Sign In{" "}
-                {loginState.isLoading && (
+                {loginState.login.loading && (
                   <CircularProgress
                     color="secondary"
                     size={20}

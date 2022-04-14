@@ -9,6 +9,7 @@ import { getCategoryListSuccess } from "../category/action";
 import { getConditionListSuccess } from "../condition/action";
 import { getCountryListSuccess } from "../country/action";
 import { getCityListSuccess } from "../city/action";
+import { getTaskListSuccess } from "../task/action";
 
 export function* getClientProfileSaga(): SagaIterator {
   try {
@@ -23,6 +24,7 @@ export function* getClientProfileSaga(): SagaIterator {
       yield put(getConditionListSuccess(res.data.conditions));
       yield put(getCountryListSuccess(res.data.countries));
       yield put(getCityListSuccess(res.data.cities));
+      yield put(getTaskListSuccess(res.data.tasks));
     }
   } catch (error) {
     console.error(error);

@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   addTaskRequest,
   deleteTaskRequest,
+  getTaskListRequest,
+  getTaskRequest,
   updateTaskRequest,
 } from "./request";
 import {
@@ -29,7 +31,7 @@ import {
 
 export function* getTaskListSaga(): SagaIterator {
   try {
-    const res = yield call(getTaskList);
+    const res = yield call(getTaskListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getTaskListFailure(res.data?.errors || res.errors));
     } else {
@@ -42,11 +44,11 @@ export function* getTaskListSaga(): SagaIterator {
 
 export function* getTaskSaga(action:any):SagaIterator{
   try{
-    const res = yield call(getTask, action.data);
+    const res = yield call(getTaskRequest, action.data);
     if(res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")){
       yield put(getTaskFailure(res.data?.errors || res.errors));
     }else{
-      yield put(getTaskSuccess(res.data?.tasks));
+      yield put(getTaskSuccess(res.data?.task));
     }
   }catch(error){
     yield put(getTaskFailure(`${error}`));

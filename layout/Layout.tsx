@@ -14,6 +14,8 @@ import { getUserProfile } from "../store/home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../config/reducer";
 import { IHomeState } from "../store/home/reducer";
+import { HOST_URL } from "../config/apollo";
+import AccountMenu from "./AccountMenu";
 
 const drawerWidth = 240;
 
@@ -138,15 +140,12 @@ const Layout = ({ children }: DashboardLayoutProps) => {
           </Box>
 
           <Stack>
-            <Avatar
-              alt={
-                homeState.user?.first_name +
-                " " +
-                homeState.user?.last_name
-              }
-              src={homeState.user?.avatar}
+            <AccountMenu user={homeState.user}></AccountMenu>
+            {/* <Avatar
+              alt={homeState.user?.first_name + " " + homeState.user?.last_name}
+              src={HOST_URL + "storage/" + homeState.user?.avatar}
               sx={{ width: 35, height: 35 }}
-            />
+            /> */}
           </Stack>
         </Toolbar>
       </AppBar>

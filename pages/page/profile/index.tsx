@@ -117,7 +117,7 @@ function Profile() {
                 Details
               </Typography>
               <Divider />
-              {[1, 2, 3, 4, 5].map((i) => (
+              {/* {[1, 2, 3, 4, 5].map((i) => (
                 <>
                   <Box
                     sx={{
@@ -138,7 +138,7 @@ function Profile() {
                   </Box>
                   <Divider />
                 </>
-              ))}
+              ))} */}
             </Paper>
 
             <Paper elevation={0} sx={{ py: 3, px: 3, mt: 5 }}>

@@ -18,6 +18,8 @@ import {
   GridValueGetterParams,
   GridRenderCellParams,
   DataGrid,
+  GridRowParams,
+  MuiEvent,
 } from "@mui/x-data-grid";
 
 import * as React from "react";
@@ -32,40 +34,41 @@ import { getTaskList, ITask } from "../../../store/task/action";
 import { ICondition } from "../../../store/condition/action";
 import { ICategory } from "../../../store/category/action";
 import { useRouter } from "next/router";
+import { HOST_URL } from "../../../config/apollo";
 
 const columns: GridColDef[] = [
-  { field: "title", headerName: "Name", flex: 1 },
   {
     field: "image",
-    flex: 1,
+    width: 200,
     headerName: "Image",
     renderCell: (params: GridRenderCellParams<string>) => (
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
           height="80px"
-          image={params.value}
+          image={HOST_URL + "storage/" + params.value}
           alt="green iguana"
         />
       </Box>
     ),
   },
-  { field: "can_be_booked", headerName: "Can be booked", flex: 1 },
-  { field: "can_be_urgent", headerName: "Can be Urgent", flex: 1 },
-  { field: "accept_offer", headerName: "Accept offer", flex: 1 },
-  { field: "min_price", headerName: "Min Price ($)", flex: 1 },
-
+  { field: "name", headerName: "Name", width: 200 },
+  { field: "price_by_hour", headerName: "Price By Hour ($)", width: 200 },
+  { field: "min_price", headerName: "Min Price ($)", width: 200 },
+  { field: "can_be_booked", headerName: "Can be booked", width: 200 },
+  { field: "can_be_urgent", headerName: "Can be Urgent", width: 200 },
+  { field: "accept_offer", headerName: "Accept offer", width: 200 },
   {
     field: "category",
     headerName: "Category",
-    flex: 1,
+    width: 200,
     sortable: false,
     valueGetter: (params: GridValueGetterParams<ICategory>) =>
       params.value?.name,
   },
   {
     field: "condition",
-    flex: 1,
+    width: 200,
     headerName: "Status",
     renderCell: (params: GridRenderCellParams<ICondition>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
@@ -88,25 +91,16 @@ const columns: GridColDef[] = [
 function Task() {
   const router = useRouter();
   const [search, setSearch] = React.useState("");
-  const [data, setData] = React.useState<ITask[] | undefined>(undefined);
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  const taskState = useSelector((state: IRootState): ITaskState => state.task);
-  const dispatch = useDispatch();
+  const state = useSelector((state: IRootState): ITaskState => state.task);
+  // const [data, setData] = React.useState<ITask[] | undefined>(undefined);
+  // const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  // const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    if (homeState.role?.name == "admin" && !data) {
-      dispatch(getTaskList());
-      setData(taskState.taskList);
-    } else {
-      setData(homeState.tasks!);
-    }
-  }, [
-    data,
-    dispatch,
-    homeState.role?.name,
-    homeState.tasks,
-    taskState.taskList,
-  ]);
+  // React.useEffect(() => {
+  //   if (!state.list) {
+  //     dispatch(getTaskList())
+  //   }
+  // }, []);
 
   return (
     <>
@@ -152,10 +146,17 @@ function Task() {
                     <DataGrid
                       sx={{ border: "none" }}
                       rowHeight={100}
-                      rows={data || []}
+                      rows={state.list || []}
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}
+                      onRowClick={(
+                        params: GridRowParams,
+                        event: MuiEvent<React.MouseEvent>
+                      ) => {
+                        router.push("/page/task/edit/" + params.id);
+                        console.log("params", params);
+                      }}
                     />
                   </div>
                 </div>

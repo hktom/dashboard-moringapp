@@ -23,46 +23,128 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { ITask } from "../../../store/task/action";
+import {
+  addTask,
+  addTaskFailure,
+  getTask,
+  ITask,
+  updateTask,
+} from "../../../store/task/action";
 import { ICategory } from "../../../store/category/action";
 import ImageUploader from "../../../components/ImageUploader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
 import { ITaskState } from "../../../store/task/reducer";
+import { ICategoryState } from "../../../store/category/reducer";
+import { IHomeState } from "../../../store/home/reducer";
+import { IConditionState } from "../../../store/condition/reducer";
+import { ICondition } from "../../../store/condition/action";
+import { useRouter } from "next/router";
 
-function CreateTask() {
-  const [age, setAge] = React.useState("");
-  const [category, setCategory] = React.useState("");
-  const [categoryList, setCategoryList] = React.useState<ICategory[]>([]);
+export interface IProps {
+  pid?: string;
+}
+function CreateTask(props: IProps) {
+  const [category, setCategory] = React.useState<string>("");
+  const { pid } = props;
+  const router = useRouter();
+  // const [age, setAge] = React.useState("");
+  // const [categoryList, setCategoryList] = React.useState<ICategory[]>([]);
   const [can_be_booked, setCanBeBooked] = React.useState<boolean>(false);
   const [can_be_urgent, setCanBeUrgent] = React.useState<boolean>(false);
   const [accept_offer, setAcceptOffer] = React.useState<boolean>(false);
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
 
-  const taskState = useSelector((state: IRootState): ITaskState => state.task);
+  const dispatch = useDispatch();
+  const conditionState = useSelector(
+    (state: IRootState): IConditionState => state.condition
+  );
+  const me = useSelector((state: IRootState): IHomeState => state.home);
+  const state = useSelector((state: IRootState): ITaskState => state.task);
+  const categoryState = useSelector(
+    (state: IRootState): ICategoryState => state.category
+  );
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<ITask>();
 
   const onSubmit = (data: any) => {
-    // dispatch(loginUser(data!));
-    console.log(
-      data,
-      +can_be_booked,
-      +can_be_urgent,
-      +accept_offer,
-      +active,
-      image
+    if (!image || !category) {
+      dispatch(addTaskFailure("Please select image and category"));
+      return;
+    }
+
+    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+      (i: any) => i.value == +active
+    );
+
+    if (pid) {
+      dispatch(
+        updateTask({
+          ...data,
+          image: image,
+          can_be_booked: +can_be_booked,
+          can_be_urgent: +can_be_urgent,
+          accept_offer: +accept_offer,
+          active: { id: active },
+          category: { id: category },
+          user: { id: me.user?.id },
+          condition: _condition && _condition[0],
+          id: pid,
+        })
+      );
+      return;
+    }
+
+    dispatch(
+      addTask({
+        ...data,
+        image: image,
+        can_be_booked: +can_be_booked,
+        can_be_urgent: +can_be_urgent,
+        accept_offer: +accept_offer,
+        active: { id: active },
+        category: { id: category },
+        user: { id: me.user?.id },
+        condition: _condition && _condition[0],
+      })
     );
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
+  React.useEffect(() => {
+    if (pid && !state.task) {
+      dispatch(getTask(pid));
+    }
+
+    if (pid && state.task) {
+      setValue("name", state.task.name);
+      setValue("min_price", state.task.min_price);
+      setValue("price_by_hour", state.task.price_by_hour);
+      setValue("description", state.task.description);
+
+      setCanBeUrgent(state.task.can_be_urgent == 1 ?? false);
+      setCanBeBooked(state.task.can_be_booked == 1 ?? false);
+      setAcceptOffer(state.task.accept_offer == 1 ?? false);
+      setActive(state.task.condition?.value == 1 ?? false);
+
+      setImage(state.task.image);
+
+      setCategory(state.task.category?.id);
+    }
+
+    if (state.success) {
+      router.reload();
+    }
+  }, [dispatch, pid, router, setValue, state.success, state.task]);
+
+  const handleChangeCategory = (event: SelectChangeEvent) => {
+    setCategory(event.target.value as string);
   };
 
   return (
@@ -70,7 +152,7 @@ function CreateTask() {
       <Grid container>
         <Grid item xs={12} md={10} sx={{ mx: "auto", my: 4 }}>
           <Typography variant="h3" component="h1" sx={{ fontWeight: "bold" }}>
-            Create a new task
+            {pid ? "Edit" : "Create"} a task
           </Typography>
 
           <Breadcrumbs aria-label="breadcrumb">
@@ -92,13 +174,13 @@ function CreateTask() {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {taskState.error && (
+            {state.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {taskState.error}
+                {state.error}
               </Alert>
             )}
 
-            {taskState.success && (
+            {state.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -122,6 +204,9 @@ function CreateTask() {
                     variant="outlined"
                     fullWidth
                     color="info"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     sx={{ my: 1 }}
                     {...register("name", { required: true })}
                   />
@@ -133,6 +218,9 @@ function CreateTask() {
                     fullWidth
                     sx={{ my: 1 }}
                     color="info"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
                     rows={4}
                     {...register("description", { required: true })}
                   />
@@ -179,6 +267,7 @@ function CreateTask() {
                         <Switch
                           color="info"
                           value={can_be_urgent}
+                          checked={can_be_urgent}
                           onChange={() => setCanBeUrgent(!can_be_urgent)}
                         />
                       }
@@ -191,6 +280,7 @@ function CreateTask() {
                       control={
                         <Switch
                           color="info"
+                          checked={can_be_booked}
                           value={can_be_booked}
                           onChange={() => setCanBeBooked(!can_be_booked)}
                         />
@@ -204,6 +294,7 @@ function CreateTask() {
                       control={
                         <Switch
                           color="info"
+                          checked={accept_offer}
                           value={accept_offer}
                           onChange={() => setAcceptOffer(!accept_offer)}
                         />
@@ -217,6 +308,7 @@ function CreateTask() {
                       control={
                         <Switch
                           color="info"
+                          checked={active}
                           value={active}
                           onChange={() => setActive(!active)}
                         />
@@ -227,10 +319,11 @@ function CreateTask() {
 
                   <FormControl fullWidth sx={{ my: 1 }}>
                     <InputLabel htmlFor="outlined-adornment-amount">
-                      Price
+                      Price by hour
                     </InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-amount"
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                       startAdornment={
                         <InputAdornment position="start">$</InputAdornment>
                       }
@@ -245,6 +338,7 @@ function CreateTask() {
                     </InputLabel>
                     <OutlinedInput
                       id="outlined-adornment-amount"
+                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
                       startAdornment={
                         <InputAdornment position="start">$</InputAdornment>
                       }
@@ -269,17 +363,25 @@ function CreateTask() {
                 </Grid>
                 <Grid item xs={12} md={8}>
                   <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="demo-simple-select-label">
+                      Category
+                    </InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={age}
-                      label="Age"
-                      onChange={handleChange}
+                      value={category}
+                      label="Category"
+                      onChange={handleChangeCategory}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      {(
+                        categoryState?.list?.filter(
+                          (c: ICategory) => c.condition?.value == 1
+                        ) ?? []
+                      ).map((i: ICategory) => (
+                        <MenuItem value={i.id} key={i.id}>
+                          {i.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Grid>
@@ -310,11 +412,13 @@ function CreateTask() {
                   type="submit"
                 >
                   Create{" "}
-                  <CircularProgress
-                    color="secondary"
-                    size={20}
-                    sx={{ ml: 2 }}
-                  />
+                  {state.isLoading && (
+                    <CircularProgress
+                      color="secondary"
+                      size={20}
+                      sx={{ ml: 2 }}
+                    />
+                  )}
                 </Button>
               </Grid>
             </Grid>

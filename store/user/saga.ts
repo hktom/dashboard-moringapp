@@ -1,7 +1,7 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import {
-  addUserRequest,
+  // addUserRequest,
   deleteUserRequest,
   updateUserRequest,
 } from "./request";
@@ -53,18 +53,18 @@ export function* getUserSaga(action: any): SagaIterator {
   }
 }
 
-export function* addUserSaga(action: any): SagaIterator {
-  try {
-    const res = yield call(addUserRequest, action.data);
-    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(addUserFailure(res.errors));
-    } else {
-      yield put(addUserSuccess(res.data.User));
-    }
-  } catch (error: any) {
-    yield put(addUserFailure(error?.toString()));
-  }
-}
+// export function* addUserSaga(action: any): SagaIterator {
+//   try {
+//     const res = yield call(addUserRequest, action.data);
+//     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+//       yield put(addUserFailure(res.errors));
+//     } else {
+//       yield put(addUserSuccess(res.data.User));
+//     }
+//   } catch (error: any) {
+//     yield put(addUserFailure(error?.toString()));
+//   }
+// }
 
 export function* updateUserSaga(action: any): SagaIterator {
   try {
@@ -95,7 +95,7 @@ export function* deleteUserSaga(action: any): SagaIterator {
 export function* UserSagas(): Generator {
   yield takeEvery(GET_USER, getUserSaga);
   yield takeEvery(GET_USER_LIST, getUserListSaga);
-  yield takeEvery(ADD_USER, addUserSaga);
+  // yield takeEvery(ADD_USER, addUserSaga);
   yield takeEvery(UPDATE_USER, updateUserSaga);
   yield takeEvery(DELETE_USER, deleteUserSaga);
 }

@@ -2,83 +2,53 @@ import { queryMethods, mutateMethods } from "../../config/apollo";
 import { IUser } from "./action";
 import { v4 as uuidv4 } from "uuid";
 
-export const addUserRequest = (data: IUser) => {
+export const updateUserRequest = (data: IUser) => {
   let req = `mutation{
-        createUser(input:{
-            id: "${uuidv4()}",
-            title:"${data.title}"
-            description:"${data.description}"
-            image:"${data.image}"
-            can_be_booked:${data.can_be_booked}
-            can_be_urgent:${data.can_be_urgent}
-            accept_offer:${data.accept_offer}
-            min_price:${data.min_price}
-            category:{connect:${data.category?.id}}
-            condition:{connect:${data.condition?.id}}
-            user:"{connect:${data.user?.id}}"
-        }){
+          updateUser(id:"${data.id}", input:{
+              first_name:"${data.first_name}",
+              last_name:"${data.last_name}",
+              avatar: "${data.avatar}",
+              street: "${data.street}",
+              mobile: "${data.mobile}",
+              certificate: "${data.certificate}",
+              bio: "${data.bio}",
+              zip_code: "${data.zip_code}",
+              url: "${data.url}",
+              city:"{connect:${data.city?.id}}"
+              role:"{connect:${data.role?.id}}"
+              condition:"{connect:${data.condition?.id}}"
+          }){
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            first_name
+            last_name
+            email
+            avatar
+            street
+            mobile
+            certificate
+            bio
+            zip_code
+            url
+            role{
                 id
                 name
+                value
             }
             condition{
                 id
                 name
+                value
             }
-            user{
+            city{
                 id
-                email
+                name
+                country{
+                    id
+                    name
+                }
             }
             created_at
-        }
-    }`;
-
-  return mutateMethods(req);
-};
-
-export const updateUserRequest = (data: IUser) => {
-  let req = `mutation{
-          createUser(id:"${data.id}", input:{
-              title:"${data.title}"
-              description:"${data.description}"
-              image:"${data.image}"
-              can_be_booked:${data.can_be_booked}
-              can_be_urgent:${data.can_be_urgent}
-              accept_offer:${data.accept_offer}
-              min_price:${data.min_price}
-              category:{connect:${data.category?.id}}
-              condition:{connect:${data.condition?.id}}
-              user:"{connect:${data.user?.id}}"
-          }){
-              id
-              title
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-              user{
-                  id
-                  email
-              }
-              created_at
+            updated_at
           }
       }`;
 
@@ -90,26 +60,36 @@ export const getUserListRequest = () => {
     {
         Users{
             id
-            title
-            description
-            image
-            can_be_booked
-            can_be_urgent
-            accept_offer
-            min_price
-            category{
+            first_name
+            last_name
+            email
+            avatar
+            street
+            mobile
+            certificate
+            bio
+            zip_code
+            url
+            role{
                 id
                 name
+                value
             }
             condition{
                 id
                 name
+                value
             }
-            user{
+            city{
                 id
-                email
+                name
+                country{
+                    id
+                    name
+                }
             }
             created_at
+            updated_at
         }
 
     }`;
@@ -121,27 +101,37 @@ export const getUserRequest = (id: string) => {
   let req = `
       {
           User(id:"${id}"){
-              id
-              title
-              description
-              image
-              can_be_booked
-              can_be_urgent
-              accept_offer
-              min_price
-              category{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-              }
-              user{
-                  id
-                  email
-              }
-              created_at
+            id
+            first_name
+            last_name
+            email
+            avatar
+            street
+            mobile
+            certificate
+            bio
+            zip_code
+            url
+            role{
+                id
+                name
+                value
+            }
+            condition{
+                id
+                name
+                value
+            }
+            city{
+                id
+                name
+                country{
+                    id
+                    name
+                }
+            }
+            created_at
+            updated_at
           }
   
       }`;
@@ -153,26 +143,36 @@ export const deleteUserRequest = (data: IUser) => {
   let req = `mutation{
             deleteUser(id:"${data.id}"){
                 id
-                title
-                description
-                image
-                can_be_booked
-                can_be_urgent
-                accept_offer
-                min_price
-                category{
+                first_name
+                last_name
+                email
+                avatar
+                street
+                mobile
+                certificate
+                bio
+                zip_code
+                url
+                role{
                     id
                     name
+                    value
                 }
                 condition{
                     id
                     name
+                    value
                 }
-                user{
+                city{
                     id
-                    email
+                    name
+                    country{
+                        id
+                        name
+                    }
                 }
                 created_at
+                updated_at
             }
         }`;
 

@@ -115,6 +115,26 @@ export const getUserProfileRequest = () => {
         name
         value
     }
+    tasks:tasks{
+        id
+        name
+        image
+        can_be_booked
+        can_be_urgent
+        accept_offer
+        price_by_hour
+        min_price
+        min_price
+        category{
+            id
+            name
+        }
+        condition{
+            id
+            name
+            value
+        }
+    }
     services:services{
         id
         name

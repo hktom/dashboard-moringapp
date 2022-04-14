@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface ITaskState {
-  list: ITask[];
+  list: ITask[] | undefined;
   task: ITask | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface ITaskState {
 }
 
 export const initialState: ITaskState = {
-  list: [],
+  list: undefined,
   task: undefined,
   error: undefined,
   isLoading: false,
@@ -63,26 +63,26 @@ export const taskReducer = (
         task: action.data,
       };
 
-    case GET_TASK_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
+    // case GET_TASK_LIST:
+    //   return {
+    //     ...state,
+    //     isLoading: true,
+    //   };
 
     case GET_TASK_LIST_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 
-    case GET_TASK_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
+    // case GET_TASK_LIST_FAILURE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     error: action.error,
+    //   };
 
     case UPDATE_TASK:
       return {

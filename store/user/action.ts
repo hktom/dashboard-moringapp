@@ -19,19 +19,28 @@ import {
 
 export interface IUser {
   id: string;
-  title: string;
-  description: string;
-  image: string;
-  can_be_booked: number;
-  can_be_urgent: number;
-  accept_offer: number;
-  min_price: number;
-  category: any;
+  first_name: string;
+  last_name: string;
+  email: string;
+  password?: string;
+  gender?: string;
+  avatar?:string;
+  street?:string;
+  auth?: string;
+  mobile?: string;
+  certificate?: string;
+  bio?: string;
+  zip_code?: string;
+  url?: string;
+  role?: any;
   condition: any;
-  user: any;
+  city?: any;
   jobs?: any;
-  created_at?: any;
-  update_at?: any;
+  tasks: any;
+  feedbacks?: any;
+  comments?: any;
+  created_at?: string;
+  updated_at?: string;
 }
 
 export interface IAddUser extends Action<"user/ADD_USER"> {

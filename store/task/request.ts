@@ -14,9 +14,9 @@ export const addTaskRequest = (data: ITask) => {
             accept_offer:${data.accept_offer}
             price_by_hour:${data.price_by_hour}
             min_price:${data.min_price}
-            category:{connect:${data.category?.id}}
-            condition:{connect:${data.condition?.id}}
-            user:"{connect:${data.user?.id}}"
+            category:{connect:"${data.category?.id}"}
+            condition:{connect:"${data.condition?.id}"}
+            user:{connect:"${data.user?.id}"}
         }){
             id
             name
@@ -25,7 +25,7 @@ export const addTaskRequest = (data: ITask) => {
             can_be_booked
             can_be_urgent
             accept_offer
-            prince_by_hour
+            price_by_hour
             min_price
             category{
                 id
@@ -48,7 +48,7 @@ export const addTaskRequest = (data: ITask) => {
 
 export const updateTaskRequest = (data: ITask) => {
   let req = `mutation{
-          createTask(id:"${data.id}", input:{
+          updateTask(id:"${data.id}", input:{
               name:"${data.name}"
               description:"${data.description}"
               image:"${data.image}"
@@ -56,10 +56,10 @@ export const updateTaskRequest = (data: ITask) => {
               can_be_urgent:${data.can_be_urgent}
               accept_offer:${data.accept_offer}
               min_price:${data.min_price}
-              rice_by_hour:${data.price_by_hour}
-              category:{connect:${data.category?.id}}
-              condition:{connect:${data.condition?.id}}
-              user:"{connect:${data.user?.id}}"
+              price_by_hour:${data.price_by_hour}
+              category:{connect:"${data.category?.id}"}
+              condition:{connect:"${data.condition?.id}"}
+              user:{connect:"${data.user?.id}"}
           }){
               id
               name
@@ -69,7 +69,7 @@ export const updateTaskRequest = (data: ITask) => {
               can_be_urgent
               accept_offer
               min_price
-              prince_by_hour
+              price_by_hour
               category{
                   id
                   name
@@ -77,6 +77,7 @@ export const updateTaskRequest = (data: ITask) => {
               condition{
                   id
                   name
+                  value
               }
               user{
                   id
@@ -93,15 +94,15 @@ export const getTaskListRequest = () => {
   let req = `
     {
         tasks{
+            id
             name
-            title
             description
             image
             can_be_booked
             can_be_urgent
             accept_offer
             min_price
-            prince_by_hour
+            price_by_hour
             category{
                 id
                 name
@@ -109,6 +110,7 @@ export const getTaskListRequest = () => {
             condition{
                 id
                 name
+                value
             }
             user{
                 id
@@ -126,15 +128,15 @@ export const getTaskRequest = (id: string) => {
   let req = `
       {
           task(id:"${id}"){
+              id
               name
-              title
               description
               image
               can_be_booked
               can_be_urgent
               accept_offer
               min_price
-              prince_by_hour
+              price_by_hour
               category{
                   id
                   name
@@ -142,6 +144,7 @@ export const getTaskRequest = (id: string) => {
               condition{
                   id
                   name
+                  value
               }
               user{
                   id

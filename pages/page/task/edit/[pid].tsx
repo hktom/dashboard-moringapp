@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
-import CreateRole from "../create";
+import CreateTask from "../create";
 
 function Edit() {
   const router = useRouter();
   const { pid } = router.query;
-  return <CreateRole pid={pid?.toString()}></CreateRole>;
+  return <CreateTask pid={pid?.toString()}></CreateTask>;
 }
 
 export default Edit;
