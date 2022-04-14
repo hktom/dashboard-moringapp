@@ -19,6 +19,7 @@ import {
 
 export interface IRole {
   id: string;
+  value:number;
   name: string;
   created_at?: any;
   update_at?: any;

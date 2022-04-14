@@ -23,12 +23,12 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { ITask } from "../../../reducer/task/action";
-import { ICategory } from "../../../reducer/category/action";
+import { ITask } from "../../../store/task/action";
+import { ICategory } from "../../../store/category/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { ITaskState } from "../../../reducer/task/reducer";
+import { ITaskState } from "../../../store/task/reducer";
 
 function CreateTask() {
   const [age, setAge] = React.useState("");

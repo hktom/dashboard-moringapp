@@ -1,6 +1,7 @@
 import { queryMethods, mutateMethods } from "../../config/apollo";
 import { ICategory } from "./action";
 import { v4 as uuidv4 } from "uuid";
+// parent:{sync:[${data.parent?.map((value: ICategory) => value.id)}]}
 
 export const addCategoryRequest = (data: ICategory) => {
   let req = `mutation{
@@ -12,36 +13,11 @@ export const addCategoryRequest = (data: ICategory) => {
             image:"${data.image}"
             slug:"${data.slug}"
             slug_fr:"${data.slug_fr}"
-            parent:{sync:[${data.parent?.map((value: ICategory) => value.id)}]}
-            condition:{connect:${data.condition?.id}}
-            service:"{connect:${data.service?.id}}"
+            condition:{connect:"${data.condition?.id}"}
+            service:{connect:"${data.service?.id}"}
         }){
             id
             name
-            description
-            image
-            name_fr
-            slug
-            slug_fr
-            service{
-                id
-                name
-            }
-            tasks{
-                id
-                title
-                image
-            }
-            parent{
-                id
-                name
-            }
-            condition{
-                id
-                name
-            }
-            created_at
-            updated_at
         }
     }`;
 
@@ -57,36 +33,11 @@ export const updateCategoryRequest = (data: ICategory) => {
             image:"${data.image}"
             slug:"${data.slug}"
             slug_fr:"${data.slug_fr}"
-            parent:{sync:[${data.parent?.map((value: ICategory) => value.id)}]}
-            condition:{connect:${data.condition?.id}}
-            service:"{connect:${data.service?.id}}"
+            condition:{connect:"${data.condition?.id}"}
+            service:{connect:"${data.service?.id}"}
           }){
             id
-            name
-            description
-            image
-            name_fr
-            slug
-            slug_fr
-            service{
-                id
-                name
-            }
-            tasks{
-                id
-                title
-                image
-            }
-            parent{
-                id
-                name
-            }
-            condition{
-                id
-                name
-            }
-            created_at
-            updated_at
+            name        
           }
       }`;
 
@@ -157,6 +108,7 @@ export const getCategoryRequest = (id: string) => {
               condition{
                   id
                   name
+                  value
               }
               created_at
               updated_at

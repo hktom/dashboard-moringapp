@@ -27,8 +27,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { getCityList } from "../../../reducer/city/action";
-import { ICityState } from "../../../reducer/city/reducer";
+import { getCityList } from "../../../store/city/action";
+import { ICityState } from "../../../store/city/reducer";
 
 const columns: GridColDef[] = [
   { field: "name", headerName: "Name EN", flex: 2 },
@@ -48,11 +48,11 @@ function City() {
   const router = useRouter();
   const state = useSelector((state: IRootState): ICityState => state.city);
 
-  React.useEffect(() => {
-    if (!state.list) {
-      dispatch(getCityList());
-    }
-  }, [dispatch, state]);
+  // React.useEffect(() => {
+  //   if (!state.list) {
+  //     dispatch(getCityList());
+  //   }
+  // }, [dispatch, state]);
 
   return (
     <>

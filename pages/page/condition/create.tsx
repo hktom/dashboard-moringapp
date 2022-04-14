@@ -30,12 +30,12 @@ import {
   getCondition,
   ICondition,
   updateCondition,
-} from "../../../reducer/condition/action";
+} from "../../../store/condition/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { IConditionState } from "../../../reducer/condition/reducer";
-import { uploadImageFailure } from "../../../reducer/image/actions";
+import { IConditionState } from "../../../store/condition/reducer";
+import { uploadImageFailure } from "../../../store/image/actions";
 
 interface IProps {
   pid?: string;
@@ -76,19 +76,16 @@ function CreateCondition(props: IProps) {
       dispatch(uploadImageFailure(undefined));
       reset({ data: {} });
     }
-  }, [dispatch, reset, state.success, setValue]);
 
-  React.useEffect(() => {
     if (pid) {
       dispatch(getCondition(pid));
     }
-  }, [dispatch, pid, setValue]);
 
-  React.useEffect(() => {
-    if (state.condition) {
+    if (state.condition && pid) {
       setValue("name", state.condition.name);
+      setValue("value", state.condition.value);
     }
-  }, [state.condition, setValue]);
+  }, [dispatch, reset, state.success, setValue, state.condition, pid]);
 
   return (
     <Layout>
@@ -132,6 +129,20 @@ function CreateCondition(props: IProps) {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
+                  <TextField
+                    id="name"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+                    label="value"
+                    variant="outlined"
+                    fullWidth
+                    color="info"
+                    sx={{ my: 1 }}
+                    {...register("value", { required: true })}
+                  />
+
                   <TextField
                     id="name"
                     InputLabelProps={{

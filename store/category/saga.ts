@@ -48,7 +48,7 @@ export function* getCategorySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCategoryFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getCategorySuccess(res.data?.categories));
+      yield put(getCategorySuccess(res.data?.category));
     }
   } catch (error) {
     yield put(getCategoryFailure(`${error}`));

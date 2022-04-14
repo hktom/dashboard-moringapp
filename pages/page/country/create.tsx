@@ -30,12 +30,12 @@ import {
   getCountry,
   ICountry,
   updateCountry,
-} from "../../../reducer/country/action";
+} from "../../../store/country/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { ICountryState } from "../../../reducer/country/reducer";
-import { uploadImageFailure } from "../../../reducer/image/actions";
+import { ICountryState } from "../../../store/country/reducer";
+import { uploadImageFailure } from "../../../store/image/actions";
 
 interface IProps {
   pid?: string;

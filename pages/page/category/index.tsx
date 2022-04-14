@@ -29,13 +29,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { getCategoryList } from "../../../reducer/category/action";
-import { ICategoryState } from "../../../reducer/category/reducer";
+import { getCategoryList } from "../../../store/category/action";
+import { ICategoryState } from "../../../store/category/reducer";
 import { HOST_URL } from "../../../config/apollo";
+import { ICondition } from "../../../store/condition/action";
 
 const columns: GridColDef[] = [
-  { field: "name", headerName: "Name EN", width: 200 },
-  { field: "name_fr", headerName: "Name FR", width: 200 },
   {
     field: "image",
     width: 200,
@@ -44,13 +43,15 @@ const columns: GridColDef[] = [
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
-          height="150px"
-          image={`${HOST_URL}${params.value}`}
+          height="140px"
+          image={HOST_URL + "storage/" + params.value}
           alt="green iguana"
         />
       </Box>
     ),
   },
+  { field: "name", headerName: "Name EN", width: 200 },
+  { field: "name_fr", headerName: "Name FR", width: 200 },
   {
     field: "service",
     headerName: "Service",
@@ -63,14 +64,14 @@ const columns: GridColDef[] = [
     field: "condition",
     width: 200,
     headerName: "Status",
-    renderCell: (params: GridRenderCellParams<any>) => (
+    renderCell: (params: GridRenderCellParams<ICondition>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Chip
           size="small"
-          label={params.value?.condition?.name}
-          color="success"
+          label={params.value?.name}
+          color={params.value?.value == 1 ? "success" : "error"}
           sx={{
-            color: "secondary.main",
+            color: "#fff",
             textTransform: "uppercase",
             fontSize: "0.7rem",
             fontWeight: "bold",
@@ -88,11 +89,11 @@ function Category() {
     (state: IRootState): ICategoryState => state.category
   );
 
-  React.useEffect(() => {
-    if (!CategoryState.list) {
-      dispatch(getCategoryList());
-    }
-  }, [dispatch, CategoryState]);
+  // React.useEffect(() => {
+  //   if (!CategoryState.list) {
+  //     dispatch(getCategoryList());
+  //   }
+  // }, [dispatch, CategoryState]);
 
   return (
     <>

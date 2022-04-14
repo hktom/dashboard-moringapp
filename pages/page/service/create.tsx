@@ -28,12 +28,16 @@ import {
   addServiceFailure,
   getService,
   IService,
-} from "../../../reducer/service/action";
+  updateService,
+} from "../../../store/service/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { IServiceState } from "../../../reducer/service/reducer";
-import { uploadImageFailure } from "../../../reducer/image/actions";
+import { IServiceState } from "../../../store/service/reducer";
+import { uploadImageFailure } from "../../../store/image/actions";
+import { IConditionState } from "../../../store/condition/reducer";
+import { ICondition } from "../../../store/condition/action";
+import { useRouter } from "next/router";
 
 interface IProps {
   pid?: string;
@@ -42,8 +46,14 @@ interface IProps {
 function CreateService(props: IProps) {
   const { pid } = props;
 
+  const router = useRouter();
+
   const serviceState = useSelector(
     (state: IRootState): IServiceState => state.service
+  );
+
+  const conditionState = useSelector(
+    (state: IRootState): IConditionState => state.condition
   );
 
   const [active, setActive] = React.useState<boolean>(false);
@@ -64,38 +74,66 @@ function CreateService(props: IProps) {
     if (!image) {
       return dispatch(addServiceFailure("Please upload an image"));
     }
-    dispatch(addService({ ...data, image: image }));
+
+    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+      (i: any) => i.value == +active
+    );
+
+    if (pid) {
+      return dispatch(
+        updateService({
+          ...data,
+          image: image,
+          id: pid,
+          condition: _condition && _condition[0],
+        })
+      );
+    }
+
+    dispatch(
+      addService({
+        ...data,
+        image: image,
+        condition: _condition && _condition[0],
+      })
+    );
   };
 
   React.useEffect(() => {
     if (serviceState.success) {
-      setImage(undefined);
-      dispatch(uploadImageFailure(undefined));
-      reset({ data: {} });
+      // setImage(undefined);
+      // dispatch(uploadImageFailure(undefined));
+      // reset({ data: {} });
+      router.reload();
     }
-  }, [dispatch, reset, serviceState.success, setValue]);
 
-  React.useEffect(() => {
     if (pid) {
       dispatch(getService(pid));
     }
-  }, [dispatch, pid, setValue]);
 
-  React.useEffect(() => {
-    if (serviceState.service) {
+    if (serviceState.service && pid) {
       setValue("name", serviceState.service.name);
       setValue("description", serviceState.service.description);
       setValue("name_fr", serviceState.service.name_fr);
+      setActive(serviceState.service.condition?.value === 1 ?? false);
       setImage(serviceState.service?.image);
     }
-  }, [serviceState.service, setValue]);
+  }, [
+    dispatch,
+    pid,
+    reset,
+    router,
+    serviceState.service,
+    serviceState.success,
+    setValue,
+  ]);
 
   return (
     <Layout>
       <Grid container>
         <Grid item xs={12} md={10} sx={{ mx: "auto", my: 4 }}>
           <Typography variant="h3" component="h1" sx={{ fontWeight: "bold" }}>
-            {pid ? "Edit Service" : "Create a new category"}
+            {pid ? "Edit Service" : "Create a new service"}
           </Typography>
 
           <Breadcrumbs aria-label="breadcrumb">
@@ -103,7 +141,7 @@ function CreateService(props: IProps) {
               Dashboard
             </Link>
             <Link underline="hover" color="inherit" href="#">
-              category
+              Service
             </Link>
             {/* <Typography color="text.primary">Breadcrumbs</Typography> */}
           </Breadcrumbs>
@@ -209,11 +247,11 @@ function CreateService(props: IProps) {
                     component="h2"
                     sx={{ fontWeight: "bold" }}
                   >
-                    Active category
+                    Active Service
                   </Typography>
 
-                  <Typography variant="body2" component="p">
-                    only active category will be displayed on website
+                  <Typography variant="body2" component="p" sx={{ pr: 3 }}>
+                    only active services will be displayed on website
                   </Typography>
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -221,8 +259,9 @@ function CreateService(props: IProps) {
                     <FormControlLabel
                       control={
                         <Switch
-                          color="info"
+                          color="success"
                           value={active}
+                          checked={active}
                           onChange={() => setActive(!active)}
                         />
                       }

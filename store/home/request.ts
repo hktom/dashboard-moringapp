@@ -18,10 +18,12 @@ me{
     role{
         id
         name
+        value
     }
     condition{
         id
         name
+        value
     }
     city{
         id
@@ -85,6 +87,7 @@ me{
             condition{
                 id
                 name
+                value
             }
         }
         category{
@@ -94,6 +97,7 @@ me{
         condition{
             id
             name
+            value
         }
     }
     created_at
@@ -117,6 +121,7 @@ export const getUserProfileRequest = () => {
         name_fr
         condition{
             id
+            name
             value
         }
     }
@@ -124,8 +129,14 @@ export const getUserProfileRequest = () => {
         id
         name
         name_fr
+        image
+        service{
+            id
+            name
+        }
         condition{
             id
+            name
             value
         }
     }

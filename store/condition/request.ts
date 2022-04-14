@@ -6,10 +6,12 @@ export const addConditionRequest = (data: ICondition) => {
   let req = `mutation{
         createCondition(input:{
             id: "${uuidv4()}",
-            name:"${data.name}"
+            name:"${data.name}",
+            value:${data.value}
         }){
             id
             name
+            value
             created_at
         }
     }`;
@@ -20,10 +22,12 @@ export const addConditionRequest = (data: ICondition) => {
 export const updateConditionRequest = (data: ICondition) => {
   let req = `mutation{
           updateCondition(id:"${data.id}", input:{
-            name:"${data.name}"
+            name:"${data.name}",
+            value:${data.value}
           }){
             id
             name
+            value
             created_at
           }
       }`;
@@ -38,6 +42,7 @@ export const getConditionListRequest = () => {
             id
             name
             name_fr
+            value
             created_at
         }
 
@@ -53,6 +58,7 @@ export const getConditionRequest = (id: string) => {
             id
             name
             name_fr
+            value
             created_at
         }
 
@@ -66,6 +72,7 @@ export const deleteConditionRequest = (data: ICondition) => {
             deleteCondition(id:"${data.id}"){
                 id
                 name
+                value
                 created_at
             }
         }`;

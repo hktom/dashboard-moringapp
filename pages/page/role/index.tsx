@@ -29,11 +29,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { IRootState } from "../../../config/reducer";
-import { IRoleState } from "../../../reducer/role/reducer";
-import { getRoleList } from "../../../reducer/role/action";
+import { IRoleState } from "../../../store/role/reducer";
+import { getRoleList } from "../../../store/role/action";
 // import { Role } from "@mui/icons-material";
 
 const columns: GridColDef[] = [
+  { field: "value", headerName: "Value", width: 250 },
   { field: "name", headerName: "Name", width: 250 },
   { field: "created_at", headerName: "Created at", width: 250 },
 ];
@@ -43,11 +44,12 @@ function Role() {
   const router = useRouter();
   const roleState = useSelector((state: IRootState): IRoleState => state.role);
 
-  React.useEffect(() => {
-    if (roleState.list && roleState.list?.length == 0) {
-      dispatch(getRoleList());
-    }
-  }, [dispatch, roleState]);
+  // React.useEffect(() => {
+  //   if (roleState.list && roleState.list?.length == 0) {
+  //     dispatch(getRoleList());
+  //   }
+  // }, [dispatch, roleState]);
+
   return (
     <>
       <Layout>

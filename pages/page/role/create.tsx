@@ -30,12 +30,12 @@ import {
   getRole,
   IRole,
   updateRole,
-} from "../../../reducer/role/action";
+} from "../../../store/role/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { IRoleState } from "../../../reducer/role/reducer";
-import { uploadImageFailure } from "../../../reducer/image/actions";
+import { IRoleState } from "../../../store/role/reducer";
+import { uploadImageFailure } from "../../../store/image/actions";
 
 interface IProps {
   pid?: string;
@@ -85,6 +85,7 @@ function CreateRole(props: IProps) {
   React.useEffect(() => {
     if (state.role) {
       setValue("name", state.role.name);
+      setValue("value", state.role.value);
     }
   }, [state.role, setValue]);
 
@@ -141,6 +142,20 @@ function CreateRole(props: IProps) {
                     color="info"
                     sx={{ my: 1 }}
                     {...register("name", { required: true })}
+                  />
+
+                  <TextField
+                    id="name"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
+                    label="value"
+                    variant="outlined"
+                    fullWidth
+                    color="info"
+                    sx={{ my: 1 }}
+                    {...register("value", { required: true })}
                   />
                 </Grid>
               </Grid>

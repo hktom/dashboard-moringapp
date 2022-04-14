@@ -19,6 +19,7 @@ import {
 
 export interface ICondition {
   id: string;
+  value:number;
   name: string;
   name_fr: string;
   created_at?: any;

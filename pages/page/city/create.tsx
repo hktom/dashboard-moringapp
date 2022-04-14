@@ -30,14 +30,14 @@ import {
   getCity,
   ICity,
   updateCity,
-} from "../../../reducer/city/action";
+} from "../../../store/city/action";
 import ImageUploader from "../../../components/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { ICityState } from "../../../reducer/city/reducer";
-import { uploadImageFailure } from "../../../reducer/image/actions";
-import { ICountryState } from "../../../reducer/country/reducer";
-import { getCountryList, ICountry } from "../../../reducer/country/action";
+import { ICityState } from "../../../store/city/reducer";
+import { uploadImageFailure } from "../../../store/image/actions";
+import { ICountryState } from "../../../store/country/reducer";
+import { getCountryList, ICountry } from "../../../store/country/action";
 
 interface IProps {
   pid?: string;
@@ -77,34 +77,20 @@ function CreateCity(props: IProps) {
   );
 
   React.useEffect(() => {
-    if (!stateCountry.list) {
-      dispatch(getCountryList());
-    } else {
+    if (stateCountry.list) {
       setCountryOptions(stateCountry.list);
     }
-  }, [dispatch, stateCountry]);
 
-  // React.useEffect(() => {
-  //   if (state.success) {
-  //     setImage(undefined);
-  //     dispatch(uploadImageFailure(undefined));
-  //     reset({ data: {} });
-  //   }
-  // }, [dispatch, reset, state.success, setValue]);
-
-  React.useEffect(() => {
     if (pid) {
       dispatch(getCity(pid));
     }
-  }, [dispatch, pid, setValue]);
 
-  React.useEffect(() => {
     if (state.city && pid) {
       setValue("name", state.city.name);
       setValue("name_fr", state.city.name_fr);
       setValue("country", state.city.country?.id);
     }
-  }, [state.city, setValue, pid]);
+  }, [dispatch, pid, setValue, state.city, stateCountry]);
 
   const handleChangeCountry = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);

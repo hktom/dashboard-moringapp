@@ -26,11 +26,11 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { IHomeState } from "../../../reducer/home/reducer";
-import { ITaskState } from "../../../reducer/task/reducer";
-import { getTaskList, ITask } from "../../../reducer/task/action";
-import { ICondition } from "../../../reducer/condition/action";
-import { ICategory } from "../../../reducer/category/action";
+import { IHomeState } from "../../../store/home/reducer";
+import { ITaskState } from "../../../store/task/reducer";
+import { getTaskList, ITask } from "../../../store/task/action";
+import { ICondition } from "../../../store/condition/action";
+import { ICategory } from "../../../store/category/action";
 import { useRouter } from "next/router";
 
 const columns: GridColDef[] = [

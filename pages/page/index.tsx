@@ -23,7 +23,7 @@ import {
 } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
 import { IRootState } from "../../config/reducer";
-import { IHomeState } from "../../reducer/home/reducer";
+import { IHomeState } from "../../store/home/reducer";
 import { IMenu, menu1 } from "../../layout/IMenu";
 import { columnsJob } from "../../components/columnsJob";
 

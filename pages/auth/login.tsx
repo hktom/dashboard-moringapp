@@ -21,9 +21,9 @@ import {
 import { Copyright } from "@mui/icons-material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useEffect, useState } from "react";
-import { ILoginState } from "../../reducer/login/reducer";
+import { ILoginState } from "../../store/login/reducer";
 import { useForm } from "react-hook-form";
-import { ILoginData, loginUser } from "../../reducer/login/actions";
+import { ILoginData, loginUser } from "../../store/login/actions";
 import { IRootState } from "../../config/reducer";
 import { useRouter } from "next/router";
 

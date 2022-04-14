@@ -10,10 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
 import { Avatar, Stack } from "@mui/material";
-import { getUserProfile } from "../reducer/home/actions";
+import { getUserProfile } from "../store/home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../config/reducer";
-import { IHomeState } from "../reducer/home/reducer";
+import { IHomeState } from "../store/home/reducer";
 
 const drawerWidth = 240;
 

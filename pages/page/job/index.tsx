@@ -21,7 +21,7 @@ import { useSelector } from "react-redux";
 import { columnsJob } from "../../../components/columnsJob";
 import { IRootState } from "../../../config/reducer";
 import Layout from "../../../layout/Layout";
-import { IHomeState } from "../../../reducer/home/reducer";
+import { IHomeState } from "../../../store/home/reducer";
 
 function Job() {
   const homeState = useSelector((state: IRootState): IHomeState => state.home);

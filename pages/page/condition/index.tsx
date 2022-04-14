@@ -29,10 +29,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import { IRootState } from "../../../config/reducer";
-import { IConditionState } from "../../../reducer/condition/reducer";
-import { getConditionList } from "../../../reducer/condition/action";
+import { IConditionState } from "../../../store/condition/reducer";
+import { getConditionList } from "../../../store/condition/action";
 
 const columns: GridColDef[] = [
+  { field: "value", headerName: "Value", width: 250 },
   { field: "name", headerName: "Name", width: 250 },
   { field: "name_fr", headerName: "Name FR", width: 250 },
   { field: "created_at", headerName: "Created at", width: 250 },
@@ -46,11 +47,12 @@ function Condition() {
     (state: IRootState): IConditionState => state.condition
   );
 
-  React.useEffect(() => {
-    if (!state.list) {
-      dispatch(getConditionList());
-    }
-  }, [dispatch, state]);
+  // React.useEffect(() => {
+  //   if (!state.list) {
+  //     dispatch(getConditionList());
+  //   }
+  // }, [dispatch, state]);
+  
   return (
     <>
       <Layout>

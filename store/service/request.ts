@@ -6,13 +6,14 @@ var slugify = require("slugify");
 export const addServiceRequest = (data: IService) => {
   let req = `mutation{
         createService(input:{
-            id: "${uuidv4()}",
+            id: "${uuidv4()}"
             name:"${data.name}"
             name_fr:"${data.name_fr}"
             description:"${data.description}"
             image:"${data.image}"
             slug:"${slugify(`${data.name}`)}"
             slug_fr:"${slugify(`${data.name_fr}`)}"
+            condition:{connect:"${data.condition?.id}"}
         }){
             id
             name
@@ -21,6 +22,11 @@ export const addServiceRequest = (data: IService) => {
             slug_fr
             description
             image
+            condition{
+              id
+              name
+              value
+            }
             created_at
         }
     }`;
@@ -30,13 +36,14 @@ export const addServiceRequest = (data: IService) => {
 
 export const updateServiceRequest = (data: IService) => {
   let req = `mutation{
-          createService(id:"${data.id}", input:{
+          updateService(id:"${data.id}", input:{
             name:"${data.name}"
             name_fr:"${data.name_fr}"
             description:"${data.description}"
             image:"${data.image}"
             slug:"${slugify(`${data.name}`)}"
             slug_fr:"${slugify(`${data.name_fr}`)}"
+            condition:{connect:"${data.condition?.id}"}
           }){
             id
             name
@@ -44,6 +51,11 @@ export const updateServiceRequest = (data: IService) => {
             slug
             slug_fr
             description
+            condition{
+              id
+              name
+              value
+            }
             image
             created_at
           }
@@ -62,6 +74,11 @@ export const getServiceListRequest = () => {
             slug
             slug_fr
             description
+            condition{
+              id
+              name
+              value
+            }
             image
             created_at
         }
@@ -71,7 +88,7 @@ export const getServiceListRequest = () => {
   return queryMethods(req);
 };
 
-export const getServiceRequest = (id:string) => {
+export const getServiceRequest = (id: string) => {
   let req = `
     {
         service(id:"${id}"){
@@ -81,6 +98,11 @@ export const getServiceRequest = (id:string) => {
             slug
             slug_fr
             description
+            condition{
+              id
+              name
+              value
+            }
             image
             created_at
         }
@@ -99,6 +121,11 @@ export const deleteServiceRequest = (data: IService) => {
                 slug
                 slug_fr
                 description
+                condition{
+                  id
+                  name
+                  value
+                }
                 image
             }
         }`;

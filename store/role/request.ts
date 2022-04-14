@@ -6,10 +6,12 @@ export const addRoleRequest = (data: IRole) => {
   let req = `mutation{
         createRole(input:{
             id: "${uuidv4()}",
-            name:"${data.name}"
+            name:"${data.name}",
+            value:${data.value}
         }){
             id
             name
+            value
             created_at
         }
     }`;
@@ -20,10 +22,12 @@ export const addRoleRequest = (data: IRole) => {
 export const updateRoleRequest = (data: IRole) => {
   let req = `mutation{
           updateRole(id:"${data.id}", input:{
-            name:"${data.name}"
+            name:"${data.name}",
+            value:${data.value}
           }){
             id
             name
+            value
             created_at
           }
       }`;
@@ -37,6 +41,7 @@ export const getRoleListRequest = () => {
         roles{
             id
             name
+            value
             created_at
         }
 
@@ -51,6 +56,7 @@ export const getRoleRequest = (id: string) => {
         role(id:"${id}"){
             id
             name
+            value
             created_at
         }
 
@@ -64,6 +70,7 @@ export const deleteRoleRequest = (data: IRole) => {
             deleteRole(id:"${data.id}"){
                 id
                 name
+                value
                 created_at
             }
         }`;

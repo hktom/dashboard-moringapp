@@ -27,6 +27,7 @@ export interface IService {
   image: string;
   created_at?: any;
   update_at?: any;
+  condition?: any;
 }
 
 export interface IAddService extends Action<"service/ADD_SERVICE"> {

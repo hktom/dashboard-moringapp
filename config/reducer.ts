@@ -2,22 +2,22 @@ import { combineReducers, Action } from "redux";
 import { AnyAction } from "redux";
 import { HYDRATE } from "next-redux-wrapper";
 // import { State } from "./store";
-import { ILoginState, loginReducer } from "../reducer/login/reducer";
-import { homeReducer, IHomeState } from "../reducer/home/reducer";
-import { categoryReducer, ICategoryState } from "../reducer/category/reducer";
-import { cityReducer, ICityState } from "../reducer/city/reducer";
+import { ILoginState, loginReducer } from "../store/login/reducer";
+import { homeReducer, IHomeState } from "../store/home/reducer";
+import { categoryReducer, ICategoryState } from "../store/category/reducer";
+import { cityReducer, ICityState } from "../store/city/reducer";
 import {
   conditionReducer,
   IConditionState,
-} from "../reducer/condition/reducer";
-import { IJobState, jobReducer } from "../reducer/jobs/reducer";
-import { IPaymentState, paymentReducer } from "../reducer/payment/reducer";
-import { IRoleState, roleReducer } from "../reducer/role/reducer";
-import { IServiceState, serviceReducer } from "../reducer/service/reducer";
-import { ITaskState, taskReducer } from "../reducer/task/reducer";
-import { IUserState, userReducer } from "../reducer/user/reducer";
-import { IImageState, imageReducer } from "../reducer/image/reducer";
-import { countryReducer, ICountryState } from "../reducer/country/reducer";
+} from "../store/condition/reducer";
+import { IJobState, jobReducer } from "../store/jobs/reducer";
+import { IPaymentState, paymentReducer } from "../store/payment/reducer";
+import { IRoleState, roleReducer } from "../store/role/reducer";
+import { IServiceState, serviceReducer } from "../store/service/reducer";
+import { ITaskState, taskReducer } from "../store/task/reducer";
+import { IUserState, userReducer } from "../store/user/reducer";
+import { IImageState, imageReducer } from "../store/image/reducer";
+import { countryReducer, ICountryState } from "../store/country/reducer";
 
 export interface IRootState {
   login: ILoginState;

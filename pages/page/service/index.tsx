@@ -31,8 +31,9 @@ import { useRouter } from "next/router";
 import { HOST_URL } from "../../../config/apollo";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
-import { IServiceState } from "../../../reducer/service/reducer";
-import { getServiceList } from "../../../reducer/service/action";
+import { IServiceState } from "../../../store/service/reducer";
+import { getServiceList, IService } from "../../../store/service/action";
+import { ICondition } from "../../../store/condition/action";
 
 const columns: GridColDef[] = [
   {
@@ -53,39 +54,25 @@ const columns: GridColDef[] = [
   { field: "name", headerName: "Name EN", width: 200 },
   { field: "name_fr", headerName: "Name FR", width: 200 },
   {
-    field: "description",
-    headerName: "Description",
-    width: 400,
+    field: "condition",
+    width: 200,
+    headerName: "Status",
+    renderCell: (params: GridRenderCellParams<ICondition>) => (
+      <Box sx={{ display: "flex", justifyContent: "end" }}>
+        <Chip
+          size="small"
+          label={params.value?.name}
+          color={params.value?.value == 1 ? "success" : "error"}
+          sx={{
+            color: "secondary.main",
+            textTransform: "uppercase",
+            fontSize: "0.7rem",
+            fontWeight: "bold",
+          }}
+        />
+      </Box>
+    ),
   },
-  // {
-  //   field: "fullName",
-  //   headerName: "Full name",
-  //   description: "This column has a value getter and is not sortable.",
-  //   flex: 1,
-  //   sortable: false,
-  //   valueGetter: (params: GridValueGetterParams) =>
-  //     `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-  // },
-  // {
-  //   field: "status",
-  //   flex: 1,
-  //   headerName: "Status",
-  //   renderCell: (params: GridRenderCellParams<string>) => (
-  //     <Box sx={{ display: "flex", justifyContent: "end" }}>
-  //       <Chip
-  //         size="small"
-  //         label={params.value}
-  //         color="success"
-  //         sx={{
-  //           color: "secondary.main",
-  //           textTransform: "uppercase",
-  //           fontSize: "0.7rem",
-  //           fontWeight: "bold",
-  //         }}
-  //       />
-  //     </Box>
-  //   ),
-  // },
 ];
 
 function Service() {
@@ -95,12 +82,12 @@ function Service() {
     (state: IRootState): IServiceState => state.service
   );
 
-  React.useEffect(() => {
-    console.log(serviceState.list?.length);
-    if (serviceState.list?.length === 0) {
-      dispatch(getServiceList());
-    }
-  }, [dispatch, serviceState.list?.length]);
+  // React.useEffect(() => {
+  //   console.log(serviceState.list?.length);
+  //   if (serviceState.list?.length === 0) {
+  //     dispatch(getServiceList());
+  //   }
+  // }, [dispatch, serviceState.list?.length]);
 
   return (
     <>
