@@ -58,7 +58,7 @@ export const updateUserRequest = (data: IUser) => {
 export const getUserListRequest = () => {
   let req = `
     {
-        Users{
+        users{
             id
             first_name
             last_name
@@ -100,7 +100,7 @@ export const getUserListRequest = () => {
 export const getUserRequest = (id: string) => {
   let req = `
       {
-          User(id:"${id}"){
+          user(id:"${id}"){
             id
             first_name
             last_name

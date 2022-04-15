@@ -4,6 +4,7 @@ import {
   ILoginData,
   IRegisterUserProps,
   IResetPasswordProps,
+  ISendResetMailProps,
   IUpdatePasswordProps,
 } from "./actions";
 import { ILoginState } from "./reducer";
@@ -24,6 +25,16 @@ export const logoutUserRequest = () => {
             token
         }
     }`;
+
+  return mutateMethods(request);
+};
+
+export const sendResetMailRequest = (data: ISendResetMailProps) => {
+  const request = `mutation{
+        sendResetMail(email:"${data.email}"){
+          token
+        }
+      }`;
 
   return mutateMethods(request);
 };

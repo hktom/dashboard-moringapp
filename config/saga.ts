@@ -6,7 +6,7 @@ import { CountrySagas } from "../store/country/saga";
 import { homeSagas } from "../store/home/saga";
 import { imageSagas } from "../store/image/saga";
 import { JobSagas } from "../store/jobs/saga";
-import { loginSagas } from "../store/login/saga";
+import { loginSagas } from "../store/auth/saga";
 import { PaymentSagas } from "../store/payment/saga";
 import { RoleSagas } from "../store/role/saga";
 import { ServiceSagas } from "../store/service/saga";

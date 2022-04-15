@@ -19,54 +19,62 @@ import {
   GridValueGetterParams,
   GridRenderCellParams,
   DataGrid,
+  GridRowParams,
+  MuiEvent,
 } from "@mui/x-data-grid";
 
 import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
+import { HOST_URL } from "../../../config/apollo";
+import { ICondition } from "../../../store/condition/action";
+import { IRootState } from "../../../config/reducer";
+import { IUserState } from "../../../store/user/reducer";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 0.5 },
   {
-    field: "image",
-    flex: 1,
-    headerName: "Image",
+    field: "avatar",
+    width: 200,
+    headerName: "avatar",
     renderCell: (params: GridRenderCellParams<string>) => (
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
-        <Avatar alt="" src={params.value} sx={{ width: 60, height: 60 }} />
+        <Avatar
+          alt=""
+          src={HOST_URL + "storage/" + params.value}
+          sx={{ width: 60, height: 60 }}
+        />
       </Box>
     ),
   },
   { field: "firstName", headerName: "First name", flex: 1 },
   { field: "lastName", headerName: "Last name", flex: 1 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    flex: 1,
+    field: "email",
+    headerName: "Email",
+    width: 200,
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    flex: 1,
-    sortable: false,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    field: "role",
+    headerName: "Role",
+    width: 200,
+    sortable: true,
+    valueGetter: (params: GridValueGetterParams) => `${params.row.role?.name}`,
   },
   {
-    field: "status",
-    flex: 1,
+    field: "condition",
+    width: 200,
     headerName: "Status",
-    renderCell: (params: GridRenderCellParams<string>) => (
+    renderCell: (params: GridRenderCellParams<ICondition>) => (
       <Box sx={{ display: "flex", justifyContent: "end" }}>
         <Chip
           size="small"
-          label={params.value}
-          color="success"
+          label={params.value?.name}
+          color={params.value?.value == 1 ? "success" : "error"}
           sx={{
-            color: "secondary.main",
+            color: "white",
             textTransform: "uppercase",
             fontSize: "0.7rem",
             fontWeight: "bold",
@@ -77,82 +85,9 @@ const columns: GridColDef[] = [
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Snow",
-    firstName: "Jon",
-    age: 35,
-    status: "completed",
-  },
-  {
-    id: 2,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Lannister",
-    firstName: "Cersei",
-    age: 42,
-    status: "completed",
-  },
-  {
-    id: 3,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Lannister",
-    firstName: "Jaime",
-    age: 45,
-    status: "completed",
-  },
-  {
-    id: 4,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Stark",
-    firstName: "Arya",
-    age: 16,
-    status: "completed",
-  },
-  {
-    id: 5,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    status: "completed",
-  },
-  {
-    id: 6,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Melisandre",
-    firstName: null,
-    age: 150,
-    status: "completed",
-  },
-  {
-    id: 7,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    age: 44,
-    status: "completed",
-  },
-  {
-    id: 8,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Frances",
-    firstName: "Rossini",
-    age: 36,
-    status: "completed",
-  },
-  {
-    id: 9,
-    image: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpg",
-    lastName: "Roxie",
-    firstName: "Harvey",
-    age: 65,
-    status: "completed",
-  },
-];
-
 function User() {
+  const state = useSelector((state: IRootState): IUserState => state.user);
+  const router = useRouter();
   return (
     <>
       <Layout>
@@ -168,6 +103,7 @@ function User() {
               </Typography>
 
               <Button
+                onClick={() => router.push("/page/user/create")}
                 variant="contained"
                 size="small"
                 color="info"
@@ -196,7 +132,14 @@ function User() {
                     <DataGrid
                       sx={{ border: "none" }}
                       rowHeight={100}
-                      rows={rows}
+                      rows={state.list || []}
+                      onRowClick={(
+                        params: GridRowParams,
+                        event: MuiEvent<React.MouseEvent>
+                      ) => {
+                        router.push("/page/user/profile/" + params.id);
+                        console.log("params", params);
+                      }}
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}

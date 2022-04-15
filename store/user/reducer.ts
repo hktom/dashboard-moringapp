@@ -16,7 +16,7 @@ import {
 } from "./constants";
 
 export interface IUserState {
-  list: IUser[];
+  list: IUser[] | undefined;
   user: IUser | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -24,7 +24,7 @@ export interface IUserState {
 }
 
 export const initialState: IUserState = {
-  list: [],
+  list: undefined,
   user: undefined,
   error: undefined,
   isLoading: false,
@@ -73,14 +73,14 @@ export const userReducer = (
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 
     case GET_USER_LIST_FAILURE:
       return {
         ...state,
-        isLoading: false,
+        // isLoading: false,
         error: action.error,
       };
 

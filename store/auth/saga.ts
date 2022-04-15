@@ -12,6 +12,7 @@ import {
   logoutUserRequest,
   registerUserRequest,
   resetPasswordRequest,
+  sendResetMailRequest,
   updatePasswordRequest,
 } from "./request";
 import {
@@ -22,6 +23,8 @@ import {
   registerUserSuccess,
   resetPasswordFail,
   resetPasswordSuccess,
+  sendResetMailFail,
+  sendResetMailSuccess,
   updatePasswordFail,
   updatePasswordSuccess,
 } from "./actions";
@@ -74,6 +77,19 @@ function* resetPassword(action: any): SagaIterator {
     }
   } catch (error) {
     yield put(resetPasswordFail(`${error}`));
+  }
+}
+
+function* sendResetMail(action: any): SagaIterator {
+  try {
+    const res = yield call(sendResetMailRequest, action.data);
+    if (!res.data?.sendResetMail?.token) {
+      yield put(sendResetMailFail("Email not found"));
+    } else {
+      yield put(sendResetMailSuccess());
+    }
+  } catch (error) {
+    yield put(sendResetMailFail(`${error}`));
   }
 }
 

@@ -15,6 +15,9 @@ import {
   UPDATE_PASSWORD,
   UPDATE_PASSWORD_FAILURE,
   UPDATE_PASSWORD_SUCCESS,
+  SEND_RESET_MAIL,
+  SEND_RESET_MAIL_SUCCESS,
+  SEND_RESET_MAIL_FAILURE,
 } from "./constants";
 
 export interface ILoginData {
@@ -173,6 +176,33 @@ export const updatePasswordFail = (error: string): IUpdatePasswordFail => ({
   error,
 });
 
+export interface ISendResetMailProps {
+  email: string;
+}
+
+export interface ISendResetMail extends Action<"auth/SEND_RESET_MAIL"> {}
+
+export const sendResetMail = (): ISendResetMail => ({
+  type: SEND_RESET_MAIL,
+});
+
+export interface ISendResetMailSuccess
+  extends Action<"auth/SEND_RESET_MAIL_SUCCESS"> {}
+
+export const sendResetMailSuccess = (): ISendResetMailSuccess => ({
+  type: SEND_RESET_MAIL_SUCCESS,
+});
+
+export interface ISendResetMailFail
+  extends Action<"auth/SEND_RESET_MAIL_FAILURE"> {
+  error: string;
+}
+
+export const sendResetMailFail = (error: string): ISendResetMailFail => ({
+  type: SEND_RESET_MAIL_FAILURE,
+  error,
+});
+
 export type ILoginActions =
   | ILoginUser
   | ILoginUserSuccess
@@ -188,4 +218,7 @@ export type ILoginActions =
   | IRegisterUserFail
   | IUpdatePassword
   | IUpdatePasswordSuccess
-  | IUpdatePasswordFail;
+  | IUpdatePasswordFail
+  | ISendResetMail
+  | ISendResetMailSuccess
+  | ISendResetMailFail;

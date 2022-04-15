@@ -37,8 +37,82 @@ import WorkIcon from "@mui/icons-material/Work";
 import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 
 import { grey } from "@mui/material/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { IHomeState } from "../../../store/home/reducer";
+import { IRootState } from "../../../config/reducer";
+import { HOST_URL } from "../../../config/apollo";
+import { useRouter } from "next/router";
+import { getUser, IUser } from "../../../store/user/action";
+import { IUserState } from "../../../store/user/reducer";
 
-function Profile() {
+interface IProps {
+  label: string;
+  value: string | undefined | number;
+}
+
+function ProfileItem(props: IProps) {
+  const { label, value } = props;
+  return (
+    <>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "start",
+          flexDirection: { md: "row", xs: "column" },
+          flexWrap: "wrap",
+          py: 2,
+        }}
+      >
+        <Box sx={{ minWidth: 200 }}>
+          <Typography variant="body1">{label}</Typography>
+        </Box>
+        <Box>
+          <Typography variant="body1" sx={{ color: grey[500] }}>
+            {value}
+          </Typography>
+        </Box>
+      </Box>
+      <Divider />
+    </>
+  );
+}
+
+interface IProfileProps {
+  pid?: string;
+}
+
+function Profile(props: IProfileProps) {
+  const { pid } = props;
+  const [state, setState] = React.useState<IUser | any>(undefined);
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const userState = useSelector((state: IRootState): IUserState => state.user);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  React.useEffect(() => {
+    if (pid) {
+      dispatch(getUser(pid));
+    } else {
+      setState({
+        ...homeState.user,
+        role: homeState?.role,
+        condition: homeState?.condition,
+      });
+    }
+
+    if (pid && userState.user) {
+      setState(userState.user);
+    }
+  }, [
+    dispatch,
+    homeState.condition,
+    homeState.role,
+    homeState.user,
+    pid,
+    userState.user,
+  ]);
+
   return (
     <>
       <Layout>
@@ -61,8 +135,8 @@ function Profile() {
                 <ListItemAvatar sx={{ mr: 3 }}>
                   <Avatar
                     sx={{ width: 70, height: 70 }}
-                    alt="Remy Sharp"
-                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/5e/5e0832fcdd1f5cf564497e91bafed886264a4fdd_full.jpgƒ"
+                    alt={state?.first_name + " " + state?.last_name}
+                    src={HOST_URL + "storage/" + state?.avatar}
                   />
                 </ListItemAvatar>
                 <ListItemText
@@ -70,19 +144,19 @@ function Profile() {
                     <>
                       <Typography
                         variant="h4"
-                        component="h3"
+                        component="span"
                         color="text.primary"
-                        sx={{ fontWeight: "bold" }}
+                        sx={{ fontWeight: "bold", display: "block" }}
                       >
-                        tom@gmail.com
+                        {state?.email}
                       </Typography>
 
                       <Typography
                         variant="body1"
-                        component="p"
+                        component="span"
                         color="text.primary"
                       >
-                        user : ucymkqsjh490v15b3jy198gvzsevjf8fal4e6
+                        user : {state?.id}
                       </Typography>
                     </>
                   }
@@ -101,7 +175,12 @@ function Profile() {
             }}
           >
             <Box sx={{ bgColor: "blue" }}>
-              <Button variant="contained" color="info" disableElevation>
+              <Button
+                variant="contained"
+                color="info"
+                disableElevation
+                onClick={() => router.push("/page/user/edit/" + state?.id)}
+              >
                 <EditIcon /> Edit
               </Button>
             </Box>
@@ -117,28 +196,40 @@ function Profile() {
                 Details
               </Typography>
               <Divider />
-              {/* {[1, 2, 3, 4, 5].map((i) => (
-                <>
-                  <Box
-                    sx={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "start",
-                      py: 2,
-                    }}
-                  >
-                    <Box sx={{ minWidth: 200 }}>
-                      <Typography variant="body1">Email</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="body1" sx={{ color: grey[500] }}>
-                        tom@gmail.com
-                      </Typography>
-                    </Box>
-                  </Box>
-                  <Divider />
-                </>
-              ))} */}
+
+              <ProfileItem label="First Name" value={state?.first_name} />
+              <ProfileItem label="Last Name" value={state?.last_name} />
+              <ProfileItem label="Email" value={state?.email} />
+              <ProfileItem label="Mobile" value={state?.mobile} />
+              <ProfileItem label="Url" value={state?.url} />
+            </Paper>
+
+            <Paper elevation={0} sx={{ py: 3, px: 3 }}>
+              <Typography
+                variant="h6"
+                component="h2"
+                sx={{ fontWeight: "bold", mb: 4 }}
+              >
+                Bio
+              </Typography>
+              <Divider />
+
+              <ProfileItem label="Bio" value={state?.bio} />
+            </Paper>
+
+            <Paper elevation={0} sx={{ py: 3, px: 3 }}>
+              <Typography
+                variant="h6"
+                component="h2"
+                sx={{ fontWeight: "bold", mb: 4 }}
+              >
+                Location
+              </Typography>
+              <Divider />
+
+              <ProfileItem label="Street" value={state?.street} />
+              <ProfileItem label="City" value={state?.city?.name} />
+              <ProfileItem label="Country" value={state?.city?.country?.name} />
             </Paper>
 
             <Paper elevation={0} sx={{ py: 3, px: 3, mt: 5 }}>
@@ -150,6 +241,7 @@ function Profile() {
                 Role
               </Typography>
               <Divider />
+              <ProfileItem label="Role" value={state?.role?.name} />
             </Paper>
 
             <Paper elevation={0} sx={{ py: 3, px: 3, mt: 5 }}>
@@ -161,6 +253,18 @@ function Profile() {
                 Status
               </Typography>
               <Divider />
+              <Chip
+                size="medium"
+                label={state?.condition?.name}
+                color={state?.condition?.value == 1 ? "success" : "error"}
+                sx={{
+                  mt: 2,
+                  color: "secondary.main",
+                  textTransform: "uppercase",
+                  fontSize: "0.7rem",
+                  fontWeight: "bold",
+                }}
+              />
             </Paper>
 
             <Paper elevation={0} sx={{ py: 3, px: 3, mt: 5, mb: 5 }}>
@@ -187,8 +291,10 @@ function Profile() {
                 variant="body1"
                 sx={{ mt: 2, color: grey[500] }}
               >
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Commodi quaerat amet corporis corrupti recusandae.
+                This action will delete your account and all your data forever.
+                be sure to know what you are doing. If there is any problem let
+                us know and we will help you. You can write to us at
+                help@moringapp.com or call us at +966 544 544 544.
               </Typography>
             </Paper>
           </Grid>

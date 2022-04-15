@@ -115,6 +115,23 @@ export const getUserProfileRequest = () => {
         name
         value
     }
+    users:users{
+        id
+        first_name
+        last_name
+        email
+        role{
+            id
+            name
+            value
+        }
+        condition{
+            id
+            name
+            value
+        }
+        created_at
+    }
     tasks:tasks{
         id
         name

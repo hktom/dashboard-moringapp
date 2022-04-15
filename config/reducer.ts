@@ -2,7 +2,7 @@ import { combineReducers, Action } from "redux";
 import { AnyAction } from "redux";
 import { HYDRATE } from "next-redux-wrapper";
 // import { State } from "./store";
-import { ILoginState, loginReducer } from "../store/login/reducer";
+import { ILoginState, loginReducer } from "../store/auth/reducer";
 import { homeReducer, IHomeState } from "../store/home/reducer";
 import { categoryReducer, ICategoryState } from "../store/category/reducer";
 import { cityReducer, ICityState } from "../store/city/reducer";

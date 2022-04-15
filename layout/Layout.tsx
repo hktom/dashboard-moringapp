@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
-import { Avatar, Stack } from "@mui/material";
+import { Alert, Avatar, LinearProgress, Stack } from "@mui/material";
 import { getUserProfile } from "../store/home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../config/reducer";
@@ -160,6 +160,12 @@ const Layout = ({ children }: DashboardLayoutProps) => {
         component="main"
         sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1330px", mx: "auto" }}
       >
+        {homeState.loading && <LinearProgress />}
+        {homeState.error && (
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {homeState.error}
+          </Alert>
+        )}
         {children}
       </Box>
     </Box>

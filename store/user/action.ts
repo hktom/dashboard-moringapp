@@ -33,10 +33,10 @@ export interface IUser {
   zip_code?: string;
   url?: string;
   role?: any;
-  condition: any;
+  condition?: any;
   city?: any;
   jobs?: any;
-  tasks: any;
+  tasks?: any;
   feedbacks?: any;
   comments?: any;
   created_at?: string;

@@ -15,6 +15,9 @@ import {
   UPDATE_PASSWORD,
   UPDATE_PASSWORD_FAILURE,
   UPDATE_PASSWORD_SUCCESS,
+  SEND_RESET_MAIL,
+  SEND_RESET_MAIL_FAILURE,
+  SEND_RESET_MAIL_SUCCESS,
 } from "./constants";
 
 interface IProcess {
@@ -25,11 +28,10 @@ interface IProcess {
 }
 
 export interface ILoginState {
-  // isLoading: boolean | undefined;
-  // error: string | undefined;
   login: IProcess;
   logout: IProcess;
   resetPassword: IProcess;
+  resetMail: IProcess;
   updatePassword: IProcess;
   register: IProcess;
 }
@@ -48,6 +50,12 @@ export const initialState: ILoginState = {
     token: undefined,
   },
   resetPassword: {
+    loading: undefined,
+    error: undefined,
+    success: undefined,
+    token: undefined,
+  },
+  resetMail: {
     loading: undefined,
     error: undefined,
     success: undefined,
@@ -136,6 +144,37 @@ export const loginReducer = (
       };
 
     case RESET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        resetPassword: {
+          ...state.resetPassword,
+          loading: false,
+          error: action.error,
+        },
+      };
+
+    // reset mail
+    case SEND_RESET_MAIL:
+      return {
+        ...state,
+        resetPassword: {
+          ...state.resetPassword,
+          loading: true,
+          error: undefined,
+        },
+      };
+
+    case SEND_RESET_MAIL_SUCCESS:
+      return {
+        ...state,
+        resetPassword: {
+          ...state.resetPassword,
+          loading: false,
+          success: true,
+        },
+      };
+
+    case SEND_RESET_MAIL_FAILURE:
       return {
         ...state,
         resetPassword: {

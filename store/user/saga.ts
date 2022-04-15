@@ -3,6 +3,8 @@ import { SagaIterator } from "redux-saga";
 import {
   // addUserRequest,
   deleteUserRequest,
+  getUserListRequest,
+  getUserRequest,
   updateUserRequest,
 } from "./request";
 import {
@@ -29,7 +31,7 @@ import {
 
 export function* getUserListSaga(): SagaIterator {
   try {
-    const res = yield call(getUserList);
+    const res = yield call(getUserListRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getUserListFailure(res.data?.errors || res.errors));
     } else {
@@ -42,11 +44,11 @@ export function* getUserListSaga(): SagaIterator {
 
 export function* getUserSaga(action: any): SagaIterator {
   try {
-    const res = yield call(getUser, action.data);
+    const res = yield call(getUserRequest, action.data);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getUserFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getUserSuccess(res.data?.users));
+      yield put(getUserSuccess(res.data?.user));
     }
   } catch (error) {
     yield put(getUserFailure(`${error}`));
@@ -72,7 +74,7 @@ export function* updateUserSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateUserFailure(res.errors));
     } else {
-      yield put(updateUserSuccess(res.data.User));
+      yield put(updateUserSuccess(res.data.user));
     }
   } catch (error: any) {
     yield put(updateUserFailure(error?.toString()));
@@ -85,7 +87,7 @@ export function* deleteUserSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(deleteUserFailure(res.errors));
     } else {
-      yield put(deleteUserSuccess(res.data.User));
+      yield put(deleteUserSuccess(res.data.user));
     }
   } catch (error: any) {
     yield put(deleteUserFailure(error?.toString()));

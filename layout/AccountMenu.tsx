@@ -15,7 +15,7 @@ import { IUser } from "../store/user/action";
 import { HOST_URL } from "../config/apollo";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../store/login/actions";
+import { logoutUser } from "../store/auth/actions";
 
 interface IProps {
   user?: any;
