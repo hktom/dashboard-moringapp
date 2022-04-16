@@ -17,7 +17,7 @@ export const HOST_URL: string =
 
 export const TOKEN = Cookies.get("token");
 
-const httpLink = new HttpLink({ uri: `${HOST_URL}graphql` });
+const httpLink = new HttpLink({ uri: `${HOST_URL}graphql/` });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   // add the authorization to the headers
