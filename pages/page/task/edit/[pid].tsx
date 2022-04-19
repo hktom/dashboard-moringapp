@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CreateTask from "../create";
+import CreateTask from "../create.page";
 
 function Edit() {
   const router = useRouter();

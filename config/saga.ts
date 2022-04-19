@@ -1,17 +1,17 @@
 import { fork, SimpleEffect } from "redux-saga/effects";
-import { CategorySagas } from "../store/category/saga";
-import { CitySagas } from "../store/city/saga";
-import { ConditionSagas } from "../store/condition/saga";
-import { CountrySagas } from "../store/country/saga";
-import { homeSagas } from "../store/home/saga";
-import { imageSagas } from "../store/image/saga";
-import { JobSagas } from "../store/jobs/saga";
-import { loginSagas } from "../store/auth/saga";
-import { PaymentSagas } from "../store/payment/saga";
-import { RoleSagas } from "../store/role/saga";
-import { ServiceSagas } from "../store/service/saga";
-import { taskSagas } from "../store/task/saga";
-import { UserSagas } from "../store/user/saga";
+import { CategorySagas } from "../pages/page/category/saga";
+import { CitySagas } from "../pages/page/city/saga";
+import { ConditionSagas } from "../pages/page/condition/saga";
+import { CountrySagas } from "../pages/page/country/saga";
+import { homeSagas } from "../pages/page/home/saga";
+import { imageSagas } from "../components/imageUploader/saga";
+import { JobSagas } from "../pages/page/job/saga";
+import { loginSagas } from "../pages/auth/saga";
+import { PaymentSagas } from "../pages/page/payment/saga";
+import { RoleSagas } from "../pages/page/role/saga";
+import { ServiceSagas } from "../pages/page/service/saga";
+import { taskSagas } from "../pages/page/task/saga";
+import { UserSagas } from "../pages/page/user/saga";
 
 export function* rootSaga(): IterableIterator<SimpleEffect<"FORK">> {
   yield fork(loginSagas);

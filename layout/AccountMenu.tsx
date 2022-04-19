@@ -11,11 +11,11 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { IUser } from "../store/user/action";
+import { IUser } from "../pages/page/user/action";
 import { HOST_URL } from "../config/apollo";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { logoutUser } from "../store/auth/actions";
+import { logoutUser } from "../pages/auth/actions";
 
 interface IProps {
   user?: any;

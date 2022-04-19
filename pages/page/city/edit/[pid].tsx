@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CreateRole from "../create";
+import CreateRole from "../create.page";
 
 function Edit() {
   const router = useRouter();

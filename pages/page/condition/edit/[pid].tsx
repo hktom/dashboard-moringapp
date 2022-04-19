@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CreateCondition from "../create";
+import CreateCondition from "../create.page";
 // import CreateRole from "../create";
 
 function Edit() {

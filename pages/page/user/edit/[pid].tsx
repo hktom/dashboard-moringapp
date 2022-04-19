@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CreateUser from "../create";
+import CreateUser from "../create.page";
 
 function Edit() {
   const router = useRouter();

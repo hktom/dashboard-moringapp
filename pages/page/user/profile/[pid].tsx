@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import Profile from "../../profile";
+import Profile from "../../profile/index.page";
 
 function UserProfile() {
   const router = useRouter();

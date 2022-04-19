@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import CreateService from "../create";
+import CreateService from "../create.page";
 
 function UpdateService() {
   const router = useRouter();

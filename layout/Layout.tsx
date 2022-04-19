@@ -10,10 +10,10 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Sidebar from "./Sidebar";
 import { Alert, Avatar, LinearProgress, Stack } from "@mui/material";
-import { getUserProfile } from "../store/home/actions";
+import { getUserProfile } from "../pages/page/home/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../config/reducer";
-import { IHomeState } from "../store/home/reducer";
+import { IHomeState } from "../pages/page/home/reducer";
 import { HOST_URL } from "../config/apollo";
 import AccountMenu from "./AccountMenu";
 
