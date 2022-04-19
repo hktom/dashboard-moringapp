@@ -18,6 +18,8 @@ import {
   GridValueGetterParams,
   GridRenderCellParams,
   DataGrid,
+  GridRowParams,
+  MuiEvent,
 } from "@mui/x-data-grid";
 
 import * as React from "react";
@@ -65,7 +67,7 @@ function City() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                City
+                Cities
               </Typography>
 
               <Button
@@ -101,6 +103,12 @@ function City() {
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}
+                      onRowClick={(
+                        params: GridRowParams,
+                        event: MuiEvent<React.MouseEvent>
+                      ) => {
+                        router.push("/page/city/edit/" + params.id);
+                      }}
                     />
                   </div>
                 </div>

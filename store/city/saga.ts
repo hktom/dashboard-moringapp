@@ -48,7 +48,7 @@ export function* getCitySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getCityFailure(res.data?.errors || res.errors));
     } else {
-      yield put(getCitySuccess(res.data?.cities));
+      yield put(getCitySuccess(res.data?.city));
     }
   } catch (error) {
     yield put(getCityFailure(`${error}`));

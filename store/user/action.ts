@@ -18,14 +18,15 @@ import {
 } from "./constants";
 
 export interface IUser {
-  id: string;
+  id?: string;
   first_name: string;
   last_name: string;
   email: string;
   password?: string;
+  confirm_password?: string;
   gender?: string;
-  avatar?:string;
-  street?:string;
+  avatar?: string;
+  street?: string;
   auth?: string;
   mobile?: string;
   certificate?: string;

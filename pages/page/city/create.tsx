@@ -38,6 +38,8 @@ import { ICityState } from "../../../store/city/reducer";
 import { uploadImageFailure } from "../../../store/image/actions";
 import { ICountryState } from "../../../store/country/reducer";
 import { getCountryList, ICountry } from "../../../store/country/action";
+import { useRouter } from "next/router";
+import PageBreadCrumb from "../../../components/PageBreadCrumb";
 
 interface IProps {
   pid?: string;
@@ -51,9 +53,10 @@ function CreateCity(props: IProps) {
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
   const [country, setCountry] = React.useState<string>("");
-  const [countryOptions, setCountryOptions] = React.useState<ICountry[]>([]);
+  // const [countryOptions, setCountryOptions] = React.useState<ICountry[]>([]);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const {
     register,
@@ -77,20 +80,31 @@ function CreateCity(props: IProps) {
   );
 
   React.useEffect(() => {
-    if (stateCountry.list) {
-      setCountryOptions(stateCountry.list);
+    if (state.success) {
+      router.reload();
     }
+    // if (stateCountry.list) {
+    //   setCountryOptions(stateCountry.list);
+    // }
 
-    if (pid) {
+    if (!state.city && pid) {
       dispatch(getCity(pid));
     }
 
     if (state.city && pid) {
       setValue("name", state.city.name);
       setValue("name_fr", state.city.name_fr);
-      setValue("country", state.city.country?.id);
+      setCountry(state.city.country?.id);
     }
-  }, [dispatch, pid, setValue, state.city, stateCountry]);
+  }, [
+    dispatch,
+    pid,
+    router,
+    setValue,
+    state.city,
+    state.success,
+    stateCountry,
+  ]);
 
   const handleChangeCountry = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);
@@ -104,10 +118,7 @@ function CreateCity(props: IProps) {
             {pid ? "Edit" : "Create"} City
           </Typography>
 
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/page/">Dashboard</Link>
-            <Link href="/page/city">City</Link>
-          </Breadcrumbs>
+          <PageBreadCrumb page="city" link="city"></PageBreadCrumb>
 
           <Box
             component="form"
@@ -189,7 +200,7 @@ function CreateCity(props: IProps) {
                       label="Country"
                       onChange={handleChangeCountry}
                     >
-                      {countryOptions.map((i: ICountry) => (
+                      {(stateCountry.list ?? []).map((i: ICountry) => (
                         <MenuItem value={i.id} key={i.id}>
                           {i.name}
                         </MenuItem>

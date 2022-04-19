@@ -65,7 +65,7 @@ function ImageUploader(props: IProps) {
           <CardMedia
             component="img"
             alt={image}
-            sx={{ maxWidth: "300px" }}
+            sx={{ maxWidth: "300px", maxHeight:'300px' }}
             src={`${HOST_URL}storage/${image}`}
           />
           <Button

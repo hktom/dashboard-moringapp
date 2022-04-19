@@ -61,7 +61,7 @@ function Country() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Country
+                Countries
               </Typography>
 
               <Button
@@ -102,7 +102,6 @@ function Country() {
                         event: MuiEvent<React.MouseEvent>
                       ) => {
                         router.push("/page/country/edit/" + params.id);
-                        console.log("params", params);
                       }}
                     />
                   </div>

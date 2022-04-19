@@ -59,7 +59,6 @@ export const updatePasswordRequest = (data: IUpdatePasswordProps) => {
         resetPassword(
           email:"${data.email}",
           password:"${data.password}",
-          newPassword:"${data.newPassword}",
           confirmNewPassword:"${data.confirmNewPassword}"
           ){
             token
@@ -72,16 +71,23 @@ export const updatePasswordRequest = (data: IUpdatePasswordProps) => {
 export const registerUserRequest = (data: IRegisterUserProps) => {
   const request = `mutation{
         register(
-          id: "${uuidv4()}",
-          first_name:"${data.first_name}",
-          last_name:"${data.last_name}",
-          email:"${data.email}",
-          password:"${data.password}",
-          confirmPassword:"${data.confirmPassword}"
+          input:{
+            id: "${uuidv4()}",
+            first_name:"${data.first_name}",
+            auth:"${data.auth}",
+            last_name:"${data.last_name}",
+            email:"${data.email}",
+            password:"${data.password}",
+            confirm_password:"${data.confirm_password}",
+            role:"${data.role?.id}",
+            condition:"${data.condition?.id}"
+          }
           ){
             token
         }
     }`;
+
+    console.log(request);
 
   return mutateMethods(request);
 };

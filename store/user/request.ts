@@ -14,9 +14,9 @@ export const updateUserRequest = (data: IUser) => {
               bio: "${data.bio}",
               zip_code: "${data.zip_code}",
               url: "${data.url}",
-              city:"{connect:${data.city?.id}}"
-              role:"{connect:${data.role?.id}}"
-              condition:"{connect:${data.condition?.id}}"
+              ${data.city?.id && `city:{connect:"${data.city?.id}"}`}
+              role:{connect:"${data.role?.id}"}
+              condition:{connect:"${data.condition?.id}"}
           }){
             id
             first_name

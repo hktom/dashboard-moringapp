@@ -36,6 +36,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../config/reducer";
 import { ICountryState } from "../../../store/country/reducer";
 import { uploadImageFailure } from "../../../store/image/actions";
+import { useRouter } from "next/router";
+import PageBreadCrumb from "../../../components/PageBreadCrumb";
 
 interface IProps {
   pid?: string;
@@ -47,6 +49,8 @@ function CreateCountry(props: IProps) {
   const state = useSelector(
     (state: IRootState): ICountryState => state.country
   );
+
+  const router = useRouter();
 
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
@@ -74,9 +78,10 @@ function CreateCountry(props: IProps) {
     if (state.success) {
       setImage(undefined);
       dispatch(uploadImageFailure(undefined));
-      reset({ data: {} });
+      // reset({ data: {} });
+      router.reload();
     }
-  }, [dispatch, reset, state.success, setValue]);
+  }, [dispatch, reset, state.success, setValue, router]);
 
   React.useEffect(() => {
     if (pid) {
@@ -99,10 +104,7 @@ function CreateCountry(props: IProps) {
             {pid ? "Edit" : "Create"} Country
           </Typography>
 
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/page/">Dashboard</Link>
-            <Link href="/page/country">Country</Link>
-          </Breadcrumbs>
+         <PageBreadCrumb page="Countries" link="country" />
 
           <Box
             component="form"
@@ -138,7 +140,7 @@ function CreateCountry(props: IProps) {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    label="Name"
+                    label="Name EN"
                     variant="outlined"
                     fullWidth
                     color="info"
@@ -151,12 +153,12 @@ function CreateCountry(props: IProps) {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    label="Name"
+                    label="Name FR"
                     variant="outlined"
                     fullWidth
                     color="info"
                     sx={{ my: 1 }}
-                    {...register("name_fr", { required: true })}
+                    {...register("name_fr", { required: false })}
                   />
                 </Grid>
               </Grid>

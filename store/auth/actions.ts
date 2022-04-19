@@ -112,7 +112,10 @@ export interface IRegisterUserProps {
   last_name: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  role: any;
+  condition: any;
+  auth: string;
+  confirm_password: string;
 }
 
 export interface IRegisterUser extends Action<"auth/REGISTER_USER"> {
@@ -144,7 +147,7 @@ export const registerUserFail = (error: string): IRegisterUserFail => ({
 export interface IUpdatePasswordProps {
   email: string;
   password: string;
-  newPassword: string;
+  newPassword?: string;
   confirmNewPassword: string;
 }
 

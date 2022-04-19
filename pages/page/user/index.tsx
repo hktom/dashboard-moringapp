@@ -49,8 +49,8 @@ const columns: GridColDef[] = [
       </Box>
     ),
   },
-  { field: "firstName", headerName: "First name", flex: 1 },
-  { field: "lastName", headerName: "Last name", flex: 1 },
+  { field: "first_name", headerName: "First name", flex: 1 },
+  { field: "last_name", headerName: "Last name", flex: 1 },
   {
     field: "email",
     headerName: "Email",

@@ -120,6 +120,7 @@ export const getUserProfileRequest = () => {
         first_name
         last_name
         email
+        avatar
         role{
             id
             name

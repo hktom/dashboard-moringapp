@@ -224,7 +224,7 @@ function CreateCategory(props: IProps) {
                     InputLabelProps={{
                       shrink: true,
                     }}
-                    {...register("name_fr", { required: true })}
+                    {...register("name_fr", { required: false })}
                   />
 
                   <TextField

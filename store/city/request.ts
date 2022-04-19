@@ -29,7 +29,7 @@ export const updateCityRequest = (data: ICity) => {
           updateCity(id:"${data.id}", input:{
             name:"${data.name}"
             name_fr:"${data.name_fr}"
-            country:{connect:${data.country?.id}}
+            country:{connect:"${data.country?.id}"}
           }){
             id
             name
