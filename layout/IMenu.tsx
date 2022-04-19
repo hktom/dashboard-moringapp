@@ -34,31 +34,21 @@ export const menu1: Array<IMenu> = [
   {
     label: "Task",
     description:
-    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <FormatListBulletedIcon sx={{ color: "#fff" }} />,
     path: "/page/task/",
   },
   {
-    label: "Service",
-    icon: <FullscreenExitIcon sx={{ color: "#fff" }} />,
-    path: "/page/service/",
-  },
-  {
-    label: "Category",
-    icon: <ListAltIcon sx={{ color: "#fff" }} />,
-    path: "/page/category/",
-  },
-  {
     label: "Payment",
     description:
-    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <LocalAtmIcon sx={{ color: "#fff" }} />,
     path: "/page/payment/",
   },
   {
     label: "Profile",
     description:
-    "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <ManageAccountsIcon sx={{ color: "#fff" }} />,
     path: "/page/profile/",
   },
@@ -69,6 +59,16 @@ export const menu2: Array<IMenu> = [
     label: "User",
     icon: <PeopleIcon sx={{ color: "#fff" }} />,
     path: "/page/user/",
+  },
+  {
+    label: "Service",
+    icon: <FullscreenExitIcon sx={{ color: "#fff" }} />,
+    path: "/page/service/",
+  },
+  {
+    label: "Category",
+    icon: <ListAltIcon sx={{ color: "#fff" }} />,
+    path: "/page/category/",
   },
   {
     label: "Role",

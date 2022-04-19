@@ -422,6 +422,71 @@ function CreateUser(props: IProps) {
     );
   };
 
+  const sectionCondition = () => {
+    return (
+      <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
+        <Grid container>
+          <Grid item xs={12} md={4}>
+            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
+              Active User
+            </Typography>
+
+            <Typography variant="body2" component="p" sx={{ pr: 3 }}>
+              only active Users will be displayed on website
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <FormControl fullWidth sx={{ my: 1 }}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    color="success"
+                    value={active}
+                    checked={active}
+                    onChange={() => setActive(!active)}
+                  />
+                }
+                label="Active"
+              />
+            </FormControl>
+          </Grid>
+        </Grid>
+      </Paper>
+    );
+  };
+
+  const sectionRole = () => {
+    return (
+      <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
+        <Grid container>
+          <Grid item xs={12} md={4}>
+            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
+              Role *
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">Role</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={role}
+                label="Role"
+                onChange={handleChangeRole}
+              >
+                {(roleState?.list ?? []).map((i: IRole) => (
+                  <MenuItem value={i.id} key={i.id}>
+                    {i.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      </Paper>
+    );
+  };
+
   return (
     <Layout>
       <Grid container>
@@ -434,14 +499,17 @@ function CreateUser(props: IProps) {
             <Link href="/page/">
               <a style={{ textDecoration: "none" }}>Dashboard</a>
             </Link>
-            <Link href="/page/user">
-              <a style={{ textDecoration: "none" }}>Users</a>
-            </Link>
-            {pid && (
-              <Link href={"/page/user/profile/" + pid}>
-                <a style={{ textDecoration: "none" }}>Profile</a>
+            {state.user?.role?.value == 1 && (
+              <Link href="/page/user">
+                <a style={{ textDecoration: "none" }}>Users</a>
               </Link>
             )}
+
+            {/* {pid && (
+              <Link href={"/page/"+(state.user?.role?.value == 1?"user":"profile")+"/profile/" + pid}>
+                <a style={{ textDecoration: "none" }}>Profile</a>
+              </Link>
+            )} */}
           </Breadcrumbs>
 
           <Box
@@ -475,70 +543,9 @@ function CreateUser(props: IProps) {
 
             {pid && citySection()}
 
-            <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
-              <Grid container>
-                <Grid item xs={12} md={4}>
-                  <Typography
-                    variant="h6"
-                    component="h2"
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    Role *
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={role}
-                      label="Role"
-                      onChange={handleChangeRole}
-                    >
-                      {(roleState?.list ?? []).map((i: IRole) => (
-                        <MenuItem value={i.id} key={i.id}>
-                          {i.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Paper>
+            {state.user?.role?.value == 1 && sectionRole()}
 
-            <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
-              <Grid container>
-                <Grid item xs={12} md={4}>
-                  <Typography
-                    variant="h6"
-                    component="h2"
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    Active User
-                  </Typography>
-
-                  <Typography variant="body2" component="p" sx={{ pr: 3 }}>
-                    only active Users will be displayed on website
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <FormControl fullWidth sx={{ my: 1 }}>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          color="success"
-                          value={active}
-                          checked={active}
-                          onChange={() => setActive(!active)}
-                        />
-                      }
-                      label="Active"
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Paper>
+            {state.user?.role?.value == 1 && sectionCondition()}
 
             <Paper elevation={0} sx={{ p: 4, mt: 4 }}>
               <Grid container>

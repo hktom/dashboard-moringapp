@@ -1,6 +1,6 @@
 import { ICity } from "../city/action";
 import { ICondition } from "../condition/action";
-import { IJob } from "../jobs/action";
+import { IJob } from "../job/action";
 import { IRole } from "../role/action";
 import { ITask } from "../task/action";
 import { IUser } from "../user/action";

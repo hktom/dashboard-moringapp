@@ -179,7 +179,14 @@ function Profile(props: IProfileProps) {
                 variant="contained"
                 color="info"
                 disableElevation
-                onClick={() => router.push("/page/user/edit/" + state?.id)}
+                onClick={() =>
+                  router.push(
+                    "/page/" +
+                      (homeState.role?.value == 1 ? "user" : "profile") +
+                      "/edit/" +
+                      state?.id
+                  )
+                }
               >
                 <EditIcon /> Edit
               </Button>

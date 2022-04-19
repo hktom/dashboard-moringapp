@@ -11,12 +11,51 @@ import { ISidebar, Drawer, DrawerHeader } from "./Layout";
 import { Paper } from "@mui/material";
 import { IMenu, menu1, menu2 } from "./IMenu";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { IRootState } from "../config/reducer";
+import { IHomeState } from "../pages/page/home/reducer";
 
 // icon
 
 const Sidebar = (props: ISidebar) => {
   const { open, handleDrawerClose, theme } = props;
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
   const router = useRouter();
+
+  const adminOnlyMenu = () => {
+    return (
+      <>
+        <Divider />
+        <List>
+          {menu2.map((item: IMenu) => (
+            <ListItemButton
+              key={item.label + "_"}
+              onClick={() => router.push(item.path)}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.label}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+      </>
+    );
+  };
   return (
     <Drawer
       variant="permanent"
@@ -57,31 +96,7 @@ const Sidebar = (props: ISidebar) => {
           </ListItemButton>
         ))}
       </List>
-      <Divider />
-      <List>
-        {menu2.map((item: IMenu) => (
-          <ListItemButton
-            key={item.label + "_"}
-            onClick={() => router.push(item.path)}
-            sx={{
-              minHeight: 48,
-              justifyContent: open ? "initial" : "center",
-              px: 2.5,
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                mr: open ? 3 : "auto",
-                justifyContent: "center",
-              }}
-            >
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText primary={item.label} sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
-        ))}
-      </List>
+      {homeState.role?.value == 1 && adminOnlyMenu()}
     </Drawer>
   );
 };

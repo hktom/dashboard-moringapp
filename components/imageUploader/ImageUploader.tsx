@@ -8,10 +8,10 @@ import {
 import { grey } from "@mui/material/colors";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { HOST_URL } from "../config/apollo";
-import { IRootState } from "../config/reducer";
-import { uploadImage, uploadImageFailure } from "../store/image/actions";
-import { IImageState } from "../store/image/reducer";
+import { HOST_URL } from "../../config/apollo";
+import { IRootState } from "../../config/reducer";
+import { uploadImage, uploadImageFailure } from "./actions";
+import { IImageState } from "./reducer";
 
 interface IProps {
   setImageField: (image: string | undefined) => void;
