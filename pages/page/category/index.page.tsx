@@ -43,7 +43,7 @@ const columns: GridColDef[] = [
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
-          height="140px"
+          sx={{ height: "120px", width: "120px", py:2 }}
           image={HOST_URL + "storage/" + params.value}
           alt="green iguana"
         />
@@ -56,7 +56,7 @@ const columns: GridColDef[] = [
     field: "service",
     headerName: "Service",
     width: 200,
-    sortable: false,
+    sortable: true,
     valueGetter: (params: GridValueGetterParams) =>
       `${params.row.service?.name || ""}`,
   },

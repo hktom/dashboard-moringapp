@@ -35,6 +35,7 @@ import { ICondition } from "../condition/action";
 import { ICategory } from "../category/action";
 import { useRouter } from "next/router";
 import { HOST_URL } from "../../../config/apollo";
+import { IHomeState } from "../home/reducer";
 
 const columns: GridColDef[] = [
   {
@@ -92,6 +93,7 @@ function Task() {
   const router = useRouter();
   const [search, setSearch] = React.useState("");
   const state = useSelector((state: IRootState): ITaskState => state.task);
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
   // const [data, setData] = React.useState<ITask[] | undefined>(undefined);
   // const homeState = useSelector((state: IRootState): IHomeState => state.home);
   // const dispatch = useDispatch();
@@ -146,7 +148,11 @@ function Task() {
                     <DataGrid
                       sx={{ border: "none" }}
                       rowHeight={100}
-                      rows={state.list || []}
+                      rows={
+                        (homeState?.role?.value == 1
+                          ? state.list
+                          : homeState?.tasks) || []
+                      }
                       columns={columns}
                       pageSize={5}
                       rowsPerPageOptions={[5]}

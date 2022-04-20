@@ -16,6 +16,8 @@ import { IRootState } from "../config/reducer";
 import { IHomeState } from "../pages/page/home/reducer";
 import { HOST_URL } from "../config/apollo";
 import AccountMenu from "./AccountMenu";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 const drawerWidth = 240;
 
@@ -99,6 +101,7 @@ export interface ISidebar {
 const Layout = ({ children }: DashboardLayoutProps) => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const router = useRouter();
 
   const homeState = useSelector((state: IRootState): IHomeState => state.home);
 
@@ -117,58 +120,65 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   }, [dispatch, homeState]);
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open} color="secondary" elevation={0}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", justifyContent: "start" }}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                marginRight: 5,
-                ...(open && { display: "none" }),
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Moringapp
-            </Typography>
-          </Box>
+    <>
+      <Head>
+        <title>Dashboard</title>
+        <link rel="icon" href="/favicon.png" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar position="fixed" open={open} color="secondary" elevation={0}>
+          <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", justifyContent: "start" }}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
+                sx={{
+                  marginRight: 5,
+                  ...(open && { display: "none" }),
+                }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography variant="h6" noWrap component="div">
+                Moringapp
+              </Typography>
+            </Box>
 
-          <Stack>
-            <AccountMenu user={homeState.user}></AccountMenu>
-            {/* <Avatar
+            <Stack>
+              <AccountMenu user={homeState.user}></AccountMenu>
+              {/* <Avatar
               alt={homeState.user?.first_name + " " + homeState.user?.last_name}
               src={HOST_URL + "storage/" + homeState.user?.avatar}
               sx={{ width: 35, height: 35 }}
             /> */}
-          </Stack>
-        </Toolbar>
-      </AppBar>
+            </Stack>
+          </Toolbar>
+        </AppBar>
 
-      <Sidebar
-        open={open}
-        theme={theme}
-        handleDrawerClose={handleDrawerClose}
-      ></Sidebar>
+        <Sidebar
+          open={open}
+          theme={theme}
+          handleDrawerClose={handleDrawerClose}
+        ></Sidebar>
 
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1330px", mx: "auto" }}
-      >
-        {homeState.loading && <LinearProgress />}
-        {homeState.error && (
-          <Alert severity="error" sx={{ width: "100%" }}>
-            {homeState.error}
-          </Alert>
-        )}
-        {children}
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1330px", mx: "auto" }}
+        >
+          {homeState.loading && <LinearProgress />}
+          {homeState.error && (
+            <Alert severity="error" sx={{ width: "100%" }}>
+              {homeState.error}
+            </Alert>
+          )}
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

@@ -65,6 +65,7 @@ me{
         can_be_urgent
         accept_offer
         min_price
+        price_by_hour
         created_at
         jobs{
             id
@@ -204,6 +205,10 @@ export const getUserProfileRequest = () => {
         name
         name_fr
         image
+        categories{
+            id
+            name
+        }
     }
   }`;
 

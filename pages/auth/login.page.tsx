@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 import { ILoginData, loginUser } from "./actions";
 import { IRootState } from "../../config/reducer";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 function Login() {
   const dispatch = useDispatch();
@@ -59,102 +60,114 @@ function Login() {
   }, [loginState.login, router]);
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Paper sx={{ maxWidth: "50rem", pb: 8 }} color="#fff">
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
+    <>
+      <Head>
+        <title>Login</title>
+        <link rel="icon" href="/favicon.png" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
 
-          <Box
-            sx={{
-              marginTop: 8,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography component="h1" variant="h4" sx={{ fontWeight: "bold" }}>
-              Log in
-            </Typography>
-
-            {loginState.login.error && (
-              <Alert severity="error" sx={{ width: "100%" }}>
-                {loginState.login.error}
-              </Alert>
-            )}
-
-            {loginState.login.token && (
-              <Alert severity="success" sx={{ width: "100%" }}>
-                You are logged in!
-              </Alert>
-            )}
+      <Box
+        sx={{
+          minHeight: "100vh",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Paper sx={{ maxWidth: "50rem", pb: 8 }} color="#fff">
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
 
             <Box
-              component="form"
-              noValidate
-              sx={{ mt: 1 }}
-              onSubmit={handleSubmit(onSubmit)}
+              sx={{
+                marginTop: 8,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email"
-                autoComplete="email"
-                autoFocus
-                {...register("email", { required: true })}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                {...register("password", { required: true })}
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={loginState.login.loading}
-                disableElevation
-                color="info"
-                sx={{ mt: 3, mb: 2, py: 1.2 }}
+              <Typography
+                component="h1"
+                variant="h4"
+                sx={{ fontWeight: "bold" }}
               >
-                Sign In{" "}
-                {loginState.login.loading && (
-                  <CircularProgress
-                    color="secondary"
-                    size={20}
-                    sx={{ ml: 2 }}
-                  />
-                )}
-              </Button>
+                Log in
+              </Typography>
 
-              <Box sx={{ mx: "auto", textAlign: "center" }}>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
+              {loginState.login.error && (
+                <Alert severity="error" sx={{ width: "100%" }}>
+                  {loginState.login.error}
+                </Alert>
+              )}
+
+              {loginState.login.token && (
+                <Alert severity="success" sx={{ width: "100%" }}>
+                  You are logged in!
+                </Alert>
+              )}
+
+              <Box
+                component="form"
+                noValidate
+                sx={{ mt: 1 }}
+                onSubmit={handleSubmit(onSubmit)}
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email"
+                  autoComplete="email"
+                  autoFocus
+                  {...register("email", { required: true })}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  {...register("password", { required: true })}
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  disabled={loginState.login.loading}
+                  disableElevation
+                  color="info"
+                  sx={{ mt: 3, mb: 2, py: 1.2 }}
+                >
+                  Sign In{" "}
+                  {loginState.login.loading && (
+                    <CircularProgress
+                      color="secondary"
+                      size={20}
+                      sx={{ ml: 2 }}
+                    />
+                  )}
+                </Button>
+
+                <Box sx={{ mx: "auto", textAlign: "center" }}>
+                  <Link href="#" variant="body2">
+                    Forgot password?
+                  </Link>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        </Container>
-      </Paper>
-    </Box>
+          </Container>
+        </Paper>
+      </Box>
+    </>
   );
 }
 

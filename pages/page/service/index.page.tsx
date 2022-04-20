@@ -54,6 +54,14 @@ const columns: GridColDef[] = [
   { field: "name", headerName: "Name EN", width: 200 },
   { field: "name_fr", headerName: "Name FR", width: 200 },
   {
+    field: "categories",
+    headerName: "Categories",
+    width: 200,
+    sortable: true,
+    valueGetter: (params: GridValueGetterParams) =>
+      `${params.row.categories?.length}`,
+  },
+  {
     field: "condition",
     width: 200,
     headerName: "Status",

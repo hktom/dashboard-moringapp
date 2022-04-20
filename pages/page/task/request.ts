@@ -13,7 +13,7 @@ export const addTaskRequest = (data: ITask) => {
             can_be_urgent:${data.can_be_urgent}
             accept_offer:${data.accept_offer}
             price_by_hour:${data.price_by_hour}
-            min_price:${data.min_price}
+            min_price:${data.min_price || 0}
             category:{connect:"${data.category?.id}"}
             condition:{connect:"${data.condition?.id}"}
             user:{connect:"${data.user?.id}"}

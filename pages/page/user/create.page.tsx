@@ -40,6 +40,7 @@ import { VisibilityOff, Visibility } from "@mui/icons-material";
 import Link from "next/link";
 import { registerUser, updatePassword } from "../../auth/actions";
 import { ILoginState } from "../../auth/reducer";
+import { IHomeState } from "../home/reducer";
 
 interface IProps {
   pid?: string;
@@ -48,7 +49,7 @@ interface IProps {
 function CreateUser(props: IProps) {
   const { pid } = props;
   const router = useRouter();
-
+  const homeState = useSelector((state: IRootState): IHomeState => state.home);
   const state = useSelector((state: IRootState): IUserState => state.user);
   const authState = useSelector(
     (state: IRootState): ILoginState => state.login
@@ -543,9 +544,9 @@ function CreateUser(props: IProps) {
 
             {pid && citySection()}
 
-            {state.user?.role?.value == 1 && sectionRole()}
+            {homeState.role?.value == 1 && sectionRole()}
 
-            {state.user?.role?.value == 1 && sectionCondition()}
+            {homeState.role?.value == 1 && sectionCondition()}
 
             <Paper elevation={0} sx={{ p: 4, mt: 4 }}>
               <Grid container>
