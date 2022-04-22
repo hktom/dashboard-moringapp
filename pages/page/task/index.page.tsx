@@ -46,7 +46,7 @@ const columns: GridColDef[] = [
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
-          height="80px"
+          sx={{ height: "100px", width: "100px", py:1 }}
           image={HOST_URL + "storage/" + params.value}
           alt="green iguana"
         />
