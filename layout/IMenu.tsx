@@ -22,7 +22,7 @@ export const menu1: Array<IMenu> = [
   {
     label: "Dashboard",
     icon: <GridViewIcon sx={{ color: "#fff" }} />,
-    path: "/page/home/",
+    path: "/",
   },
   {
     label: "Jobs",
