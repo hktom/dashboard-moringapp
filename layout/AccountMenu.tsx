@@ -96,7 +96,9 @@ export default function AccountMenu(props: IProps) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={() => router.push("/page/profile")}>
+        <MenuItem
+          onClick={() => router.push("/page/user/profile?pid=" + user?.id)}
+        >
           <Avatar /> Profile
         </MenuItem>
         <Divider />

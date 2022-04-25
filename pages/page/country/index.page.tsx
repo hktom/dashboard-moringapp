@@ -101,7 +101,7 @@ function Country() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/country/edit/" + params.id);
+                        router.push("/page/country/update?pid=" + params.id);
                       }}
                     />
                   </div>

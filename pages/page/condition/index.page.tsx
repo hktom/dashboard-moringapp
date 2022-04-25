@@ -40,7 +40,6 @@ const columns: GridColDef[] = [
 ];
 
 function Condition() {
-
   const dispatch = useDispatch();
   const router = useRouter();
   const state = useSelector(
@@ -52,7 +51,7 @@ function Condition() {
   //     dispatch(getConditionList());
   //   }
   // }, [dispatch, state]);
-  
+
   return (
     <>
       <Layout>
@@ -93,7 +92,7 @@ function Condition() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/condition/edit/" + params.id);
+                        router.push("/page/condition/update?pid=" + params.id);
                         console.log("params", params);
                       }}
                     />

@@ -150,7 +150,7 @@ function Service() {
                         event: MuiEvent<React.MouseEvent>
                       ) => {
                         // event.defaultMuiPrevented = true;
-                        router.push("/page/service/edit/" + params.id);
+                        router.push("/page/service/update?pid=" + params.id);
                         console.log("params", params);
                       }}
                       onCellClick={(

@@ -79,7 +79,7 @@ export const loginReducer = (
   state: ILoginState = initialState,
   action: ILoginActions
 ): ILoginState => {
-  console.log("loginReducer", action);
+  // console.log("loginReducer", action);
   switch (action.type) {
     case LOGIN_USER:
       return {

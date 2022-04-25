@@ -18,6 +18,7 @@ import { HOST_URL } from "../config/apollo";
 import AccountMenu from "./AccountMenu";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 
 const drawerWidth = 240;
 
@@ -118,6 +119,13 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   React.useEffect(() => {
     if (!homeState.user) dispatch(getUserProfile());
   }, [dispatch, homeState]);
+
+  React.useEffect(() => {
+    let token = Cookies.get("token");
+    if (!token) {
+      window.location.href = "/auth/login";
+    }
+  }, []);
 
   return (
     <>

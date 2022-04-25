@@ -73,7 +73,7 @@ export const conditionReducer = (
       return {
         ...state,
         isLoading: false,
-        success: true,
+        // success: true,
         list: action.data,
       };
 

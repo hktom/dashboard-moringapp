@@ -90,7 +90,7 @@ function Role() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/role/edit/" + params.id);
+                        router.push("/page/role/update?pid=" + params.id);
                         console.log("params", params);
                       }}
                     />

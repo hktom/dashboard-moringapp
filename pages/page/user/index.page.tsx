@@ -137,7 +137,7 @@ function User() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/user/profile/" + params.id);
+                        router.push("/page/user/profile?pid=" + params.id);
                         console.log("params", params);
                       }}
                       columns={columns}

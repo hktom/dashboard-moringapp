@@ -46,7 +46,7 @@ const columns: GridColDef[] = [
       <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
         <CardMedia
           component="img"
-          sx={{ height: "100px", width: "100px", py:1 }}
+          sx={{ height: "100px", width: "100px", py: 1 }}
           image={HOST_URL + "storage/" + params.value}
           alt="green iguana"
         />
@@ -160,7 +160,7 @@ function Task() {
                         params: GridRowParams,
                         event: MuiEvent<React.MouseEvent>
                       ) => {
-                        router.push("/page/task/edit/" + params.id);
+                        router.push("/page/task/update?pid=" + params.id);
                         console.log("params", params);
                       }}
                     />

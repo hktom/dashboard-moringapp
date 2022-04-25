@@ -31,12 +31,13 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
-      <h1>Dashboard</h1>
+      {/* <h1>Dashboard</h1> */}
       <Paper
         sx={{
           width: "100%",
           minHeight: "200px",
           backgroundColor: "info.light",
+          mt: 5,
           py: 3,
           px: 10,
           display: "flex",
@@ -46,12 +47,12 @@ const Home: NextPage = () => {
         }}
       >
         <Typography component="h1" variant="h2" color="secondary.main">
-          Welcome {/* Welcome to Moringapp */}
+          Dashboard
         </Typography>
         <Typography component="p" variant="body1" color="secondary.main">
           Your dashboard has been improved! Explore new features
         </Typography>
-        <Button
+        {/* <Button
           variant="contained"
           color="success"
           disableElevation
@@ -60,12 +61,12 @@ const Home: NextPage = () => {
           <Typography variant="button" color="secondary.main">
             Dismiss banner{" "}
           </Typography>
-        </Button>
+        </Button> */}
       </Paper>
 
-      <Grid container spacing={3} sx={{ mt: 1 }}>
+      <Grid container spacing={3} sx={{ mt: 1, mb: 10 }}>
         <Grid item xs={12} md={8}>
-          <Paper color="secondary" sx={{ px: 2, pb: 2, pt: 3 }}>
+          <Paper color="secondary" elevation={0} sx={{ px: 2, pb: 2, pt: 3 }}>
             <Typography
               component="h2"
               variant="h6"
@@ -86,7 +87,7 @@ const Home: NextPage = () => {
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Paper color="secondary" sx={{ px: 2, pb: 2, pt: 3 }}>
+          <Paper color="secondary" elevation={0} sx={{ px: 2, pb: 2, pt: 3 }}>
             <Typography
               component="h2"
               variant="h6"
@@ -136,7 +137,7 @@ const Home: NextPage = () => {
         </Grid>
       </Grid>
 
-      <Grid container spacing={3} sx={{ mt: 5 }}>
+      {/* <Grid container spacing={3} sx={{ mt: 5 }}>
         {menu1
           .filter((i: IMenu) => i.description)
           .map((value: IMenu) => (
@@ -167,7 +168,7 @@ const Home: NextPage = () => {
               </Card>
             </Grid>
           ))}
-      </Grid>
+      </Grid> */}
     </Layout>
   );
 };

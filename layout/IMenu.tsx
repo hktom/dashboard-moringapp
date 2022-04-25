@@ -22,7 +22,7 @@ export const menu1: Array<IMenu> = [
   {
     label: "Dashboard",
     icon: <GridViewIcon sx={{ color: "#fff" }} />,
-    path: "/page/",
+    path: "/page/home/",
   },
   {
     label: "Jobs",
@@ -45,13 +45,13 @@ export const menu1: Array<IMenu> = [
     icon: <LocalAtmIcon sx={{ color: "#fff" }} />,
     path: "/page/payment/",
   },
-  {
-    label: "Profile",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
-    icon: <ManageAccountsIcon sx={{ color: "#fff" }} />,
-    path: "/page/profile/",
-  },
+  // {
+  //   label: "Profile",
+  //   description:
+  //     "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
+  //   icon: <ManageAccountsIcon sx={{ color: "#fff" }} />,
+  //   path: "/page/profile/",
+  // },
 ];
 
 export const menu2: Array<IMenu> = [

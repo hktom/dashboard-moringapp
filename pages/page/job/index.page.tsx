@@ -105,7 +105,7 @@ function Job() {
               variant="h6"
               sx={{ fontWeight: "bold", px: 2, mb: 2 }}
             >
-              Latest transactions
+              Latest jobs
             </Typography>
 
             <div style={{ height: 400, width: "100%" }}>

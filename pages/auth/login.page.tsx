@@ -54,10 +54,16 @@ function Login() {
   useEffect(() => {
     if (loginState.login?.token) {
       Cookies.set("token", loginState.login.token!, { expires: 7 });
-      // router.push("/page/");
-      window.location.href = "/page/";
+      window.location.href = "/page/home";
     }
   }, [loginState.login, router]);
+
+  useEffect(() => {
+    let token = Cookies.get("token");
+    if (token) {
+      window.location.href = "/page/home";
+    }
+  }, []);
 
   return (
     <>
