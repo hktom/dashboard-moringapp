@@ -18,6 +18,7 @@ import {
   SEND_RESET_MAIL,
   SEND_RESET_MAIL_SUCCESS,
   SEND_RESET_MAIL_FAILURE,
+  SSO_LOGIN,
 } from "./constants";
 
 export interface ILoginData {
@@ -206,7 +207,17 @@ export const sendResetMailFail = (error: string): ISendResetMailFail => ({
   error,
 });
 
+export interface ISsoLogin extends Action<"auth/SSO_LOGIN"> {
+  data: any;
+}
+
+export const ssoLogin = (data: any): ISsoLogin => ({
+  type: SSO_LOGIN,
+  data,
+});
+
 export type ILoginActions =
+  | ISsoLogin
   | ILoginUser
   | ILoginUserSuccess
   | ILoginUserFail

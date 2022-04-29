@@ -8,10 +8,11 @@ export function middleware(req: NextRequest) {
       ? process.env.NEXT_PUBLIC_PRODUCTION_URL!
       : process.env.NEXT_PUBLIC_DEVELOPMENT_URL!;
 
-  // console.log('ssr token *****',req.cookies.token);
-  if (token) {
-    return NextResponse.redirect(url + "page/home/");
-  }
-
   return NextResponse.next();
+  // console.log('ssr token *****',req.cookies.token);
+  // if (token) {
+  //   return NextResponse.redirect(url + "page/home/");
+  // }
+
+  // return NextResponse.next();
 }

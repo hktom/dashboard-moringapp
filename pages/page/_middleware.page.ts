@@ -7,10 +7,11 @@ export function middleware(req: NextRequest) {
     process.env.NODE_ENV == "production"
       ? process.env.NEXT_PUBLIC_PRODUCTION_URL!
       : process.env.NEXT_PUBLIC_DEVELOPMENT_URL!;
+  
+      return NextResponse.next();
+  //   if (token) {
+  //     return NextResponse.next();
+  //   }
 
-  if (token) {
-    return NextResponse.next();
-  }
-
-  return NextResponse.redirect(url + "auth/login");
+  //   return NextResponse.redirect(url + "auth/login");
 }

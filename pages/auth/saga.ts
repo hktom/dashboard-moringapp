@@ -5,13 +5,16 @@ import {
   LOGOUT_USER,
   REGISTER_USER,
   RESET_PASSWORD,
+  SSO_LOGIN,
   UPDATE_PASSWORD,
 } from "./constants";
 import {
+  getTokenRequest,
   loginUserRequest,
   logoutUserRequest,
   registerUserRequest,
   resetPasswordRequest,
+  resetTokenRequest,
   sendResetMailRequest,
   updatePasswordRequest,
 } from "./request";
@@ -37,6 +40,23 @@ function* loginUserSaga(action: any): SagaIterator {
       yield put(loginUserFail("credentials not found or invalid"));
     } else {
       yield put(loginUserSuccess(res.data?.login?.token));
+    }
+  } catch (error) {
+    yield put(loginUserFail(`${error}`));
+  }
+}
+
+function* ssoLoginSaga(action: any): SagaIterator {
+  try {
+    const res = yield call(getTokenRequest, action.data);
+    if (
+      !res.data?.getToken?.reset_token ||
+      res.data?.getToken?.reset_token?.length == 0
+    ) {
+      yield put(loginUserFail("an unknown error occurred"));
+    } else {
+      yield call(resetTokenRequest, res.data?.getToken?.id);
+      yield put(loginUserSuccess(res.data?.getToken?.reset_token));
     }
   } catch (error) {
     yield put(loginUserFail(`${error}`));
@@ -107,6 +127,7 @@ function* updatePassword(action: any): SagaIterator {
 }
 
 export function* loginSagas(): Generator {
+  yield takeEvery(SSO_LOGIN, ssoLoginSaga);
   yield takeEvery(LOGIN_USER, loginUserSaga);
   yield takeEvery(LOGOUT_USER, logoutUserSaga);
   yield takeEvery(REGISTER_USER, registerUser);

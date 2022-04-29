@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import {
   Alert,
   Avatar,
+  Backdrop,
   Box,
   Button,
   Checkbox,
@@ -23,13 +24,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useEffect, useState } from "react";
 import { ILoginState } from "./reducer";
 import { useForm } from "react-hook-form";
-import { ILoginData, loginUser } from "./actions";
+import { ILoginData, loginUser, ssoLogin } from "./actions";
 import { IRootState } from "../../config/reducer";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
 function Login() {
   const dispatch = useDispatch();
+
+  const [openBackdrop, setOpenBackdrop] = useState<boolean>(false);
+
+  const handleCloseBackdrop = () => {
+    setOpenBackdrop(false);
+  };
 
   const loginState = useSelector(
     (state: IRootState): ILoginState => state.login
@@ -56,7 +63,16 @@ function Login() {
       Cookies.set("token", loginState.login.token!, { expires: 7 });
       window.location.href = "/page/home";
     }
-  }, [loginState.login, router]);
+
+    if (loginState.login.error) {
+      setOpenBackdrop(false);
+    }
+
+    if (router?.query?.id && !loginState.login?.sso) {
+      dispatch(ssoLogin(router?.query?.id));
+      setOpenBackdrop(true);
+    }
+  }, [dispatch, loginState.login, router]);
 
   useEffect(() => {
     let token = Cookies.get("token");
@@ -67,6 +83,13 @@ function Login() {
 
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openBackdrop}
+        onClick={handleCloseBackdrop}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Head>
         <title>Login</title>
         <link rel="icon" href="/favicon.png" />
@@ -127,7 +150,11 @@ function Login() {
                   id="email"
                   label="Email"
                   autoComplete="email"
+                  disabled={loginState.login.loading}
                   autoFocus
+                  // defaultValue={
+                  //   new URLSearchParams(window.location.search)?.get("id") ?? ""
+                  // }
                   {...register("email", { required: true })}
                 />
                 <TextField
@@ -138,6 +165,7 @@ function Login() {
                   label="Password"
                   type="password"
                   id="password"
+                  disabled={loginState.login.loading}
                   autoComplete="current-password"
                 />
                 <FormControlLabel

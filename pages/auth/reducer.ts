@@ -18,6 +18,7 @@ import {
   SEND_RESET_MAIL,
   SEND_RESET_MAIL_FAILURE,
   SEND_RESET_MAIL_SUCCESS,
+  SSO_LOGIN,
 } from "./constants";
 
 interface IProcess {
@@ -25,6 +26,7 @@ interface IProcess {
   error: string | undefined;
   success: boolean | undefined;
   token: string | undefined;
+  sso?: boolean | undefined;
 }
 
 export interface ILoginState {
@@ -81,6 +83,11 @@ export const loginReducer = (
 ): ILoginState => {
   // console.log("loginReducer", action);
   switch (action.type) {
+    case SSO_LOGIN:
+      return {
+        ...state,
+        login: { ...state.login, sso: true, loading: true, error: undefined },
+      };
     case LOGIN_USER:
       return {
         ...state,

@@ -8,15 +8,15 @@ export function middleware(req: NextRequest) {
       ? process.env.NEXT_PUBLIC_PRODUCTION_URL!
       : process.env.NEXT_PUBLIC_DEVELOPMENT_URL!;
 
-  console.log(url);
+      return NextResponse.next();
 
-  if (req.url != url) {
-    return NextResponse.next();
-  }
+//   if (req.url != url) {
+//     return NextResponse.next();
+//   }
 
-  if (token) {
-    return NextResponse.redirect(url + "page/home/");
-  } else {
-    return NextResponse.redirect(url + "auth/login");
-  }
+//   if (token) {
+//     return NextResponse.redirect(url + "page/home/");
+//   } else {
+//     return NextResponse.redirect(url + "auth/login");
+//   }
 }

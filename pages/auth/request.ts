@@ -19,6 +19,31 @@ export const loginUserRequest = (data: ILoginData) => {
   return mutateMethods(request);
 };
 
+export const getTokenRequest = (data: string) => {
+  const request = `
+  {
+    getToken(email:"${data}"){
+      id
+      reset_token
+    }
+  }
+  `;
+
+  return mutateMethods(request);
+};
+
+export const resetTokenRequest = (data: string) => {
+  const request = `
+  mutation{
+    updateToken(id:"${data}", input:{reset_token:""}){
+      id
+    }
+  }
+  `;
+
+  return mutateMethods(request);
+};
+
 export const logoutUserRequest = () => {
   const request = `mutation{
         logout{
@@ -87,7 +112,7 @@ export const registerUserRequest = (data: IRegisterUserProps) => {
         }
     }`;
 
-    console.log(request);
+  console.log(request);
 
   return mutateMethods(request);
 };
