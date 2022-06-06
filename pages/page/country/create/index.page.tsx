@@ -2,22 +2,22 @@ import * as React from "react";
 import {
   Alert,
   Box,
-  Breadcrumbs,
   Button,
   CircularProgress,
-  FormControl,
-  FormControlLabel,
   Grid,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
   Paper,
-  Select,
-  SelectChangeEvent,
-  Switch,
   TextField,
   Typography,
+  // Breadcrumbs,
+  // FormControl,
+  // FormControlLabel,
+  // InputAdornment,
+  // InputLabel,
+  // MenuItem,
+  // OutlinedInput,
+  // Select,
+  // SelectChangeEvent,
+  // Switch,
 } from "@mui/material";
 
 import Link from "next/link";
@@ -26,12 +26,13 @@ import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import {
   addCountry,
-  addCountryFailure,
+  // addCountryFailure,
   getCountry,
+  getCountryListSuccess,
   ICountry,
   updateCountry,
 } from "../action";
-import ImageUploader from "../../../../components/imageUploader/ImageUploader";
+// import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../config/reducer";
 import { ICountryState } from "../reducer";
@@ -51,9 +52,10 @@ function CreateCountry(props: IProps) {
   );
 
   const router = useRouter();
+  const initialState = React.useRef<number>(0);
 
-  const [active, setActive] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string | undefined>(undefined);
+  // const [active, setActive] = React.useState<boolean>(false);
+  // const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
 
@@ -72,29 +74,31 @@ function CreateCountry(props: IProps) {
     } else {
       dispatch(addCountry(data));
     }
+    initialState.current = 1;
   };
 
   React.useEffect(() => {
-    if (state.success) {
-      setImage(undefined);
-      // dispatch(uploadImageFailure(undefined));
-      // reset({ data: {} });
-      router.reload();
+    if (state.success && initialState.current === 1) {
+      dispatch(
+        getCountryListSuccess(
+          state.list
+            ?.filter((item: ICountry) => item.id !== state.country?.id)
+            .concat(state.country!)!
+        )
+      );
+      initialState.current++;
     }
-  }, [dispatch, reset, state.success, setValue, router]);
+  }, [dispatch, state.country, state.list, state.success]);
 
   React.useEffect(() => {
-    if (pid) {
-      dispatch(getCountry(pid));
+    if (pid && initialState.current === 0) {
+      let country: ICountry | undefined = state.list?.find(
+        (item: ICountry) => item.id === pid
+      );
+      setValue("name", country?.name!);
+      setValue("name_fr", country?.name_fr!);
     }
-  }, [dispatch, pid, setValue]);
-
-  React.useEffect(() => {
-    if (state.country && pid) {
-      setValue("name", state.country.name);
-      setValue("name_fr", state.country.name_fr);
-    }
-  }, [state.country, setValue, pid]);
+  }, [pid, setValue, state.list]);
 
   return (
     <Layout>
@@ -104,7 +108,7 @@ function CreateCountry(props: IProps) {
             {pid ? "Edit" : "Create"} Country
           </Typography>
 
-         <PageBreadCrumb page="Countries" link="country" />
+          <PageBreadCrumb page="Countries" link="country" />
 
           <Box
             component="form"

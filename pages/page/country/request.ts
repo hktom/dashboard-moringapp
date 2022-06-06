@@ -25,8 +25,8 @@ export const addCountryRequest = (data: ICountry) => {
 
 export const updateCountryRequest = (data: ICountry) => {
   let req = `mutation{
-          updateCountry(id:"${data.id}", input:{
-            id: "${uuidv4()}",
+          updateCountry(input:{
+            id:"${data.id}", 
             name:"${data.name}"
             name_fr:"${data.name_fr}"
           }){

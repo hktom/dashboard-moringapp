@@ -24,7 +24,7 @@ export interface IConditionState {
 }
 
 export const initialState: IConditionState = {
-  list: undefined,
+  list: [],
   condition: undefined,
   error: undefined,
   isLoading: false,

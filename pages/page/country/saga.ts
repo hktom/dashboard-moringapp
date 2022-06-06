@@ -60,7 +60,7 @@ export function* addCountrySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addCountryFailure(res.errors));
     } else {
-      yield put(addCountrySuccess(res.data.Country));
+      yield put(addCountrySuccess(res.data.createCountry));
     }
   } catch (error: any) {
     yield put(addCountryFailure(error?.toString()));
@@ -73,7 +73,7 @@ export function* updateCountrySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateCountryFailure(res.errors));
     } else {
-      yield put(updateCountrySuccess(res.data.Country));
+      yield put(updateCountrySuccess(res.data.updateCountry));
     }
   } catch (error: any) {
     yield put(updateCountryFailure(error?.toString()));

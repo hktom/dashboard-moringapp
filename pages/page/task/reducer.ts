@@ -24,7 +24,7 @@ export interface ITaskState {
 }
 
 export const initialState: ITaskState = {
-  list: undefined,
+  list: [],
   task: undefined,
   error: undefined,
   isLoading: false,
