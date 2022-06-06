@@ -5,27 +5,35 @@ import {
   Breadcrumbs,
   Button,
   CircularProgress,
-  FormControl,
-  FormControlLabel,
+  // FormControl,
+  // FormControlLabel,
   Grid,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
+  // InputAdornment,
+  // InputLabel,
+  // MenuItem,
+  // OutlinedInput,
   Paper,
-  Select,
-  SelectChangeEvent,
-  Switch,
+  // Select,
+  // SelectChangeEvent,
+  // Switch,
   TextField,
   Typography,
 } from "@mui/material";
 
 import Link from "next/link";
-import { grey } from "@mui/material/colors";
+// import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { addRole, addRoleFailure, getRole, IRole, updateRole } from "../action";
-import ImageUploader from "../../../../components/imageUploader/ImageUploader";
+import {
+  addRole,
+  addRoleFailure,
+  getRole,
+  getRoleListSuccess,
+  getRoleSuccess,
+  IRole,
+  updateRole,
+} from "../action";
+// import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../config/reducer";
 import { IRoleState } from "../reducer";
@@ -39,9 +47,10 @@ function CreateRole(props: IProps) {
   const { pid } = props;
 
   const state = useSelector((state: IRootState): IRoleState => state.role);
+  const initialState = React.useRef<number>(0);
 
-  const [active, setActive] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string | undefined>(undefined);
+  // const [active, setActive] = React.useState<boolean>(false);
+  // const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
 
@@ -60,28 +69,31 @@ function CreateRole(props: IProps) {
     } else {
       dispatch(addRole(data));
     }
+    initialState.current = 1;
   };
 
   React.useEffect(() => {
-    if (state.success) {
-      setImage(undefined);
-      // dispatch(uploadImageFailure(undefined));
-      reset({ data: {} });
+    if (state.success && initialState.current === 1) {
+      dispatch(
+        getRoleListSuccess(
+          state.list
+            ?.filter((i: IRole) => i.id !== state.role?.id)
+            .concat(state.role!)!
+        )
+      );
+      initialState.current++;
     }
-  }, [dispatch, reset, state.success, setValue]);
+  }, [dispatch, state.list, state.role, state.success]);
 
   React.useEffect(() => {
-    if (pid) {
-      dispatch(getRole(pid));
+    if (pid && initialState.current === 0) {
+      let role: IRole = state.list?.find((item: IRole) => item.id === pid)!;
+      dispatch(getRoleSuccess(role));
+      setValue("name", role?.name!);
+      setValue("value", role?.value!);
+      initialState.current++;
     }
-  }, [dispatch, pid, setValue]);
-
-  React.useEffect(() => {
-    if (state.role) {
-      setValue("name", state.role.name);
-      setValue("value", state.role.value);
-    }
-  }, [state.role, setValue]);
+  }, [dispatch, pid, setValue, state.list]);
 
   return (
     <Layout>

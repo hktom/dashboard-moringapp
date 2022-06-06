@@ -21,7 +21,8 @@ export const addRoleRequest = (data: IRole) => {
 
 export const updateRoleRequest = (data: IRole) => {
   let req = `mutation{
-          updateRole(id:"${data.id}", input:{
+          updateRole(input:{
+            id:"${data.id}", 
             name:"${data.name}",
             value:${data.value}
           }){

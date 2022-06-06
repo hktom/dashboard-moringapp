@@ -61,7 +61,7 @@ export function* addRoleSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addRoleFailure(res.errors));
     } else {
-      yield put(addRoleSuccess(res.data.role));
+      yield put(addRoleSuccess(res.data.createRole));
     }
   } catch (error: any) {
     yield put(addRoleFailure(error?.toString()));
@@ -74,7 +74,7 @@ export function* updateRoleSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateRoleFailure(res.errors));
     } else {
-      yield put(updateRoleSuccess(res.data.role));
+      yield put(updateRoleSuccess(res.data.updateRole));
     }
   } catch (error: any) {
     yield put(updateRoleFailure(error?.toString()));
