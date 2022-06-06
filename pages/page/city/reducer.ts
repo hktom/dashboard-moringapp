@@ -24,7 +24,7 @@ export interface ICityState {
 }
 
 export const initialState: ICityState = {
-  list: undefined,
+  list: [],
   city: undefined,
   error: undefined,
   isLoading: false,

@@ -26,7 +26,8 @@ export const addCityRequest = (data: ICity) => {
 
 export const updateCityRequest = (data: ICity) => {
   let req = `mutation{
-          updateCity(id:"${data.id}", input:{
+          updateCity(input:{
+            id:"${data.id}"
             name:"${data.name}"
             name_fr:"${data.name_fr}"
             country:{connect:"${data.country?.id}"}

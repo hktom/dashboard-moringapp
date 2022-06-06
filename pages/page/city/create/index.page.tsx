@@ -2,29 +2,37 @@ import * as React from "react";
 import {
   Alert,
   Box,
-  Breadcrumbs,
+  // Breadcrumbs,
   Button,
   CircularProgress,
   FormControl,
-  FormControlLabel,
+  // FormControlLabel,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   InputLabel,
   MenuItem,
-  OutlinedInput,
+  // OutlinedInput,
   Paper,
   Select,
   SelectChangeEvent,
-  Switch,
+  // Switch,
   TextField,
   Typography,
 } from "@mui/material";
 
-import Link from "next/link";
-import { grey } from "@mui/material/colors";
+// import Link from "next/link";
+// import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { addCity, addCityFailure, getCity, ICity, updateCity } from "../action";
+import {
+  addCity,
+  addCityFailure,
+  getCity,
+  getCityListSuccess,
+  getCitySuccess,
+  ICity,
+  updateCity,
+} from "../action";
 // import ImageUploader from "../../../components/ImageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../config/reducer";
@@ -45,13 +53,14 @@ function CreateCity(props: IProps) {
 
   const state = useSelector((state: IRootState): ICityState => state.city);
 
-  const [active, setActive] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string | undefined>(undefined);
+  // const [active, setActive] = React.useState<boolean>(false);
+  // const [image, setImage] = React.useState<string | undefined>(undefined);
   const [country, setCountry] = React.useState<string>("");
   // const [countryOptions, setCountryOptions] = React.useState<ICountry[]>([]);
 
   const dispatch = useDispatch();
   const router = useRouter();
+  const initialState = React.useRef<number>(0);
 
   const {
     register,
@@ -68,6 +77,7 @@ function CreateCity(props: IProps) {
     } else {
       dispatch(addCity({ ...data, country: { id: country } }));
     }
+    initialState.current = 1;
   };
 
   const stateCountry = useSelector(
@@ -75,31 +85,28 @@ function CreateCity(props: IProps) {
   );
 
   React.useEffect(() => {
-    if (state.success) {
-      router.reload();
+    if (state.success && initialState.current === 1) {
+      dispatch(
+        getCityListSuccess(
+          state.list
+            ?.filter((item: ICity) => item.id !== state.city?.id)
+            .concat(state.city!)!
+        )
+      );
+      initialState.current++;
     }
-    // if (stateCountry.list) {
-    //   setCountryOptions(stateCountry.list);
-    // }
+  }, [dispatch, state.city, state.list, state.success]);
 
-    if (!state.city && pid) {
-      dispatch(getCity(pid));
+  React.useEffect(() => {
+    if (initialState.current == 0 && pid) {
+      let city = state.list?.find((item) => item.id == pid);
+      dispatch(getCitySuccess(city!));
+      setValue("name", city?.name!);
+      setValue("name_fr", city?.name_fr!);
+      setCountry(city?.country?.id!);
+      initialState.current++;
     }
-
-    if (state.city && pid) {
-      setValue("name", state.city.name);
-      setValue("name_fr", state.city.name_fr);
-      setCountry(state.city.country?.id);
-    }
-  }, [
-    dispatch,
-    pid,
-    router,
-    setValue,
-    state.city,
-    state.success,
-    stateCountry,
-  ]);
+  }, [dispatch, pid, setValue, state.list]);
 
   const handleChangeCountry = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);

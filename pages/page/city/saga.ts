@@ -61,7 +61,7 @@ export function* addCitySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addCityFailure(res.errors));
     } else {
-      yield put(addCitySuccess(res.data.City));
+      yield put(addCitySuccess(res.data.createCity));
     }
   } catch (error: any) {
     yield put(addCityFailure(error?.toString()));
@@ -74,7 +74,7 @@ export function* updateCitySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateCityFailure(res.errors));
     } else {
-      yield put(updateCitySuccess(res.data.City));
+      yield put(updateCitySuccess(res.data.updateCity));
     }
   } catch (error: any) {
     yield put(updateCityFailure(error?.toString()));
