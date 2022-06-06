@@ -5,7 +5,7 @@ import CreateCondition from "../create/index.page";
 function Edit() {
   const router = useRouter();
   const { pid } = router.query;
-  return <CreateCondition pid={pid?.toString()}></CreateCondition>;
+  return <>{pid && <CreateCondition pid={pid?.toString()} />}</>;
 }
 
 export default Edit;

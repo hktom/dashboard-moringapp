@@ -60,7 +60,7 @@ export function* addConditionSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addConditionFailure(res.errors));
     } else {
-      yield put(addConditionSuccess(res.data.condition));
+      yield put(addConditionSuccess(res.data.createCondition));
     }
   } catch (error: any) {
     yield put(addConditionFailure(error?.toString()));
@@ -73,7 +73,7 @@ export function* updateConditionSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateConditionFailure(res.errors));
     } else {
-      yield put(updateConditionSuccess(res.data.condition));
+      yield put(updateConditionSuccess(res.data.updateCondition));
     }
   } catch (error: any) {
     yield put(updateConditionFailure(error?.toString()));

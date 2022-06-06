@@ -28,6 +28,8 @@ import {
   addCondition,
   addConditionFailure,
   getCondition,
+  getConditionListSuccess,
+  getConditionSuccess,
   ICondition,
   updateCondition,
 } from "../action";
@@ -52,6 +54,7 @@ function CreateCondition(props: IProps) {
   const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
+  const initialState = React.useRef<number>(0);
 
   const {
     register,
@@ -68,24 +71,36 @@ function CreateCondition(props: IProps) {
     } else {
       dispatch(addCondition(data));
     }
+    initialState.current = 1;
   };
 
   React.useEffect(() => {
-    if (state.success) {
-      setImage(undefined);
-      // dispatch(uploadImageFailure(undefined));
-      reset({ data: {} });
-    }
+    if (pid && initialState.current == 0 && state.list) {
+      let condition: ICondition | undefined = state.list.find(
+        (item) => item.id == pid
+      );
+      dispatch(getConditionSuccess(condition!));
 
-    if (pid) {
-      dispatch(getCondition(pid));
-    }
+      setValue("name", condition?.name!);
+      setValue("value", condition?.value!);
 
-    if (state.condition && pid) {
-      setValue("name", state.condition.name);
-      setValue("value", state.condition.value);
+      initialState.current++;
     }
-  }, [dispatch, reset, state.success, setValue, state.condition, pid]);
+  }, [dispatch, pid, setValue, state.list]);
+
+  React.useEffect(() => {
+    if (state.success && initialState.current == 1) {
+      console.log("success");
+      dispatch(
+        getConditionListSuccess(
+          state.list
+            ?.filter((item: ICondition) => item.id != state.condition?.id)
+            ?.concat(state.condition!)!
+        )
+      );
+      initialState.current++;
+    }
+  }, [dispatch, state.condition, state.list, state.success]);
 
   return (
     <Layout>

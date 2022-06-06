@@ -21,7 +21,8 @@ export const addConditionRequest = (data: ICondition) => {
 
 export const updateConditionRequest = (data: ICondition) => {
   let req = `mutation{
-          updateCondition(id:"${data.id}", input:{
+          updateCondition(input:{
+            id:"${data.id}"
             name:"${data.name}",
             value:${data.value}
           }){

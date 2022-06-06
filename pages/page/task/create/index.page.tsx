@@ -68,6 +68,8 @@ function CreateTask(props: IProps) {
     (state: IRootState): ICategoryState => state.category
   );
 
+  const initialState = React.useRef<number>(0);
+
   const {
     register,
     handleSubmit,
@@ -124,12 +126,13 @@ function CreateTask(props: IProps) {
   };
 
   React.useEffect(() => {
-    if (pid && !state.task && state.list) {
+    if (pid && state.list && initialState.current == 0) {
       dispatch(
         getTaskSuccess(
           (state.list!.find((i: ITask) => i.id == pid) as ITask) || undefined
         )
       );
+      initialState.current++;
     }
   }, [dispatch, pid, state.list, state.task]);
 
@@ -159,7 +162,9 @@ function CreateTask(props: IProps) {
     if (state.success) {
       dispatch(
         getTaskListSuccess(
-          state.list!.filter((i: ITask) => i.id != pid).concat(state.task!)
+          state
+            .list!.filter((i: ITask) => i.id != state.task?.id)
+            .concat(state.task!)
         )
       );
     }
