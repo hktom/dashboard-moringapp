@@ -55,7 +55,7 @@ export default function AccountMenu(props: IProps) {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
-              src={HOST_URL + "storage/" + user?.avatar}
+              src={user?.avatar && HOST_URL + "storage/" + user?.avatar}
               sx={{ width: 32, height: 32 }}
             ></Avatar>
           </IconButton>

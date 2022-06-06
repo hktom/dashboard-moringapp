@@ -162,11 +162,6 @@ const Layout = ({ children }: DashboardLayoutProps) => {
 
             <Stack>
               <AccountMenu user={homeState.user}></AccountMenu>
-              {/* <Avatar
-              alt={homeState.user?.first_name + " " + homeState.user?.last_name}
-              src={HOST_URL + "storage/" + homeState.user?.avatar}
-              sx={{ width: 35, height: 35 }}
-            /> */}
             </Stack>
           </Toolbar>
         </AppBar>
