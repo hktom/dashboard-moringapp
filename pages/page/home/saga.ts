@@ -1,7 +1,11 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import { GET_USER_PROFILE } from "./constants";
-import { getUserProfile, getUserProfileFail, getUserProfileSuccess } from "./actions";
+import {
+  getUserProfile,
+  getUserProfileFail,
+  getUserProfileSuccess,
+} from "./actions";
 import { getUserProfileRequest } from "./request";
 import { getServiceListSuccess } from "../service/action";
 import { getRoleListSuccess } from "../role/action";
@@ -18,15 +22,19 @@ export function* getClientProfileSaga(): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(getUserProfileFail(res.data?.errors));
       console.error(res?.errors);
-    } else {
-      yield put(getUserProfileSuccess(res.data.me));
-      yield put(getServiceListSuccess(res.data.services));
+      return;
+    }
+
+    yield put(getUserProfileSuccess(res.data.me));
+    yield put(getServiceListSuccess(res.data.services || res.data.services));
+    yield put(getTaskListSuccess(res.data.tasks || res.data.tasks));
+
+    if (res.data.me?.role?.value == 1) {
       yield put(getRoleListSuccess(res.data.roles));
       yield put(getCategoryListSuccess(res.data.categories));
       yield put(getConditionListSuccess(res.data.conditions));
       yield put(getCountryListSuccess(res.data.countries));
       yield put(getCityListSuccess(res.data.cities));
-      yield put(getTaskListSuccess(res.data.tasks));
       yield put(getUserListSuccess(res.data.users));
     }
   } catch (error) {

@@ -23,7 +23,15 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { addTask, addTaskFailure, getTask, ITask, updateTask } from "../action";
+import {
+  addTask,
+  addTaskFailure,
+  getTask,
+  getTaskListSuccess,
+  getTaskSuccess,
+  ITask,
+  updateTask,
+} from "../action";
 import { ICategory } from "../../category/action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
@@ -68,6 +76,23 @@ function CreateTask(props: IProps) {
     formState: { errors },
   } = useForm<ITask>();
 
+  const update = (data: any, _condition: any) => {
+    dispatch(
+      updateTask({
+        ...data,
+        image: image,
+        can_be_booked: +can_be_booked,
+        can_be_urgent: +can_be_urgent,
+        accept_offer: +accept_offer,
+        active: { id: active },
+        category: { id: category },
+        user: { id: me.user?.id },
+        condition: _condition && _condition[0],
+        id: pid,
+      })
+    );
+  };
+
   const onSubmit = (data: any) => {
     if (!image || !category) {
       dispatch(addTaskFailure("Please select image and category"));
@@ -79,20 +104,7 @@ function CreateTask(props: IProps) {
     );
 
     if (pid) {
-      dispatch(
-        updateTask({
-          ...data,
-          image: image,
-          can_be_booked: +can_be_booked,
-          can_be_urgent: +can_be_urgent,
-          accept_offer: +accept_offer,
-          active: { id: active },
-          category: { id: category },
-          user: { id: me.user?.id },
-          condition: _condition && _condition[0],
-          id: pid,
-        })
-      );
+      update(data, _condition);
       return;
     }
 
@@ -112,10 +124,16 @@ function CreateTask(props: IProps) {
   };
 
   React.useEffect(() => {
-    if (pid && !state.task) {
-      dispatch(getTask(pid));
+    if (pid && !state.task && state.list) {
+      dispatch(
+        getTaskSuccess(
+          (state.list!.find((i: ITask) => i.id == pid) as ITask) || undefined
+        )
+      );
     }
+  }, [dispatch, pid, state.list, state.task]);
 
+  React.useEffect(() => {
     if (pid && state.task) {
       setValue("name", state.task.name);
       setValue("min_price", state.task.min_price);
@@ -131,15 +149,21 @@ function CreateTask(props: IProps) {
 
       setCategory(state.task.category?.id);
     }
-
-    if (state.success) {
-      router.reload();
-    }
-  }, [dispatch, pid, router, setValue, state.success, state.task]);
+  }, [pid, setValue, state.task]);
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
+
+  React.useEffect(() => {
+    if (state.success) {
+      dispatch(
+        getTaskListSuccess(
+          state.list!.filter((i: ITask) => i.id != pid).concat(state.task!)
+        )
+      );
+    }
+  }, [dispatch, pid, state.list, state.success, state.task]);
 
   return (
     <Layout>

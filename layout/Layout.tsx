@@ -105,6 +105,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const router = useRouter();
 
   const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const initialState = React.useRef<number>(0);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -117,7 +118,10 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!homeState.user) dispatch(getUserProfile());
+    if (!homeState.user && initialState.current === 0) {
+      dispatch(getUserProfile());
+      initialState.current++;
+    }
   }, [dispatch, homeState]);
 
   React.useEffect(() => {
@@ -175,7 +179,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
 
         <Box
           component="main"
-          sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1330px", mx: "auto" }}
+          sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1500px", mx: "auto" }}
         >
           {homeState.loading && <LinearProgress />}
           {homeState.error && (

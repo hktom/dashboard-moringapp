@@ -48,7 +48,8 @@ export const addTaskRequest = (data: ITask) => {
 
 export const updateTaskRequest = (data: ITask) => {
   let req = `mutation{
-          updateTask(id:"${data.id}", input:{
+          updateTask(input:{
+              id:"${data.id}"
               name:"${data.name}"
               description:"${data.description}"
               image:"${data.image}"

@@ -61,7 +61,7 @@ export function* addTaskSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addTaskFailure(res.errors));
     } else {
-      yield put(addTaskSuccess(res.data.task));
+      yield put(addTaskSuccess(res.data.createTask));
     }
   } catch (error: any) {
     yield put(addTaskFailure(error?.toString()));
@@ -74,7 +74,7 @@ export function* updateTaskSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateTaskFailure(res.errors));
     } else {
-      yield put(updateTaskSuccess(res.data.task));
+      yield put(updateTaskSuccess(res.data.updateTask));
     }
   } catch (error: any) {
     yield put(updateTaskFailure(error?.toString()));

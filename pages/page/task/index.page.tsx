@@ -108,7 +108,7 @@ function Task() {
     <>
       <Layout>
         <Grid container>
-          <Grid item xs={12} md={10} sx={{ mx: "auto", my: 4 }}>
+          <Grid item xs={12} md={12} sx={{ mx: "auto", my: 4 }}>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 variant="h3"
@@ -129,7 +129,7 @@ function Task() {
               </Button>
             </Box>
           </Grid>
-          <Grid item xs={12} md={10} sx={{ mx: "auto" }}>
+          <Grid item xs={12} md={12} sx={{ mx: "auto" }}>
             <Paper elevation={0} sx={{ py: 3, px: 3 }}>
               <FormControl fullWidth sx={{ m: 1 }}>
                 <InputLabel htmlFor="outlined-adornment-amount">
