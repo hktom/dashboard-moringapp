@@ -94,6 +94,8 @@ function CreateCategory(props: IProps) {
       (i: any) => i.value == +active
     );
 
+    initialState.current = 1;
+
     if (pid) {
       return dispatch(
         updateCategory({
@@ -117,7 +119,7 @@ function CreateCategory(props: IProps) {
   };
 
   React.useEffect(() => {
-    if (state.success) {
+    if (state.success && initialState.current == 1) {
       dispatch(
         getCategoryListSuccess(
           state.list
@@ -125,6 +127,7 @@ function CreateCategory(props: IProps) {
             .concat(state.category!)!
         )
       );
+      initialState.current++;
     }
   }, [dispatch, state.category, state.list, state.success]);
 
@@ -140,6 +143,8 @@ function CreateCategory(props: IProps) {
       setActive(category?.condition?.value == 1 ?? false);
       setService(category?.service?.id || null);
       setImage(state.category?.image || undefined);
+
+      initialState.current++;
     }
   }, [dispatch, pid, setValue, state.category?.image, state.list]);
 

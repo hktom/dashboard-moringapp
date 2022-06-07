@@ -4,11 +4,7 @@ import CreateService from "../create/index.page";
 function UpdateService() {
   const router = useRouter();
   const { pid } = router.query;
-  return (
-    <>
-      <CreateService pid={pid?.toString()} />
-    </>
-  );
+  return <>{pid && <CreateService pid={pid?.toString()} />}</>;
 }
 
 export default UpdateService;

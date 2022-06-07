@@ -23,7 +23,14 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { addUser, addUserFailure, getUser, IUser, updateUser } from "../action";
+import {
+  addUser,
+  addUserFailure,
+  getUser,
+  getUserSuccess,
+  IUser,
+  updateUser,
+} from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../config/reducer";
@@ -68,6 +75,8 @@ function CreateUser(props: IProps) {
   const [city, setCity] = React.useState<string>("");
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
+
+  const initialState = React.useRef<number>(0);
 
   const dispatch = useDispatch();
 
@@ -164,36 +173,32 @@ function CreateUser(props: IProps) {
     ) {
       router.reload();
     }
-
-    if (pid) {
-      dispatch(getUser(pid));
-    }
-
-    if (state.user && pid) {
-      setValue("first_name", state.user?.first_name || "");
-      setValue("last_name", state.user?.last_name || "");
-      setValue("email", state.user?.email || "");
-      setValue("street", state.user?.street || "");
-      setValue("mobile", state.user?.mobile || "");
-      setValue("zip_code", state.user?.zip_code || "");
-      setValue("url", state.user?.url || "");
-      setValue("bio", state.user?.bio || "");
-      setActive(state.user.condition?.value === 1 ?? false);
-      setImage(state.user?.avatar || "");
-      setRole(state.user?.role?.id || "");
-      setCity(state.user?.city?.id || "");
-    }
   }, [
-    dispatch,
-    pid,
-    reset,
-    router,
-    state.success,
-    setValue,
-    state.user,
     authState.register?.success,
     authState.updatePassword?.success,
+    router,
+    state.success,
   ]);
+
+  React.useEffect(() => {
+    if (initialState.current == 0 && pid) {
+      let user: IUser = state.list?.find((i: IUser) => i.id == pid)!;
+      dispatch(getUserSuccess(user || undefined));
+      setValue("first_name", user?.first_name || "");
+      setValue("last_name", user?.last_name || "");
+      setValue("email", user?.email || "");
+      setValue("street", user?.street || "");
+      setValue("mobile", user?.mobile || "");
+      setValue("zip_code", user?.zip_code || "");
+      setValue("url", user?.url || "");
+      setValue("bio", user?.bio || "");
+      setActive(user?.condition?.value === 1 ?? false);
+      setImage(user?.avatar || "");
+      setRole(user?.role?.id || "");
+      setCity(user?.city?.id || "");
+      initialState.current++;
+    }
+  }, [dispatch, pid, setValue, state.list]);
 
   const handleChangeRole = (event: SelectChangeEvent) => {
     setRole(event.target.value as string);

@@ -22,6 +22,10 @@ export const addServiceRequest = (data: IService) => {
             slug_fr
             description
             image
+            categories{
+              id
+              name
+            }
             condition{
               id
               name
@@ -36,7 +40,8 @@ export const addServiceRequest = (data: IService) => {
 
 export const updateServiceRequest = (data: IService) => {
   let req = `mutation{
-          updateService(id:"${data.id}", input:{
+          updateService(input:{
+            id:"${data.id}", 
             name:"${data.name}"
             name_fr:"${data.name_fr}"
             description:"${data.description}"
@@ -51,6 +56,10 @@ export const updateServiceRequest = (data: IService) => {
             slug
             slug_fr
             description
+            categories{
+              id
+              name
+            }
             condition{
               id
               name
@@ -64,53 +73,57 @@ export const updateServiceRequest = (data: IService) => {
   return mutateMethods(req);
 };
 
-export const getServiceListRequest = () => {
-  let req = `
-    {
-        services{
-            id
-            name
-            name_fr
-            slug
-            slug_fr
-            description
-            condition{
-              id
-              name
-              value
-            }
-            image
-            created_at
-        }
+// export const getServiceListRequest = () => {
+//   let req = `
+//     {
+//         services{
+//             id
+//             name
+//             name_fr
+//             slug
+//             slug_fr
+//             description
+//             categories{
+//               id
+//               name
+//             }
+//             condition{
+//               id
+//               name
+//               value
+//             }
+//             image
+//             created_at
+//         }
 
-    }`;
+//     }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
-export const getServiceRequest = (id: string) => {
-  let req = `
-    {
-        service(id:"${id}"){
-            id
-            name
-            name_fr
-            slug
-            slug_fr
-            description
-            condition{
-              id
-              name
-              value
-            }
-            image
-            created_at
-        }
+// export const getServiceRequest = (id: string) => {
+//   let req = `
+//     {
+//         service(id:"${id}"){
+//             id
+//             name
+//             name_fr
+//             slug
+//             slug_fr
+//             description
+//             condition{
+//               id
+//               name
+//               value
+//             }
+//             image
+//             created_at
+//         }
 
-    }`;
+//     }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
 export const deleteServiceRequest = (data: IService) => {
   let req = `mutation{

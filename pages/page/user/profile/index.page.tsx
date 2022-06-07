@@ -42,7 +42,7 @@ import { IHomeState } from "../../home/reducer";
 import { IRootState } from "../../../../config/reducer";
 import { HOST_URL } from "../../../../config/apollo";
 import { useRouter } from "next/router";
-import { getUser, IUser } from "../action";
+import { getUser, getUserSuccess, IUser } from "../action";
 import { IUserState } from "../reducer";
 
 interface IProps {
@@ -89,28 +89,32 @@ function Profile() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pid: any = router.query?.pid;
+  const initialState = React.useRef<number>(0);
 
   React.useEffect(() => {
-    if (pid) {
-      dispatch(getUser(pid));
-    } else {
+    if (pid && initialState.current === 0 && userState?.list!.length > 0) {
+      let user: IUser = userState?.list?.find((i: IUser) => i.id == pid)!;
+      dispatch(getUserSuccess(user || undefined));
+      setState(user || undefined);
+      initialState.current++;
+    }
+  }, [dispatch, pid, userState?.list]);
+
+  React.useEffect(() => {
+    if (!pid && initialState.current === 0 && userState?.list!.length > 0) {
       setState({
         ...homeState.user,
         role: homeState?.role,
         condition: homeState?.condition,
       });
-    }
-
-    if (pid && userState.user) {
-      setState(userState.user);
+      initialState.current++;
     }
   }, [
-    dispatch,
-    homeState.condition,
-    homeState.role,
+    homeState?.condition,
+    homeState?.role,
     homeState.user,
     pid,
-    userState.user,
+    userState?.list,
   ]);
 
   return (

@@ -27,6 +27,8 @@ import {
   addService,
   addServiceFailure,
   getService,
+  getServiceListSuccess,
+  getServiceSuccess,
   IService,
   updateService,
 } from "../action";
@@ -58,6 +60,7 @@ function CreateService(props: IProps) {
 
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
+  const initialState = React.useRef<number>(0);
 
   const dispatch = useDispatch();
 
@@ -78,6 +81,8 @@ function CreateService(props: IProps) {
     let _condition: ICondition[] | undefined = conditionState?.list?.filter(
       (i: any) => i.value == +active
     );
+
+    initialState.current = 1;
 
     if (pid) {
       return dispatch(
@@ -100,33 +105,39 @@ function CreateService(props: IProps) {
   };
 
   React.useEffect(() => {
-    if (serviceState.success) {
-      // setImage(undefined);
-      // dispatch(uploadImageFailure(undefined));
-      // reset({ data: {} });
-      router.reload();
-    }
-
-    if (pid) {
-      dispatch(getService(pid));
-    }
-
-    if (serviceState.service && pid) {
-      setValue("name", serviceState.service.name);
-      setValue("description", serviceState.service.description);
-      setValue("name_fr", serviceState.service.name_fr);
-      setActive(serviceState.service.condition?.value === 1 ?? false);
-      setImage(serviceState.service?.image);
+    if (initialState.current == 1 && serviceState.success) {
+      dispatch(
+        getServiceListSuccess(
+          serviceState.list
+            ?.filter((i: IService) => i.id != pid)
+            .concat(serviceState.service!)!
+        )
+      );
+      initialState.current++;
     }
   }, [
     dispatch,
     pid,
-    reset,
-    router,
+    serviceState.list,
     serviceState.service,
     serviceState.success,
-    setValue,
   ]);
+
+  React.useEffect(() => {
+    if (initialState.current == 0 && pid) {
+      let service: IService = serviceState.list?.find(
+        (i: IService) => i.id === pid
+      )!;
+      dispatch(getServiceSuccess(service!));
+      setValue("name", service?.name);
+      setValue("description", service?.description);
+      setValue("name_fr", service?.name_fr);
+      setActive(service?.condition?.value === 1 ?? false);
+      setImage(service?.image);
+
+      initialState.current++;
+    }
+  }, [dispatch, pid, serviceState.list, setValue]);
 
   return (
     <Layout>

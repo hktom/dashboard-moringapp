@@ -55,89 +55,89 @@ export const updateUserRequest = (data: IUser) => {
   return mutateMethods(req);
 };
 
-export const getUserListRequest = () => {
-  let req = `
-    {
-        users{
-            id
-            first_name
-            last_name
-            email
-            avatar
-            street
-            mobile
-            certificate
-            bio
-            zip_code
-            url
-            role{
-                id
-                name
-                value
-            }
-            condition{
-                id
-                name
-                value
-            }
-            city{
-                id
-                name
-                country{
-                    id
-                    name
-                }
-            }
-            created_at
-            updated_at
-        }
+// export const getUserListRequest = () => {
+//   let req = `
+//     {
+//         users{
+//             id
+//             first_name
+//             last_name
+//             email
+//             avatar
+//             street
+//             mobile
+//             certificate
+//             bio
+//             zip_code
+//             url
+//             role{
+//                 id
+//                 name
+//                 value
+//             }
+//             condition{
+//                 id
+//                 name
+//                 value
+//             }
+//             city{
+//                 id
+//                 name
+//                 country{
+//                     id
+//                     name
+//                 }
+//             }
+//             created_at
+//             updated_at
+//         }
 
-    }`;
+//     }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
-export const getUserRequest = (id: string) => {
-  let req = `
-      {
-          user(id:"${id}"){
-            id
-            first_name
-            last_name
-            email
-            avatar
-            street
-            mobile
-            certificate
-            bio
-            zip_code
-            url
-            role{
-                id
-                name
-                value
-            }
-            condition{
-                id
-                name
-                value
-            }
-            city{
-                id
-                name
-                country{
-                    id
-                    name
-                }
-            }
-            created_at
-            updated_at
-          }
+// export const getUserRequest = (id: string) => {
+//   let req = `
+//       {
+//           user(id:"${id}"){
+//             id
+//             first_name
+//             last_name
+//             email
+//             avatar
+//             street
+//             mobile
+//             certificate
+//             bio
+//             zip_code
+//             url
+//             role{
+//                 id
+//                 name
+//                 value
+//             }
+//             condition{
+//                 id
+//                 name
+//                 value
+//             }
+//             city{
+//                 id
+//                 name
+//                 country{
+//                     id
+//                     name
+//                 }
+//             }
+//             created_at
+//             updated_at
+//           }
   
-      }`;
+//       }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
 export const deleteUserRequest = (data: IUser) => {
   let req = `mutation{

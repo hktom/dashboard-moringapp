@@ -4,7 +4,7 @@ import CreateCategory from "../create/index.page";
 function Edit() {
   const router = useRouter();
   const { pid } = router.query;
-  return <CreateCategory pid={pid?.toString()}></CreateCategory>;
+  return <>{pid && <CreateCategory pid={pid?.toString()} />}</>;
 }
 
 export default Edit;

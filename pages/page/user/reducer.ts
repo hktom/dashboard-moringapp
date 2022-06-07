@@ -24,7 +24,7 @@ export interface IUserState {
 }
 
 export const initialState: IUserState = {
-  list: undefined,
+  list: [],
   user: undefined,
   error: undefined,
   isLoading: false,

@@ -4,7 +4,7 @@ import CreateUser from "../create/index.page";
 function Edit() {
   const router = useRouter();
   const { pid } = router.query;
-  return <CreateUser pid={pid?.toString()}></CreateUser>;
+  return <>{pid && <CreateUser pid={pid?.toString()} />}</>;
 }
 
 export default Edit;
