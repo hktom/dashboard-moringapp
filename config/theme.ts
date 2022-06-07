@@ -28,7 +28,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Inter",
+    fontFamily: "Inter, arial",
     h1: {
       fontSize: "6rem",
     },

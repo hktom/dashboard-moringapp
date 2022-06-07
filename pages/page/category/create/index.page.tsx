@@ -23,7 +23,12 @@ import {
 import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import { addCategoryFailure, ICategory } from "../action";
+import {
+  addCategoryFailure,
+  getCategoryListSuccess,
+  getCategorySuccess,
+  ICategory,
+} from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
 import { IRootState } from "../../../../config/reducer";
@@ -47,6 +52,7 @@ function CreateCategory(props: IProps) {
   const [service, setService] = React.useState<string>("");
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
+  const initialState = React.useRef<number>(0);
 
   const state = useSelector(
     (state: IRootState): ICategoryState => state.category
@@ -112,33 +118,30 @@ function CreateCategory(props: IProps) {
 
   React.useEffect(() => {
     if (state.success) {
-      router.reload();
-      return;
+      dispatch(
+        getCategoryListSuccess(
+          state.list
+            ?.filter((i: ICategory) => i.id != state.category?.id!)
+            .concat(state.category!)!
+        )
+      );
     }
+  }, [dispatch, state.category, state.list, state.success]);
 
-    if (pid) {
-      dispatch(getCategory(pid));
+  React.useEffect(() => {
+    if (initialState.current == 0 && pid) {
+      let category: ICategory = state.list?.find(
+        (i: ICategory) => i.id === pid
+      )!;
+      dispatch(getCategorySuccess(category || undefined));
+      setValue("name", category?.name || "");
+      setValue("name_fr", category?.name_fr || "");
+      setValue("description", category?.description || "");
+      setActive(category?.condition?.value == 1 ?? false);
+      setService(category?.service?.id || null);
+      setImage(state.category?.image || undefined);
     }
-
-    if (state.category && pid) {
-      setValue("name", state.category.name);
-      setValue("name_fr", state.category.name_fr);
-      setValue("description", state.category.description);
-      setActive(state.category?.condition?.value == 1 ?? false);
-      setService(state.category.service?.id);
-      setImage(state.category?.image);
-    }
-  }, [
-    dispatch,
-    reset,
-    state.success,
-    setValue,
-    pid,
-    state.category,
-    conditionState.list,
-    state.list,
-    router,
-  ]);
+  }, [dispatch, pid, setValue, state.category?.image, state.list]);
 
   return (
     <Layout>

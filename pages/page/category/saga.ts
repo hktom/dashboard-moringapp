@@ -29,31 +29,31 @@ import {
   UPDATE_CATEGORY,
 } from "./constants";
 
-export function* getCategoryListSaga(): SagaIterator {
-  try {
-    const res = yield call(getCategoryListRequest);
-    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(getCategoryListFailure(res.data?.errors || res.errors));
-    } else {
-      yield put(getCategoryListSuccess(res.data?.categories));
-    }
-  } catch (error) {
-    yield put(getCategoryListFailure(`${error}`));
-  }
-}
+// export function* getCategoryListSaga(): SagaIterator {
+//   try {
+//     const res = yield call(getCategoryListRequest);
+//     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+//       yield put(getCategoryListFailure(res.data?.errors || res.errors));
+//     } else {
+//       yield put(getCategoryListSuccess(res.data?.categories));
+//     }
+//   } catch (error) {
+//     yield put(getCategoryListFailure(`${error}`));
+//   }
+// }
 
-export function* getCategorySaga(action: any): SagaIterator {
-  try {
-    const res = yield call(getCategoryRequest, action.data);
-    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(getCategoryFailure(res.data?.errors || res.errors));
-    } else {
-      yield put(getCategorySuccess(res.data?.category));
-    }
-  } catch (error) {
-    yield put(getCategoryFailure(`${error}`));
-  }
-}
+// export function* getCategorySaga(action: any): SagaIterator {
+//   try {
+//     const res = yield call(getCategoryRequest, action.data);
+//     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+//       yield put(getCategoryFailure(res.data?.errors || res.errors));
+//     } else {
+//       yield put(getCategorySuccess(res.data?.category));
+//     }
+//   } catch (error) {
+//     yield put(getCategoryFailure(`${error}`));
+//   }
+// }
 
 export function* addCategorySaga(action: any): SagaIterator {
   try {
@@ -61,7 +61,7 @@ export function* addCategorySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(addCategoryFailure(res.errors));
     } else {
-      yield put(addCategorySuccess(res.data.Category));
+      yield put(addCategorySuccess(res.data.createCategory));
     }
   } catch (error: any) {
     yield put(addCategoryFailure(error?.toString()));
@@ -74,7 +74,7 @@ export function* updateCategorySaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(updateCategoryFailure(res.errors));
     } else {
-      yield put(updateCategorySuccess(res.data.Category));
+      yield put(updateCategorySuccess(res.data.updateCategory));
     }
   } catch (error: any) {
     yield put(updateCategoryFailure(error?.toString()));
@@ -95,8 +95,8 @@ export function* deleteCategorySaga(action: any): SagaIterator {
 }
 
 export function* CategorySagas(): Generator {
-  yield takeEvery(GET_CATEGORY_LIST, getCategoryListSaga);
-  yield takeEvery(GET_CATEGORY, getCategorySaga);
+  // yield takeEvery(GET_CATEGORY_LIST, getCategoryListSaga);
+  // yield takeEvery(GET_CATEGORY, getCategorySaga);
   yield takeEvery(ADD_CATEGORY, addCategorySaga);
   yield takeEvery(UPDATE_CATEGORY, updateCategorySaga);
   yield takeEvery(DELETE_CATEGORY, deleteCategorySaga);

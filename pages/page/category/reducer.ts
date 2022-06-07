@@ -24,7 +24,7 @@ export interface ICategoryState {
 }
 
 export const initialState: ICategoryState = {
-  list: undefined,
+  list: [],
   category: undefined,
   error: undefined,
   isLoading: false,

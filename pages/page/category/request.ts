@@ -18,6 +18,17 @@ export const addCategoryRequest = (data: ICategory) => {
         }){
             id
             name
+            name_fr
+            image
+            condition{
+                id
+                name
+                value
+            }
+            service{
+                id
+                name
+            }
         }
     }`;
 
@@ -26,7 +37,8 @@ export const addCategoryRequest = (data: ICategory) => {
 
 export const updateCategoryRequest = (data: ICategory) => {
   let req = `mutation{
-          updateCategory(id:"${data.id}", input:{
+          updateCategory(input:{
+            id:"${data.id}", 
             name:"${data.name}"
             name_fr:"${data.name_fr}"
             description:"${data.description}"
@@ -37,7 +49,18 @@ export const updateCategoryRequest = (data: ICategory) => {
             service:{connect:"${data.service?.id}"}
           }){
             id
-            name        
+            name
+            name_fr
+            image
+            condition{
+                id
+                name
+                value
+            }
+            service{
+                id
+                name
+            }        
           }
       }`;
 
