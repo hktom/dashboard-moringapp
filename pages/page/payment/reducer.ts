@@ -1,22 +1,9 @@
-import { IPayment, IPaymentActions } from "./action";
-import {
-  ADD_PAYMENT,
-  ADD_PAYMENT_SUCCESS,
-  ADD_PAYMENT_FAILURE,
-  GET_PAYMENT_LIST,
-  GET_PAYMENT_LIST_SUCCESS,
-  GET_PAYMENT_LIST_FAILURE,
-  UPDATE_PAYMENT,
-  UPDATE_PAYMENT_SUCCESS,
-  UPDATE_PAYMENT_FAILURE,
-  DELETE_PAYMENT,
-  DELETE_PAYMENT_SUCCESS,
-  DELETE_PAYMENT_FAILURE,
-  GET_PAYMENT_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { IPayment } from "./action";
 
 export interface IPaymentState {
-  list: IPayment[];
+  list: IPayment[] | undefined;
   payment: IPayment | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -31,102 +18,49 @@ export const initialState: IPaymentState = {
   success: false,
 };
 
-export const paymentReducer = (
-  state: IPaymentState = initialState,
-  action: IPaymentActions
-): IPaymentState => {
-  switch (action.type) {
-    case ADD_PAYMENT:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const paymentReducer = createSlice({
+  name: "payment",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.payment = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_PAYMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        payment: action.data,
-      };
-
-    case ADD_PAYMENT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_PAYMENT_SUCCESS:
-      return {
-        ...state,
-        payment: action.data,
-      };
-
-    case GET_PAYMENT_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case GET_PAYMENT_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        list: action.data,
-      };
-
-    case GET_PAYMENT_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case UPDATE_PAYMENT:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_PAYMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        payment: action.data,
-      };
-
-    case UPDATE_PAYMENT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_PAYMENT:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_PAYMENT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        payment: undefined,
-      };
-
-    case DELETE_PAYMENT_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const paymentActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const paymentAction: any = paymentReducer.actions;
+
+export default paymentReducer.reducer;

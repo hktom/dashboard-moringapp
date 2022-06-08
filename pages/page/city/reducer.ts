@@ -1,19 +1,6 @@
-import { ICity, ICityActions } from "./action";
-import {
-  ADD_CITY,
-  ADD_CITY_SUCCESS,
-  ADD_CITY_FAILURE,
-  GET_CITY_LIST,
-  GET_CITY_LIST_SUCCESS,
-  GET_CITY_LIST_FAILURE,
-  UPDATE_CITY,
-  UPDATE_CITY_SUCCESS,
-  UPDATE_CITY_FAILURE,
-  DELETE_CITY,
-  DELETE_CITY_SUCCESS,
-  DELETE_CITY_FAILURE,
-  GET_CITY_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { ICity } from "./action";
 
 export interface ICityState {
   list: ICity[] | undefined;
@@ -31,102 +18,49 @@ export const initialState: ICityState = {
   success: false,
 };
 
-export const cityReducer = (
-  state: ICityState = initialState,
-  action: ICityActions
-): ICityState => {
-  switch (action.type) {
-    case ADD_CITY:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const cityReducer = createSlice({
+  name: "city",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.city = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_CITY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        city: action.data,
-      };
-
-    case ADD_CITY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_CITY_SUCCESS:
-      return {
-        ...state,
-        city: action.data,
-      };
-
-    // case GET_CITY_LIST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    case GET_CITY_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    // case GET_CITY_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case UPDATE_CITY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_CITY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        city: action.data,
-      };
-
-    case UPDATE_CITY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_CITY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_CITY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        city: undefined,
-      };
-
-    case DELETE_CITY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const cityActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const cityAction: any = cityReducer.actions;
+
+export default cityReducer.reducer;

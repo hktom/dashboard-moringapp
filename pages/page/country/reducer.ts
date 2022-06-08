@@ -1,19 +1,6 @@
-import { ICountry, ICountryActions } from "./action";
-import {
-  ADD_COUNTRY,
-  ADD_COUNTRY_SUCCESS,
-  ADD_COUNTRY_FAILURE,
-  GET_COUNTRY_LIST,
-  GET_COUNTRY_LIST_SUCCESS,
-  GET_COUNTRY_LIST_FAILURE,
-  UPDATE_COUNTRY,
-  UPDATE_COUNTRY_SUCCESS,
-  UPDATE_COUNTRY_FAILURE,
-  DELETE_COUNTRY,
-  DELETE_COUNTRY_SUCCESS,
-  DELETE_COUNTRY_FAILURE,
-  GET_COUNTRY_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { ICountry } from "./action";
 
 export interface ICountryState {
   list: ICountry[] | undefined;
@@ -31,102 +18,49 @@ export const initialState: ICountryState = {
   success: false,
 };
 
-export const countryReducer = (
-  state: ICountryState = initialState,
-  action: ICountryActions
-): ICountryState => {
-  switch (action.type) {
-    case ADD_COUNTRY:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const countryReducer = createSlice({
+  name: "country",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.country = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_COUNTRY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        country: action.data,
-      };
-
-    case ADD_COUNTRY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_COUNTRY_SUCCESS:
-      return {
-        ...state,
-        country: action.data,
-      };
-
-    // case GET_COUNTRY_LIST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    case GET_COUNTRY_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    // case GET_COUNTRY_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case UPDATE_COUNTRY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_COUNTRY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        country: action.data,
-      };
-
-    case UPDATE_COUNTRY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_COUNTRY:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_COUNTRY_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        country: undefined,
-      };
-
-    case DELETE_COUNTRY_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const countryActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const countryAction: any = countryReducer.actions;
+
+export default countryReducer.reducer;

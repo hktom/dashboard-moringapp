@@ -1,24 +1,9 @@
-import { IService, IServiceActions } from "./action";
-import {
-  ADD_SERVICE,
-  ADD_SERVICE_SUCCESS,
-  ADD_SERVICE_FAILURE,
-  GET_SERVICE_LIST,
-  GET_SERVICE_LIST_SUCCESS,
-  GET_SERVICE_LIST_FAILURE,
-  UPDATE_SERVICE,
-  UPDATE_SERVICE_SUCCESS,
-  UPDATE_SERVICE_FAILURE,
-  DELETE_SERVICE,
-  DELETE_SERVICE_SUCCESS,
-  DELETE_SERVICE_FAILURE,
-  GET_SERVICE_SUCCESS,
-  GET_SERVICE,
-  GET_SERVICE_FAILURE,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { IService } from "./action";
 
 export interface IServiceState {
-  list: IService[];
+  list: IService[] | undefined;
   service: IService | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -33,124 +18,49 @@ export const initialState: IServiceState = {
   success: false,
 };
 
-export const serviceReducer = (
-  state: IServiceState = initialState,
-  action: IServiceActions
-): IServiceState => {
-  switch (action.type) {
-    case ADD_SERVICE:
-      return {
-        ...state,
-        isLoading: true,
-        error: undefined,
-        success: false,
-      };
+export const serviceReducer = createSlice({
+  name: "service",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.service = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_SERVICE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        service: action.data,
-      };
-
-    case ADD_SERVICE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_SERVICE_LIST:
-      return {
-        ...state,
-        isLoading: true,
-        error: undefined,
-      };
-
-    case GET_SERVICE_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    case GET_SERVICE_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_SERVICE:
-      return {
-        ...state,
-        isLoading: true,
-        error: undefined,
-      };
-
-    case GET_SERVICE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        service: action.data,
-      };
-
-    case GET_SERVICE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case UPDATE_SERVICE:
-      return {
-        ...state,
-        error: undefined,
-        isLoading: true,
-        success: false,
-      };
-
-    case UPDATE_SERVICE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        service: action.data,
-        error: undefined,
-      };
-
-    case UPDATE_SERVICE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_SERVICE:
-      return {
-        ...state,
-        isLoading: true,
-        error: undefined,
-      };
-
-    case DELETE_SERVICE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        service: undefined,
-      };
-
-    case DELETE_SERVICE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const serviceActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const serviceAction: any = serviceReducer.actions;
+
+export default serviceReducer.reducer;

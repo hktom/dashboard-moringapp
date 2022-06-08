@@ -1,22 +1,9 @@
-import { IRole, IRoleActions } from "./action";
-import {
-  ADD_ROLE,
-  ADD_ROLE_SUCCESS,
-  ADD_ROLE_FAILURE,
-  GET_ROLE_LIST,
-  GET_ROLE_LIST_SUCCESS,
-  GET_ROLE_LIST_FAILURE,
-  UPDATE_ROLE,
-  UPDATE_ROLE_SUCCESS,
-  UPDATE_ROLE_FAILURE,
-  DELETE_ROLE,
-  DELETE_ROLE_SUCCESS,
-  DELETE_ROLE_FAILURE,
-  GET_ROLE_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { IRole } from "./action";
 
 export interface IRoleState {
-  list: IRole[];
+  list: IRole[] | undefined;
   role: IRole | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -31,102 +18,49 @@ export const initialState: IRoleState = {
   success: false,
 };
 
-export const roleReducer = (
-  state: IRoleState = initialState,
-  action: IRoleActions
-): IRoleState => {
-  switch (action.type) {
-    case ADD_ROLE:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const roleReducer = createSlice({
+  name: "role",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.role = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_ROLE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        role: action.data,
-        // list: [...state.list, action.data],
-      };
-
-    case ADD_ROLE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    // case GET_ROLE_LIST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    case GET_ROLE_LIST_SUCCESS:
-      return {
-        ...state,
-        list: action.data,
-      };
-
-    // case GET_ROLE_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case GET_ROLE_SUCCESS:
-      return {
-        ...state,
-        role: action.data,
-      };
-
-    case UPDATE_ROLE:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_ROLE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        role: action.data,
-        // list: [...state.list, action.data],
-      };
-
-    case UPDATE_ROLE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_ROLE:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_ROLE_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        role: undefined,
-      };
-
-    case DELETE_ROLE_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const roleActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const roleAction: any = roleReducer.actions;
+
+export default roleReducer.reducer;

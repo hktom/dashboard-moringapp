@@ -1,19 +1,6 @@
-import { IUser, IUserActions } from "./action";
-import {
-  ADD_USER,
-  ADD_USER_SUCCESS,
-  ADD_USER_FAILURE,
-  GET_USER_LIST,
-  GET_USER_LIST_SUCCESS,
-  GET_USER_LIST_FAILURE,
-  UPDATE_USER,
-  UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE,
-  DELETE_USER,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAILURE,
-  GET_USER_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { IUser } from "./action";
 
 export interface IUserState {
   list: IUser[] | undefined;
@@ -31,102 +18,49 @@ export const initialState: IUserState = {
   success: false,
 };
 
-export const userReducer = (
-  state: IUserState = initialState,
-  action: IUserActions
-): IUserState => {
-  switch (action.type) {
-    case ADD_USER:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const userReducer = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.user = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        user: action.data,
-      };
-
-    case ADD_USER_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_USER_SUCCESS:
-      return {
-        ...state,
-        user: action.data,
-      };
-
-    case GET_USER_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case GET_USER_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    case GET_USER_LIST_FAILURE:
-      return {
-        ...state,
-        // isLoading: false,
-        error: action.error,
-      };
-
-    case UPDATE_USER:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        user: action.data,
-      };
-
-    case UPDATE_USER_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_USER:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        user: undefined,
-      };
-
-    case DELETE_USER_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const userActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const userAction: any = userReducer.actions;
+
+export default userReducer.reducer;

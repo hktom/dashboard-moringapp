@@ -1,22 +1,9 @@
-import { IJob, IJobActions } from "./action";
-import {
-  ADD_JOB,
-  ADD_JOB_SUCCESS,
-  ADD_JOB_FAILURE,
-  GET_JOB_LIST,
-  GET_JOB_LIST_SUCCESS,
-  GET_JOB_LIST_FAILURE,
-  UPDATE_JOB,
-  UPDATE_JOB_SUCCESS,
-  UPDATE_JOB_FAILURE,
-  DELETE_JOB,
-  DELETE_JOB_SUCCESS,
-  DELETE_JOB_FAILURE,
-  GET_JOB_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { IJob } from "./action";
 
 export interface IJobState {
-  list: IJob[];
+  list: IJob[] | undefined;
   job: IJob | undefined;
   error: string | undefined;
   isLoading: boolean;
@@ -31,102 +18,49 @@ export const initialState: IJobState = {
   success: false,
 };
 
-export const jobReducer = (
-  state: IJobState = initialState,
-  action: IJobActions
-): IJobState => {
-  switch (action.type) {
-    case ADD_JOB:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const jobReducer = createSlice({
+  name: "job",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.job = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_JOB_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        job: action.data,
-      };
-
-    case ADD_JOB_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_JOB_SUCCESS:
-      return {
-        ...state,
-        job: action.data,
-      };
-
-    case GET_JOB_LIST:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case GET_JOB_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        list: action.data,
-      };
-
-    case GET_JOB_LIST_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case UPDATE_JOB:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_JOB_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        job: action.data,
-      };
-
-    case UPDATE_JOB_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_JOB:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_JOB_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        job: undefined,
-      };
-
-    case DELETE_JOB_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const jobActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const jobAction: any = jobReducer.actions;
+
+export default jobReducer.reducer;

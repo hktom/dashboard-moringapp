@@ -1,19 +1,6 @@
-import { ICondition, IConditionActions } from "./action";
-import {
-  ADD_CONDITION,
-  ADD_CONDITION_SUCCESS,
-  ADD_CONDITION_FAILURE,
-  GET_CONDITION_LIST,
-  GET_CONDITION_LIST_SUCCESS,
-  GET_CONDITION_LIST_FAILURE,
-  UPDATE_CONDITION,
-  UPDATE_CONDITION_SUCCESS,
-  UPDATE_CONDITION_FAILURE,
-  DELETE_CONDITION,
-  DELETE_CONDITION_SUCCESS,
-  DELETE_CONDITION_FAILURE,
-  GET_CONDITION_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { ICondition } from "./action";
 
 export interface IConditionState {
   list: ICondition[] | undefined;
@@ -31,101 +18,49 @@ export const initialState: IConditionState = {
   success: false,
 };
 
-export const conditionReducer = (
-  state: IConditionState = initialState,
-  action: IConditionActions
-) :IConditionState=> {
-  switch (action.type) {
-    case ADD_CONDITION:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const conditionReducer = createSlice({
+  name: "condition",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.condition = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_CONDITION_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        condition: action.data,
-      };
-
-    case ADD_CONDITION_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-      case GET_CONDITION_SUCCESS:
-        return {
-          ...state,
-          condition: action.data,
-        };
-
-    // case GET_CONDITION_LIST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    case GET_CONDITION_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    // case GET_CONDITION_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case UPDATE_CONDITION:  
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_CONDITION_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        condition: action.data,
-      };
-
-    case UPDATE_CONDITION_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_CONDITION:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_CONDITION_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        condition: undefined,
-      };
-
-    case DELETE_CONDITION_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default: return {...state};
-  }
+export const conditionActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const conditionAction: any = conditionReducer.actions;
+
+export default conditionReducer.reducer;

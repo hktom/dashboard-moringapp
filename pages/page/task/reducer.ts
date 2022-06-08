@@ -1,19 +1,6 @@
-import { ITask, ITaskActions } from "./action";
-import {
-  ADD_TASK,
-  ADD_TASK_SUCCESS,
-  ADD_TASK_FAILURE,
-  GET_TASK_LIST,
-  GET_TASK_LIST_SUCCESS,
-  GET_TASK_LIST_FAILURE,
-  UPDATE_TASK,
-  UPDATE_TASK_SUCCESS,
-  UPDATE_TASK_FAILURE,
-  DELETE_TASK,
-  DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE,
-  GET_TASK_SUCCESS,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../../config/hooks";
+import { ITask } from "./action";
 
 export interface ITaskState {
   list: ITask[] | undefined;
@@ -31,102 +18,49 @@ export const initialState: ITaskState = {
   success: false,
 };
 
-export const taskReducer = (
-  state: ITaskState = initialState,
-  action: ITaskActions
-): ITaskState => {
-  switch (action.type) {
-    case ADD_TASK:
-      return {
-        ...state,
-        isLoading: true,
-      };
+export const taskReducer = createSlice({
+  name: "task",
+  initialState,
+  reducers: {
+    resetAction: (state) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = undefined;
+    },
+    activeAction: (state, action: any) => {
+      state.isLoading = true;
+      state.error = undefined;
+    },
+    actionSuccessAdd: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.list!.push(action.payload);
+    },
+    actionSuccessUpdate: (state, action: any) => {
+      state.success = true;
+      state.isLoading = false;
+      state.task = action.payload;
+      state.list = [...state.list!]
+        .filter((item) => item.id !== action.payload.id)
+        .concat(action.payload);
+    },
+    actionFailed: (state, action: any) => {
+      state.isLoading = false;
+      state.success = false;
+      state.error = action.payload;
+    },
+    getItemsSuccess: (state, action: any) => {
+      state.list = action.payload;
+    },
+  },
+});
 
-    case ADD_TASK_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        task: action.data,
-      };
-
-    case ADD_TASK_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case GET_TASK_SUCCESS:
-      return {
-        ...state,
-        task: action.data,
-      };
-
-    // case GET_TASK_LIST:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
-
-    case GET_TASK_LIST_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        // success: true,
-        list: action.data,
-      };
-
-    // case GET_TASK_LIST_FAILURE:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     error: action.error,
-    //   };
-
-    case UPDATE_TASK:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case UPDATE_TASK_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        task: action.data,
-      };
-
-    case UPDATE_TASK_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    case DELETE_TASK:
-      return {
-        ...state,
-        isLoading: true,
-      };
-
-    case DELETE_TASK_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        success: true,
-        task: undefined,
-      };
-
-    case DELETE_TASK_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.error,
-      };
-
-    default:
-      return { ...state };
-  }
+export const taskActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
+  UPDATE_ITEM: "UPDATE_ITEM",
+  DELETE_ITEM: "DELETE_ITEM",
 };
+
+export const taskAction: any = taskReducer.actions;
+
+export default taskReducer.reducer;
