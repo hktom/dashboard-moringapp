@@ -1,9 +1,5 @@
-import { ImageActions } from "./actions";
-import {
-  UPLOAD_IMAGE,
-  UPLOAD_IMAGE_SUCCESS,
-  UPLOAD_IMAGE_FAILURE,
-} from "./constants";
+import { createSlice } from "@reduxjs/toolkit";
+import { IActionSaga } from "../../config/hooks";
 
 export interface IImageState {
   image: string | undefined;
@@ -17,31 +13,28 @@ export const initialState: IImageState = {
   loading: undefined,
 };
 
-export const imageReducer = (
-  state = initialState,
-  action: ImageActions
-): IImageState => {
-  switch (action.type) {
-    case UPLOAD_IMAGE:
-      return {
-        ...state,
-        image: undefined,
-        loading: true,
-      };
-    case UPLOAD_IMAGE_SUCCESS:
-      return {
-        ...state,
-        image: action.data,
-        loading: false,
-      };
-    case UPLOAD_IMAGE_FAILURE:
-      return {
-        ...state,
-        image: undefined,
-        error: action.error,
-        loading: false,
-      };
-    default:
-      return state;
-  }
+export const imageReducer = createSlice({
+  name: "image",
+  initialState,
+  reducers: {
+    uploadImage: (state, action: any) => {
+      state.loading = true;
+    },
+    uploadSuccess: (state, action: any) => {
+      state.loading = false;
+      state.image = action.payload;
+    },
+    uploadFailure: (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
+});
+
+export const imageActionSaga: IActionSaga = {
+  ADD_ITEM: "ADD_ITEM",
 };
+
+export const imageAction: any = imageReducer.actions;
+
+export default imageReducer.reducer;

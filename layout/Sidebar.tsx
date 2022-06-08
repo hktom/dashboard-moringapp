@@ -12,14 +12,16 @@ import { Paper } from "@mui/material";
 import { IMenu, menu1, menu2 } from "./IMenu";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import { IRootState } from "../config/reducer";
-import { IHomeState } from "../pages/page/home/reducer";
+// import { IRootState } from "../config/reducer";
+// import { IHomeState } from "../pages/page/home/reducer";
+import { AppState, useAppSelector } from "../config/hooks";
 
 // icon
 
 const Sidebar = (props: ISidebar) => {
   const { open, handleDrawerClose, theme } = props;
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  // const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const homeState = useAppSelector((state: AppState) => state.home);
   const router = useRouter();
 
   const adminOnlyMenu = () => {
@@ -96,7 +98,7 @@ const Sidebar = (props: ISidebar) => {
           </ListItemButton>
         ))}
       </List>
-      {homeState.role?.value == 1 && adminOnlyMenu()}
+      {homeState.user?.role?.value == 1 && adminOnlyMenu()}
     </Drawer>
   );
 };

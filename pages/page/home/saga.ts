@@ -1,48 +1,45 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
-import { GET_USER_PROFILE } from "./constants";
-import {
-  getUserProfile,
-  getUserProfileFail,
-  getUserProfileSuccess,
-} from "./actions";
 import { getUserProfileRequest } from "./request";
-import { getServiceListSuccess } from "../service/action";
-import { getRoleListSuccess } from "../role/action";
-import { getCategoryListSuccess } from "../category/action";
-import { getConditionListSuccess } from "../condition/action";
-import { getCountryListSuccess } from "../country/action";
-import { getCityListSuccess } from "../city/action";
-import { getTaskListSuccess } from "../task/action";
-import { getUserListSuccess } from "../user/action";
+import { userAction } from "../user/reducer";
+import { serviceAction } from "../service/reducer";
+import { taskAction } from "../task/reducer";
+import { roleAction } from "../role/reducer";
+import { categoryAction } from "../category/reducer";
+import { conditionAction } from "../condition/reducer";
+import { countryAction } from "../country/reducer";
+import { cityAction } from "../city/reducer";
+import { homeAction, homeActionSaga } from "./reducer";
 
 export function* getClientProfileSaga(): SagaIterator {
   try {
     const res = yield call(getUserProfileRequest);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(getUserProfileFail(res.data?.errors));
+      yield put(homeAction.actionFailed(res.data?.errors));
       console.error(res?.errors);
       return;
     }
 
-    yield put(getUserProfileSuccess(res.data.me));
-    yield put(getServiceListSuccess(res.data.services || res.data.services));
-    yield put(getTaskListSuccess(res.data.tasks || res.data.tasks));
+    yield put(homeAction.getItemsSuccess(res.data.me));
+    yield put(
+      serviceAction.getItemsSuccess(res.data.services || res.data.services)
+    );
+    yield put(taskAction.getItemsSuccess(res.data.tasks || res.data.tasks));
 
     if (res.data.me?.role?.value == 1) {
-      yield put(getRoleListSuccess(res.data.roles));
-      yield put(getCategoryListSuccess(res.data.categories));
-      yield put(getConditionListSuccess(res.data.conditions));
-      yield put(getCountryListSuccess(res.data.countries));
-      yield put(getCityListSuccess(res.data.cities));
-      yield put(getUserListSuccess(res.data.users));
+      yield put(roleAction.getItemsSuccess(res.data.roles));
+      yield put(categoryAction.getItemsSuccess(res.data.categories));
+      yield put(conditionAction.getItemsSuccess(res.data.conditions));
+      yield put(countryAction.getItemsSuccess(res.data.countries));
+      yield put(cityAction.getItemsSuccess(res.data.cities));
+      yield put(userAction.getItemsSuccess(res.data.users));
     }
   } catch (error) {
-    yield put(getUserProfileFail(`${error}`));
+    yield put(homeAction.actionFailed(`${error}`));
     console.error(error);
   }
 }
 
 export function* homeSagas(): Generator {
-  yield takeEvery(GET_USER_PROFILE, getClientProfileSaga);
+  yield takeEvery(homeActionSaga.GET_ITEM!, getClientProfileSaga);
 }

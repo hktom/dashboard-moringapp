@@ -18,6 +18,8 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector;
 
 export interface IActionSaga {
+  LOGIN?: string;
+  LOGOUT?: string;
   GET_ITEM?: string;
   ADD_ITEM?: string;
   UPDATE_ITEM?: string;

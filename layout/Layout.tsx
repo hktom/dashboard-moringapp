@@ -12,13 +12,14 @@ import Sidebar from "./Sidebar";
 import { Alert, Avatar, LinearProgress, Stack } from "@mui/material";
 import { getUserProfile } from "../pages/page/home/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../config/reducer";
-import { IHomeState } from "../pages/page/home/reducer";
+// import { IRootState } from "../config/reducer";
+import { homeActionSaga, IHomeState } from "../pages/page/home/reducer";
 import { HOST_URL } from "../config/apollo";
 import AccountMenu from "./AccountMenu";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import { AppState, useAppSelector } from "../config/hooks";
 
 const drawerWidth = 240;
 
@@ -104,7 +105,8 @@ const Layout = ({ children }: DashboardLayoutProps) => {
   const [open, setOpen] = React.useState(true);
   const router = useRouter();
 
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  // const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const homeState = useAppSelector((state: AppState) => state.home);
   const initialState = React.useRef<number>(0);
 
   const handleDrawerOpen = () => {
@@ -119,7 +121,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
 
   React.useEffect(() => {
     if (!homeState.user && initialState.current === 0) {
-      dispatch(getUserProfile());
+      dispatch({ type: homeActionSaga.GET_ITEM! });
       initialState.current++;
     }
   }, [dispatch, homeState]);
@@ -176,7 +178,7 @@ const Layout = ({ children }: DashboardLayoutProps) => {
           component="main"
           sx={{ flexGrow: 1, px: 1, pt: 10, maxWidth: "1500px", mx: "auto" }}
         >
-          {homeState.loading && <LinearProgress />}
+          {homeState.isLoading && <LinearProgress />}
           {homeState.error && (
             <Alert severity="error" sx={{ width: "100%" }}>
               {homeState.error}

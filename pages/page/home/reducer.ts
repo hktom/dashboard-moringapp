@@ -29,6 +29,8 @@ export const homeReducer = createSlice({
     },
     getItemsSuccess: (state, action: any) => {
       state.user = action.payload;
+      state.isLoading = false;
+      state.error = undefined;
     },
   },
 });
