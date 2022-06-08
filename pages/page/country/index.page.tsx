@@ -1,22 +1,21 @@
 import {
   Box,
   Button,
-  CardMedia,
-  Chip,
+  // CardMedia,
+  // Chip,
   FormControl,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   InputLabel,
   OutlinedInput,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 
 import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
+  // GridValueGetterParams,
+  // GridRenderCellParams,
   DataGrid,
   GridRowParams,
   MuiEvent,
@@ -27,28 +26,16 @@ import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
-import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../config/reducer";
-import { getCountryList } from "./action";
-import { ICountryState } from "./reducer";
-
-const columns: GridColDef[] = [
-  { field: "name", headerName: "Name", flex: 2 },
-  { field: "name_fr", headerName: "Name FR", flex: 2 },
-];
+// import { useDispatch, useSelector } from "react-redux";
+// import { IRootState } from "../../../config/reducer";
+// import { getCountryList } from "./action";
+// import { ICountryState } from "./reducer";
+import { AppState, useAppSelector } from "../../../config/hooks";
+import { columns } from "./columns";
 
 function Country() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const state = useSelector(
-    (state: IRootState): ICountryState => state.country
-  );
-
-  // React.useEffect(() => {
-  //   if (!state.list) {
-  //     dispatch(getCountryList());
-  //   }
-  // }, [dispatch, state]);
+  const state = useAppSelector((state: AppState) => state.country);
 
   return (
     <>

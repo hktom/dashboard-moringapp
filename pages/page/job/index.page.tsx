@@ -1,32 +1,32 @@
 import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Chip,
-  Divider,
+  // Box,
+  // Button,
+  // Card,
+  // CardActions,
+  // CardContent,
+  // Chip,
+  // Divider,
   Grid,
   Paper,
   Typography,
 } from "@mui/material";
 import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
+  // GridColDef,
+  // GridValueGetterParams,
+  // GridRenderCellParams,
   DataGrid,
 } from "@mui/x-data-grid";
 import * as React from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { columnsJob } from "../../../components/columnsJob";
-import { IRootState } from "../../../config/reducer";
+import { useAppSelector, AppState } from "../../../config/hooks";
+// import { IRootState } from "../../../config/reducer";
 import Layout from "../../../layout/Layout";
-import { IHomeState } from "../home/reducer";
+// import { IHomeState } from "../home/reducer";
 
 function Job() {
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  const [jobFilters, setJobFilters] = React.useState<{}>({});
-
+  const homeState = useAppSelector((state: AppState) => state.home);
+  // const [jobFilters, setJobFilters] = React.useState<{}>({});
 
   return (
     <Layout>
@@ -50,7 +50,7 @@ function Job() {
                 <div style={{ flexGrow: 1 }}>
                   <DataGrid
                     sx={{ border: "none" }}
-                    rows={homeState.jobs || []}
+                    rows={homeState.user?.jobs || []}
                     columns={columnsJob}
                     pageSize={5}
                     rowsPerPageOptions={[5]}

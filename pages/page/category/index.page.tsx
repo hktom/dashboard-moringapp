@@ -1,8 +1,6 @@
 import {
   Box,
   Button,
-  CardMedia,
-  Chip,
   FormControl,
   Grid,
   InputAdornment,
@@ -14,9 +12,6 @@ import {
 } from "@mui/material";
 
 import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
   DataGrid,
   GridRowParams,
   MuiEvent,
@@ -28,72 +23,15 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../config/reducer";
+// import { IRootState } from "../../../config/reducer";
 import { getCategoryList } from "./action";
 import { ICategoryState } from "./reducer";
-import { HOST_URL } from "../../../config/apollo";
-import { ICondition } from "../condition/action";
-
-const columns: GridColDef[] = [
-  {
-    field: "image",
-    width: 200,
-    headerName: "Image",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
-        <CardMedia
-          component="img"
-          sx={{ height: "120px", width: "120px", py: 2 }}
-          image={HOST_URL + "storage/" + params.value}
-          alt="green iguana"
-        />
-      </Box>
-    ),
-  },
-  { field: "name", headerName: "Name EN", width: 200 },
-  { field: "name_fr", headerName: "Name FR", width: 200 },
-  {
-    field: "service",
-    headerName: "Service",
-    width: 200,
-    sortable: true,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.service?.name || ""}`,
-  },
-  {
-    field: "condition",
-    width: 200,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<ICondition>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value?.name}
-          color={params.value?.value == 1 ? "success" : "error"}
-          sx={{
-            color: "#fff",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
+import { AppState, useAppSelector } from "../../../config/hooks";
+import { columns } from "./columns";
 
 function Category() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const CategoryState = useSelector(
-    (state: IRootState): ICategoryState => state.category
-  );
-
-  // React.useEffect(() => {
-  //   if (!CategoryState.list) {
-  //     dispatch(getCategoryList());
-  //   }
-  // }, [dispatch, CategoryState]);
+  const CategoryState = useAppSelector((state: AppState) => state.category);
 
   return (
     <>

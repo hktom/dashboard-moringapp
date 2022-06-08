@@ -94,7 +94,7 @@ function CreateCategory(props: IProps) {
       (i: any) => i.value == +active
     );
 
-    initialState.current = 1;
+    initialState.current == 1;
 
     if (pid) {
       return dispatch(

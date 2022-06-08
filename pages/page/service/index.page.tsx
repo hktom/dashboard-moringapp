@@ -1,22 +1,17 @@
 import {
   Box,
   Button,
-  CardMedia,
-  Chip,
   FormControl,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   InputLabel,
   OutlinedInput,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 
 import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
   DataGrid,
   GridCellParams,
   MuiEvent,
@@ -28,74 +23,17 @@ import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useRouter } from "next/router";
-import { HOST_URL } from "../../../config/apollo";
-import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../config/reducer";
-import { IServiceState } from "./reducer";
-import { getServiceList, IService } from "./action";
-import { ICondition } from "../condition/action";
-
-const columns: GridColDef[] = [
-  {
-    field: "image",
-    width: 200,
-    headerName: "Image",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end", py: 10 }}>
-        <CardMedia
-          component="img"
-          sx={{ width: "120px" }}
-          image={HOST_URL + "storage/" + params.value}
-          alt="green iguana"
-        />
-      </Box>
-    ),
-  },
-  { field: "name", headerName: "Name EN", width: 200 },
-  { field: "name_fr", headerName: "Name FR", width: 200 },
-  {
-    field: "categories",
-    headerName: "Categories",
-    width: 200,
-    sortable: true,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.categories?.length}`,
-  },
-  {
-    field: "condition",
-    width: 200,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<ICondition>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value?.name}
-          color={params.value?.value == 1 ? "success" : "error"}
-          sx={{
-            color: "secondary.main",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
+// import { useDispatch, useSelector } from "react-redux";
+// import { IRootState } from "../../../config/reducer";
+// import { IServiceState } from "./reducer";
+// import { getServiceList, IService } from "./action";
+import { columns } from "./columns";
+import { AppState, useAppSelector } from "../../../config/hooks";
 
 function Service() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const serviceState = useSelector(
-    (state: IRootState): IServiceState => state.service
-  );
-
-  // React.useEffect(() => {
-  //   console.log(serviceState.list?.length);
-  //   if (serviceState.list?.length === 0) {
-  //     dispatch(getServiceList());
-  //   }
-  // }, [dispatch, serviceState.list?.length]);
+  // const dispatch = useDispatch();
+  const serviceState = useAppSelector((state: AppState) => state.service);
 
   return (
     <>

@@ -1,22 +1,21 @@
 import {
   Box,
   Button,
-  CardMedia,
-  Chip,
-  FormControl,
+  // CardMedia,
+  // Chip,
+  // FormControl,
   Grid,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  // InputAdornment,
+  // InputLabel,
+  // OutlinedInput,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 
 import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
+  // GridValueGetterParams,
+  // GridRenderCellParams,
   DataGrid,
   GridRowParams,
   MuiEvent,
@@ -25,24 +24,18 @@ import {
 import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { IRootState } from "../../../config/reducer";
-import { IRoleState } from "./reducer";
+// import { IRootState } from "../../../config/reducer";
+// import { IRoleState } from "./reducer";
 import { getRoleList } from "./action";
-// import { Role } from "@mui/icons-material";
-
-const columns: GridColDef[] = [
-  { field: "value", headerName: "Value", width: 250 },
-  { field: "name", headerName: "Name", width: 250 },
-  { field: "created_at", headerName: "Created at", width: 250 },
-];
-
+import { columns } from "./columns";
+import { useAppSelector, AppState } from "../../../config/hooks";
 function Role() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const roleState = useSelector((state: IRootState): IRoleState => state.role);
+  const roleState = useAppSelector((state: AppState) => state.role);
 
   // React.useEffect(() => {
   //   if (roleState.list && roleState.list?.length == 0) {

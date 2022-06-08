@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 
 import {
-  GridColDef,
   GridValueGetterParams,
   GridRenderCellParams,
   DataGrid,
@@ -28,29 +27,15 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import { IRootState } from "../../../config/reducer";
+// import { IRootState } from "../../../config/reducer";
 import { IConditionState } from "./reducer";
 import { getConditionList } from "./action";
-
-const columns: GridColDef[] = [
-  { field: "value", headerName: "Value", width: 250 },
-  { field: "name", headerName: "Name", width: 250 },
-  { field: "name_fr", headerName: "Name FR", width: 250 },
-  { field: "created_at", headerName: "Created at", width: 250 },
-];
+import { AppState, useAppSelector } from "../../../config/hooks";
+import { columns } from "./columns";
 
 function Condition() {
-  const dispatch = useDispatch();
   const router = useRouter();
-  const state = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
-
-  // React.useEffect(() => {
-  //   if (!state.list) {
-  //     dispatch(getConditionList());
-  //   }
-  // }, [dispatch, state]);
+  const state = useAppSelector((state: AppState) => state.condition);
 
   return (
     <>

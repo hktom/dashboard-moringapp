@@ -1,108 +1,37 @@
 import {
   Box,
   Button,
-  CardMedia,
-  Chip,
   FormControl,
   Grid,
-  InputAdornment,
+  // InputAdornment,
   InputLabel,
   OutlinedInput,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 
-import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
-  DataGrid,
-  GridRowParams,
-  MuiEvent,
-} from "@mui/x-data-grid";
+import { DataGrid, GridRowParams, MuiEvent } from "@mui/x-data-grid";
 
 import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../config/reducer";
+// import { IRootState } from "../../../config/reducer";
 // import { IHomeState } from "../../../store/home/reducer";
 import { ITaskState } from "./reducer";
 // import { getTaskList, ITask } from "../../../store/task/action";
-import { ICondition } from "../condition/action";
-import { ICategory } from "../category/action";
 import { useRouter } from "next/router";
-import { HOST_URL } from "../../../config/apollo";
 import { IHomeState } from "../home/reducer";
-
-const columns: GridColDef[] = [
-  {
-    field: "image",
-    width: 200,
-    headerName: "Image",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end", py: 5 }}>
-        <CardMedia
-          component="img"
-          sx={{ height: "100px", width: "100px", py: 1 }}
-          image={HOST_URL + "storage/" + params.value}
-          alt="green iguana"
-        />
-      </Box>
-    ),
-  },
-  { field: "name", headerName: "Name", width: 200 },
-  { field: "price_by_hour", headerName: "Price By Hour ($)", width: 200 },
-  { field: "min_price", headerName: "Min Price ($)", width: 200 },
-  { field: "can_be_booked", headerName: "Can be booked", width: 200 },
-  { field: "can_be_urgent", headerName: "Can be Urgent", width: 200 },
-  { field: "accept_offer", headerName: "Accept offer", width: 200 },
-  {
-    field: "category",
-    headerName: "Category",
-    width: 200,
-    sortable: false,
-    valueGetter: (params: GridValueGetterParams<ICategory>) =>
-      params.value?.name,
-  },
-  {
-    field: "condition",
-    width: 200,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<ICondition>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value?.name}
-          color="success"
-          sx={{
-            color: "secondary.main",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
+import { columns } from "./columns";
+import { useAppSelector, AppState } from "../../../config/hooks";
 
 function Task() {
   const router = useRouter();
   const [search, setSearch] = React.useState("");
-  const state = useSelector((state: IRootState): ITaskState => state.task);
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  // const [data, setData] = React.useState<ITask[] | undefined>(undefined);
+  const state = useAppSelector((state: AppState) => state);
   // const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  // const dispatch = useDispatch();
-
-  // React.useEffect(() => {
-  //   if (!state.list) {
-  //     dispatch(getTaskList())
-  //   }
-  // }, []);
 
   return (
     <>
@@ -149,9 +78,9 @@ function Task() {
                       sx={{ border: "none" }}
                       rowHeight={100}
                       rows={
-                        (homeState?.role?.value == 1
-                          ? state.list
-                          : homeState?.tasks) || []
+                        (state?.home?.user?.role?.value == 1
+                          ? state.task?.list
+                          : state?.home?.user?.tasks) || []
                       }
                       columns={columns}
                       pageSize={5}

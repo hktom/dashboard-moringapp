@@ -1,57 +1,24 @@
 import {
   Box,
-  Button,
-  CardMedia,
-  Chip,
-  FormControl,
+  // Button,
+  // CardMedia,
+  // FormControl,
   Grid,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
+  // InputAdornment,
+  // InputLabel,
+  // OutlinedInput,
   Paper,
-  TextField,
+  // TextField,
   Typography,
 } from "@mui/material";
 
-import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
-  DataGrid,
-} from "@mui/x-data-grid";
+import { GridValueGetterParams, DataGrid } from "@mui/x-data-grid";
 
 import * as React from "react";
 import Layout from "../../../layout/Layout";
-import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
-// import { Payment } from "@mui/icons-material";
-
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "date", headerName: "Date", flex: 1 },
-  { field: "amount", headerName: "Amount", flex: 1 },
-  {
-    field: "status",
-    flex: 1,
-    headerName: "Status",
-    renderCell: (params: GridRenderCellParams<string>) => (
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Chip
-          size="small"
-          label={params.value}
-          color="success"
-          sx={{
-            color: "secondary.main",
-            textTransform: "uppercase",
-            fontSize: "0.7rem",
-            fontWeight: "bold",
-          }}
-        />
-      </Box>
-    ),
-  },
-];
-
+// import AddIcon from "@mui/icons-material/Add";
+// import SearchIcon from "@mui/icons-material/Search";
+import { columns } from "./columns";
 const rows: [] = [];
 
 function Payment() {

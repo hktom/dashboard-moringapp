@@ -22,12 +22,13 @@ import {
 import { Copyright } from "@mui/icons-material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { useEffect, useState } from "react";
-import { ILoginState } from "./reducer";
+import { authActionSaga, ILoginState } from "./reducer";
 import { useForm } from "react-hook-form";
 import { ILoginData, loginUser, ssoLogin } from "./actions";
-import { IRootState } from "../../config/reducer";
+// import { IRootState } from "../../config/reducer";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { AppState, useAppSelector } from "../../config/hooks";
 
 function Login() {
   const dispatch = useDispatch();
@@ -38,9 +39,7 @@ function Login() {
     setOpenBackdrop(false);
   };
 
-  const loginState = useSelector(
-    (state: IRootState): ILoginState => state.login
-  );
+  const loginState = useAppSelector((state: AppState) => state.auth);
 
   const router = useRouter();
 
@@ -54,25 +53,24 @@ function Login() {
   } = useForm<ILoginData>();
 
   const onSubmit = (data: any) => {
-    dispatch(loginUser(data!));
+    dispatch({ type: authActionSaga.LOGIN!, payload: data });
     console.log(data);
   };
+
+  useEffect(() => {
+    if (router?.query?.access_token && router?.query?.redirect) {
+      setOpenBackdrop(true);
+      Cookies.set("token", router?.query?.access_token!, { expires: 7 });
+      window.location.href = "/page/" + router?.query?.redirect;
+    }
+  }, [router?.query?.access_token, router?.query?.redirect]);
 
   useEffect(() => {
     if (loginState.login?.token) {
       Cookies.set("token", loginState.login.token!, { expires: 7 });
       window.location.href = "/page/home";
     }
-
-    if (loginState.login.error) {
-      setOpenBackdrop(false);
-    }
-
-    if (router?.query?.id && !loginState.login?.sso) {
-      dispatch(ssoLogin(router?.query?.id));
-      setOpenBackdrop(true);
-    }
-  }, [dispatch, loginState.login, router]);
+  }, [loginState.login.token]);
 
   useEffect(() => {
     let token = Cookies.get("token");
