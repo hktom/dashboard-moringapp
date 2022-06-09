@@ -35,14 +35,15 @@ import {
 } from "../action";
 // import ImageUploader from "../../../components/ImageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { ICityState } from "../reducer";
+// import { IRootState } from "../../../../config/reducer";
+import { cityActionSaga, ICityState } from "../reducer";
 // import { uploadImageFailure } from "../../../store/image/actions";
 import { ICountryState } from "../../country/reducer";
 // import { getCountryList, ICountry } from "../../../store/country/action";
 import { useRouter } from "next/router";
 import PageBreadCrumb from "../../../../components/PageBreadCrumb";
 import { ICountry } from "../../country/action";
+import { AppState, useAppSelector } from "../../../../config/hooks";
 
 interface IProps {
   pid?: string;
@@ -51,7 +52,7 @@ interface IProps {
 function CreateCity(props: IProps) {
   const { pid } = props;
 
-  const state = useSelector((state: IRootState): ICityState => state.city);
+  const state = useAppSelector((state: AppState) => state);
 
   // const [active, setActive] = React.useState<boolean>(false);
   // const [image, setImage] = React.useState<string | undefined>(undefined);
@@ -73,40 +74,42 @@ function CreateCity(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (pid) {
-      dispatch(updateCity({ ...data, id: pid, country: { id: country } }));
+      dispatch({
+        type: cityActionSaga.UPDATE_ITEM,
+        payload: { ...data, id: pid, country: { id: country } },
+      });
     } else {
-      dispatch(addCity({ ...data, country: { id: country } }));
+      dispatch({
+        type: cityActionSaga.ADD_ITEM,
+        payload: { ...data, country: { id: country } },
+      });
     }
     initialState.current = 1;
   };
 
-  const stateCountry = useSelector(
-    (state: IRootState): ICountryState => state.country
-  );
-
-  React.useEffect(() => {
-    if (state.success && initialState.current === 1) {
-      dispatch(
-        getCityListSuccess(
-          state.list
-            ?.filter((item: ICity) => item.id !== state.city?.id)
-            .concat(state.city!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [dispatch, state.city, state.list, state.success]);
+  // React.useEffect(() => {
+  //   if (state.city.success && initialState.current === 1) {
+  //     dispatch(
+  //       getCityListSuccess(
+  //         state.city.list
+  //           ?.filter((item: ICity) => item.id !== state.city.city?.id)
+  //           .concat(state.city!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [dispatch, state.city]);
 
   React.useEffect(() => {
     if (initialState.current == 0 && pid) {
-      let city = state.list?.find((item) => item.id == pid);
-      dispatch(getCitySuccess(city!));
+      let city = state.city.list?.find((item) => item.id == pid);
+      // dispatch(getCitySuccess(city!));
       setValue("name", city?.name!);
       setValue("name_fr", city?.name_fr!);
       setCountry(city?.country?.id!);
       initialState.current++;
     }
-  }, [dispatch, pid, setValue, state.list]);
+  }, [dispatch, pid, setValue, state.city.list]);
 
   const handleChangeCountry = (event: SelectChangeEvent) => {
     setCountry(event.target.value as string);
@@ -127,13 +130,13 @@ function CreateCity(props: IProps) {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {state.error && (
+            {state.city.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {state.error}
+                {state.city.error}
               </Alert>
             )}
 
-            {state.success && (
+            {state.city.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -202,7 +205,7 @@ function CreateCity(props: IProps) {
                       label="Country"
                       onChange={handleChangeCountry}
                     >
-                      {(stateCountry.list ?? []).map((i: ICountry) => (
+                      {(state.country.list ?? []).map((i: ICountry) => (
                         <MenuItem value={i.id} key={i.id}>
                           {i.name}
                         </MenuItem>
@@ -237,7 +240,7 @@ function CreateCity(props: IProps) {
                   type="submit"
                 >
                   Create{" "}
-                  {state.isLoading && (
+                  {state.city.isLoading && (
                     <CircularProgress
                       color="secondary"
                       size={20}

@@ -35,8 +35,14 @@ import {
 } from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { IConditionState } from "../reducer";
+// import { IRootState } from "../../../../config/reducer";
+import { conditionActionSaga, IConditionState } from "../reducer";
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../config/hooks";
+import { cityActionSaga } from "../../city/reducer";
 // import { uploadImageFailure } from "../../../store/image/actions";
 
 interface IProps {
@@ -46,14 +52,13 @@ interface IProps {
 function CreateCondition(props: IProps) {
   const { pid } = props;
 
-  const state = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
+  const state = useAppSelector((state: AppState) => state.condition);
 
-  const [active, setActive] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string | undefined>(undefined);
+  // const [active, setActive] = React.useState<boolean>(false);
+  // const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const initialState = React.useRef<number>(0);
 
   const {
@@ -67,9 +72,15 @@ function CreateCondition(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (pid) {
-      dispatch(updateCondition({ ...data, id: pid }));
+      dispatch({
+        type: conditionActionSaga.UPDATE_ITEM,
+        payload: { ...data, id: pid },
+      });
     } else {
-      dispatch(addCondition(data));
+      dispatch({
+        type: conditionActionSaga.ADD_ITEM,
+        payload: data,
+      });
     }
     initialState.current = 1;
   };
@@ -77,9 +88,9 @@ function CreateCondition(props: IProps) {
   React.useEffect(() => {
     if (pid && initialState.current == 0 && state.list) {
       let condition: ICondition | undefined = state.list.find(
-        (item) => item.id == pid
+        (item: ICondition) => item.id == pid
       );
-      dispatch(getConditionSuccess(condition!));
+      // dispatch(getConditionSuccess(condition!));
 
       setValue("name", condition?.name!);
       setValue("value", condition?.value!);
@@ -88,19 +99,19 @@ function CreateCondition(props: IProps) {
     }
   }, [dispatch, pid, setValue, state.list]);
 
-  React.useEffect(() => {
-    if (state.success && initialState.current == 1) {
-      console.log("success");
-      dispatch(
-        getConditionListSuccess(
-          state.list
-            ?.filter((item: ICondition) => item.id != state.condition?.id)
-            ?.concat(state.condition!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [dispatch, state.condition, state.list, state.success]);
+  // React.useEffect(() => {
+  //   if (state.success && initialState.current == 1) {
+  //     console.log("success");
+  //     dispatch(
+  //       getConditionListSuccess(
+  //         state.list
+  //           ?.filter((item: ICondition) => item.id != state.condition?.id)
+  //           ?.concat(state.condition!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [dispatch, state.condition, state.list, state.success]);
 
   return (
     <Layout>

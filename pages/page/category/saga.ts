@@ -60,12 +60,12 @@ export function* addCategorySaga(action: any): SagaIterator {
   try {
     const res = yield call(addCategoryRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(categoryAction.actionFailed(res.errors));
+      yield put(categoryAction.actionCategoryFailed(res.errors));
     } else {
-      yield put(categoryAction.actionSuccessAdd(res.data.createCategory));
+      yield put(categoryAction.addCategorySuccess(res.data.createCategory));
     }
   } catch (error: any) {
-    yield put(categoryAction.actionFailed(error?.toString()));
+    yield put(categoryAction.actionCategoryFailed(error?.toString()));
   }
 }
 
@@ -73,13 +73,13 @@ export function* updateCategorySaga(action: any): SagaIterator {
   try {
     const res = yield call(updateCategoryRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(categoryAction.failed(res.errors));
+      yield put(categoryAction.actionCategoryFailed(res.errors));
     } else {
-      yield put(categoryAction.actionSuccessUpdate(res.data.updateCategory));
+      yield put(categoryAction.updateCategorySuccess(res.data.updateCategory));
     }
   } catch (error: any) {
     console.error(error);
-    yield put(categoryAction.actionFailed(error?.toString()));
+    yield put(categoryAction.actionCategoryFailed(error?.toString()));
   }
 }
 
@@ -99,10 +99,7 @@ export function* updateCategorySaga(action: any): SagaIterator {
 export function* CategorySagas(): Generator {
   // yield takeEvery(GET_CATEGORY_LIST, getCategoryListSaga);
   // yield takeEvery(GET_CATEGORY, getCategorySaga);
-  yield takeEvery("CATEGORY_" + categoryActionSaga.ADD_ITEM!, addCategorySaga);
-  yield takeEvery(
-    "CATEGORY_" + categoryActionSaga.UPDATE_ITEM!,
-    updateCategorySaga
-  );
+  yield takeEvery(categoryActionSaga.ADD_ITEM!, addCategorySaga);
+  yield takeEvery(categoryActionSaga.UPDATE_ITEM!, updateCategorySaga);
   // yield takeEvery(DELETE_CATEGORY, deleteCategorySaga);
 }

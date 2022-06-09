@@ -34,11 +34,12 @@ import {
 } from "../action";
 // import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { ICountryState } from "../reducer";
+// import { IRootState } from "../../../../config/reducer";
+import { countryActionSaga, ICountryState } from "../reducer";
 // import { uploadImageFailure } from "../../../store/image/actions";
 import { useRouter } from "next/router";
 import PageBreadCrumb from "../../../../components/PageBreadCrumb";
+import { useAppSelector, AppState } from "../../../../config/hooks";
 
 interface IProps {
   pid?: string;
@@ -47,9 +48,7 @@ interface IProps {
 function CreateCountry(props: IProps) {
   const { pid } = props;
 
-  const state = useSelector(
-    (state: IRootState): ICountryState => state.country
-  );
+  const state = useAppSelector((state: AppState) => state.country);
 
   const router = useRouter();
   const initialState = React.useRef<number>(0);
@@ -70,25 +69,31 @@ function CreateCountry(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (pid) {
-      dispatch(updateCountry({ ...data, id: pid }));
+      dispatch({
+        type: countryActionSaga.UPDATE_ITEM,
+        payload: { ...data, id: pid },
+      });
     } else {
-      dispatch(addCountry(data));
+      dispatch({
+        type: countryActionSaga.ADD_ITEM,
+        payload: data,
+      });
     }
     initialState.current = 1;
   };
 
-  React.useEffect(() => {
-    if (state.success && initialState.current === 1) {
-      dispatch(
-        getCountryListSuccess(
-          state.list
-            ?.filter((item: ICountry) => item.id !== state.country?.id)
-            .concat(state.country!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [dispatch, state.country, state.list, state.success]);
+  // React.useEffect(() => {
+  //   if (state.success && initialState.current === 1) {
+  //     dispatch(
+  //       getCountryListSuccess(
+  //         state.list
+  //           ?.filter((item: ICountry) => item.id !== state.country?.id)
+  //           .concat(state.country!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [dispatch, state.country, state.list, state.success]);
 
   React.useEffect(() => {
     if (pid && initialState.current === 0) {

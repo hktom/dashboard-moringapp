@@ -79,7 +79,9 @@ function CreateCategory(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (!image) {
-      return appDispatch(categoryAction.actionFailed("Please upload image"));
+      return appDispatch(
+        categoryAction.actionCategoryFailed("Please upload image")
+      );
     }
 
     let _condition: ICondition[] | undefined = state.condition?.list?.filter(
@@ -95,7 +97,7 @@ function CreateCategory(props: IProps) {
       condition: _condition && _condition[0],
     };
 
-    appDispatch(categoryAction.activeAction());
+    appDispatch(categoryAction.activeCategoryAction());
 
     if (pid) {
       dispatch({
