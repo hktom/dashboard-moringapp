@@ -17,7 +17,7 @@ export const SectionBasic = (props: IProps) => {
         </Grid>
         <Grid item xs={12} md={8}>
           <TextField
-            id="name"
+            id="First name"
             InputLabelProps={{
               shrink: true,
             }}
@@ -30,7 +30,7 @@ export const SectionBasic = (props: IProps) => {
           />
 
           <TextField
-            id="name"
+            id="last name"
             label="Last name"
             variant="outlined"
             InputLabelProps={{

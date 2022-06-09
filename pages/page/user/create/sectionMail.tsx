@@ -17,7 +17,7 @@ export const SectionEmail = (props: IProps) => {
         </Grid>
         <Grid item xs={12} md={8}>
           <TextField
-            id="name"
+            id="first name"
             InputLabelProps={{
               shrink: true,
             }}
@@ -30,7 +30,7 @@ export const SectionEmail = (props: IProps) => {
           />
 
           <TextField
-            id="name"
+            id="last name"
             InputLabelProps={{
               shrink: true,
             }}
@@ -43,7 +43,7 @@ export const SectionEmail = (props: IProps) => {
           />
 
           <TextField
-            id="name"
+            id="email"
             label="Email"
             variant="outlined"
             InputLabelProps={{

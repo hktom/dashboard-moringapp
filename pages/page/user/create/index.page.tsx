@@ -5,28 +5,21 @@ import {
   Breadcrumbs,
   Button,
   CircularProgress,
-  FormControl,
   Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Paper,
   Typography,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
+
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import { IUser, updateUser } from "../action";
-// import ImageUploader from "../../../../components/imageUploader/ImageUploader";
+
 import { useDispatch, useSelector } from "react-redux";
 
-import { IUserState, userAction } from "../reducer";
+import { IUserState, userAction, userActionSaga } from "../reducer";
 
 import { ICondition } from "../../condition/action";
 import { useRouter } from "next/router";
 
-import { VisibilityOff, Visibility } from "@mui/icons-material";
 import Link from "next/link";
 import { registerUser, updatePassword } from "../../../auth/actions";
 
@@ -41,14 +34,15 @@ import { SectionAvatar } from "./sectionAvatar";
 import { SectionRole } from "./sectionRole";
 import { SectionCity } from "./sectionCity";
 import { SectionCondition } from "./sectionCondition";
+import { SectionPassword } from "./sectionPassword";
 
 interface IProps {
   pid?: string;
 }
 
 function CreateUser(props: IProps) {
-  const { pid } = props;
   const router = useRouter();
+  const { pid } = props;
   const state = useAppSelector((state: AppState) => state);
 
   const [role, setRole] = React.useState<string>("");
@@ -61,7 +55,16 @@ function CreateUser(props: IProps) {
   const dispatch = useDispatch();
   const appDispatch = useAppDispatch();
 
-  const updatePasswordAction = (data: IUser) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<IUser | {}>();
+
+  const onSubmitPassword = (data: any) => {
     if (data.password != data.confirm_password) {
       return appDispatch(
         userAction.actionUserFailure(
@@ -71,7 +74,7 @@ function CreateUser(props: IProps) {
     }
 
     dispatch({
-      type: "",
+      type: userActionSaga.UPDATE_PASSWORD,
       payload: {
         email: data.email,
         password: data.password!,
@@ -79,38 +82,6 @@ function CreateUser(props: IProps) {
       },
     });
   };
-
-  const createUserAction = (data: IUser, condition: any) => {
-    if (data.password != data.confirm_password) {
-      return appDispatch(
-        userAction.actionUserFailure(
-          "Password and Confirm Password must be same"
-        )
-      );
-    }
-
-    dispatch(
-      registerUser({
-        first_name: data.first_name,
-        auth: "dashboard",
-        last_name: data.last_name,
-        email: data.email,
-        password: data.password!,
-        confirm_password: data.confirm_password!,
-        role: { id: role },
-        condition: condition && condition[0],
-      })
-    );
-  };
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<IUser | {}>();
 
   const onSubmit = (data: any) => {
     let _condition: ICondition[] | undefined = state.condition?.list?.filter(
@@ -133,19 +104,24 @@ function CreateUser(props: IProps) {
     };
 
     if (pid) {
-      if (data.password == "" && data.confirm_password == "") {
-        return dispatch(
-          updateUser({
-            ...payload,
-            id: pid,
-          })
-        );
-      } else {
-        return updatePasswordAction(data);
-      }
+      return dispatch({
+        type: userActionSaga.UPDATE_ITEM,
+        payload: { ...payload, id: pid },
+      });
     }
 
-    return createUserAction(data, _condition);
+    if (data.password != data.confirm_password) {
+      return appDispatch(
+        userAction.actionUserFailure(
+          "Password and Confirm Password must be same"
+        )
+      );
+    }
+
+    dispatch({
+      type: userActionSaga.ADD_ITEM,
+      payload: payload,
+    });
   };
 
   React.useEffect(() => {
@@ -185,12 +161,6 @@ function CreateUser(props: IProps) {
                 <a style={{ textDecoration: "none" }}>Users</a>
               </Link>
             )}
-
-            {/* {pid && (
-              <Link href={"/page/"+(state.user?.role?.value == 1?"user":"profile")+"/profile/" + pid}>
-                <a style={{ textDecoration: "none" }}>Profile</a>
-              </Link>
-            )} */}
           </Breadcrumbs>
 
           <Box
@@ -228,13 +198,9 @@ function CreateUser(props: IProps) {
               <SectionCondition active={active} setActive={setActive} />
             )}
 
-            <Grid container sx={{ mt: 4 }}>
-              {/* <Grid item xs={12} md={8}>
-                <Button variant="text" color="error">
-                  Delete
-                </Button>
-              </Grid> */}
+            {!pid && <SectionPassword register={register} />}
 
+            <Grid container sx={{ mt: 4 }}>
               <Grid
                 item
                 xs={12}
@@ -263,6 +229,34 @@ function CreateUser(props: IProps) {
               </Grid>
             </Grid>
           </Box>
+
+          {pid && state.home?.user?.role?.value == 1 && (
+            <Box
+              component="form"
+              sx={{ mt: 5 }}
+              onSubmit={handleSubmit(onSubmitPassword)}
+            >
+              <SectionPassword register={register} />
+
+              <Box sx={{ mt: 3, display: "flex", justifyContent: "end" }}>
+                <Button
+                  variant="contained"
+                  color="info"
+                  disableElevation
+                  type="submit"
+                >
+                  Create{" "}
+                  {state.user?.isLoading && (
+                    <CircularProgress
+                      color="secondary"
+                      size={20}
+                      sx={{ ml: 2 }}
+                    />
+                  )}
+                </Button>
+              </Box>
+            </Box>
+          )}
         </Grid>
       </Grid>
     </Layout>

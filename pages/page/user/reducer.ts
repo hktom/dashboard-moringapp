@@ -57,6 +57,7 @@ export const userReducer = createSlice({
 
 export const userActionSaga: IActionSaga = {
   ADD_ITEM: "ADD_USER_ITEM",
+  UPDATE_PASSWORD: "UPDATE_USER_PASSWORD",
   UPDATE_ITEM: "UPDATE_USER_ITEM",
   DELETE_ITEM: "DELETE_USER_ITEM",
 };
