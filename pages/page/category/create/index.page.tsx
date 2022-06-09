@@ -31,8 +31,8 @@ import {
 } from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { ICategoryState } from "../reducer";
+// import { IRootState } from "../../../../config/reducer";
+import { categoryAction, categoryActionSaga, ICategoryState } from "../reducer";
 import { addCategory, getCategory, updateCategory } from "../action";
 // import { uploadImageFailure } from "../../../store/image/actions";
 import { getConditionList, ICondition } from "../../condition/action";
@@ -40,6 +40,11 @@ import { IConditionState } from "../../condition/reducer";
 import { useRouter } from "next/router";
 import { IServiceState } from "../../service/reducer";
 import { IService } from "../../service/action";
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../config/hooks";
 
 interface IProps {
   pid?: string;
@@ -54,26 +59,13 @@ function CreateCategory(props: IProps) {
   const [image, setImage] = React.useState<string | undefined>(undefined);
   const initialState = React.useRef<number>(0);
 
-  const state = useSelector(
-    (state: IRootState): ICategoryState => state.category
-  );
-
-  const conditionState = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
-
-  const serviceState = useSelector(
-    (state: IRootState): IServiceState => state.service
-  );
+  const state = useAppSelector((state: AppState) => state);
 
   const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
 
   const handleChangeService = (event: SelectChangeEvent) => {
-    setService(
-      serviceState.list.filter(
-        (item) => item.id === (event.target.value as string)
-      )[0]?.id
-    );
+    setService(event.target.value as string);
   };
 
   const {
@@ -87,53 +79,52 @@ function CreateCategory(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (!image) {
-      return dispatch(addCategoryFailure("Please upload an image"));
+      return appDispatch(categoryAction.actionFailed("Please upload image"));
     }
 
-    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+    let _condition: ICondition[] | undefined = state.condition?.list?.filter(
       (i: any) => i.value == +active
     );
 
     initialState.current == 1;
 
-    if (pid) {
-      return dispatch(
-        updateCategory({
-          ...data,
-          image: image,
-          service: { id: service },
-          condition: _condition && _condition[0],
-          id: pid,
-        })
-      );
-    }
+    let payload: any = {
+      ...data,
+      image: image,
+      service: { id: service },
+      condition: _condition && _condition[0],
+    };
 
-    dispatch(
-      addCategory({
-        ...data,
-        image: image,
-        service: { id: service },
-        condition: _condition && _condition[0],
-      })
-    );
+    appDispatch(categoryAction.activeAction());
+
+    if (pid) {
+      dispatch({
+        type: categoryActionSaga.UPDATE_ITEM,
+        payload: { ...payload, id: pid },
+      });
+    } else {
+      dispatch({ type: categoryActionSaga.ADD_ITEM, payload: payload });
+    }
   };
 
-  React.useEffect(() => {
-    if (state.success && initialState.current == 1) {
-      dispatch(
-        getCategoryListSuccess(
-          state.list
-            ?.filter((i: ICategory) => i.id != state.category?.id!)
-            .concat(state.category!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [dispatch, state.category, state.list, state.success]);
+  // React.useEffect(() => {
+  //   if (state.category.success && initialState.current == 1) {
+  //     dispatch(
+  //       getCategoryListSuccess(
+  //         state.category
+  //           ?.list!?.filter(
+  //             (i: ICategory) => i.id != state.category.category?.id!
+  //           )
+  //           .concat(state.category.category!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [dispatch, state.category]);
 
   React.useEffect(() => {
-    if (initialState.current == 0 && pid) {
-      let category: ICategory = state.list?.find(
+    if (initialState.current == 0 && pid && state.category?.list!.length > 0) {
+      let category: ICategory = state.category?.list?.find(
         (i: ICategory) => i.id === pid
       )!;
       dispatch(getCategorySuccess(category || undefined));
@@ -142,11 +133,11 @@ function CreateCategory(props: IProps) {
       setValue("description", category?.description || "");
       setActive(category?.condition?.value == 1 ?? false);
       setService(category?.service?.id || null);
-      setImage(state.category?.image || undefined);
+      setImage(category?.image || undefined);
 
       initialState.current++;
     }
-  }, [dispatch, pid, setValue, state.category?.image, state.list]);
+  }, [dispatch, pid, setValue, state.category]);
 
   return (
     <Layout>
@@ -175,13 +166,13 @@ function CreateCategory(props: IProps) {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {state.error && (
+            {state.category?.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {state.error}
+                {state.category?.error}
               </Alert>
             )}
 
-            {state.success && (
+            {state.category?.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -319,7 +310,7 @@ function CreateCategory(props: IProps) {
                       label="Category"
                       onChange={handleChangeService}
                     >
-                      {(serviceState.list ?? []).map((item: IService) => (
+                      {(state.service?.list ?? []).map((item: IService) => (
                         <MenuItem value={item.id} key={item.id}>
                           {item.name}
                         </MenuItem>
@@ -354,7 +345,7 @@ function CreateCategory(props: IProps) {
                   type="submit"
                 >
                   Create{" "}
-                  {state.isLoading && (
+                  {state.category.isLoading && (
                     <CircularProgress
                       color="secondary"
                       size={20}

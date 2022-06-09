@@ -22,21 +22,21 @@ export const taskReducer = createSlice({
   name: "task",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetTaskAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeTaskAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addTaskSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateTaskSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.task = action.payload;
@@ -44,21 +44,21 @@ export const taskReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionTaskFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getTaskItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const taskActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_TASK_ITEM",
+  UPDATE_ITEM: "UPDATE_TASK_ITEM",
+  DELETE_ITEM: "DELETE_TASK_ITEM",
 };
 
 export const taskAction: any = taskReducer.actions;

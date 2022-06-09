@@ -22,21 +22,21 @@ export const jobReducer = createSlice({
   name: "job",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetJobAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeJobAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addJobSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateJobSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.job = action.payload;
@@ -44,21 +44,21 @@ export const jobReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionJobFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getJobItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const jobActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_JOB_ITEM",
+  UPDATE_ITEM: "UPDATE_JOB_ITEM",
+  DELETE_ITEM: "DELETE_JOB_ITEM",
 };
 
 export const jobAction: any = jobReducer.actions;

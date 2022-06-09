@@ -22,21 +22,21 @@ export const paymentReducer = createSlice({
   name: "payment",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetPaymentAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activePaymentAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addPaymentSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updatePaymentSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.payment = action.payload;
@@ -44,21 +44,21 @@ export const paymentReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionPaymentFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getPaymentItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const paymentActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_PAYMENT_ITEM",
+  UPDATE_ITEM: "UPDATE_PAYMENT_ITEM",
+  DELETE_ITEM: "DELETE_PAYMENT_ITEM",
 };
 
 export const paymentAction: any = paymentReducer.actions;

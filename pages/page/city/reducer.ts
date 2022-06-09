@@ -22,21 +22,21 @@ export const cityReducer = createSlice({
   name: "city",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetCityAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeCityAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addCitySuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateCitySuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.city = action.payload;
@@ -44,21 +44,21 @@ export const cityReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionCityFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getCityItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const cityActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_CITY_ITEM",
+  UPDATE_ITEM: "UPDATE_CITY_ITEM",
+  DELETE_ITEM: "DELETE_CITY_ITEM",
 };
 
 export const cityAction: any = cityReducer.actions;

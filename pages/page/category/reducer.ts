@@ -22,21 +22,21 @@ export const categoryReducer = createSlice({
   name: "category",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetCategoryAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeCategoryAction: (state) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addCategorySuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateCategorySuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.category = action.payload;
@@ -44,21 +44,21 @@ export const categoryReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    categoryActionFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getCategoryItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const categoryActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_CATEGORY_ITEM",
+  UPDATE_ITEM: "UPDATE_CATEGORY_ITEM",
+  DELETE_ITEM: "DELETE_CATEGORY_ITEM",
 };
 
 export const categoryAction: any = categoryReducer.actions;

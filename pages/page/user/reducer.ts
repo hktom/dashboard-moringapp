@@ -22,21 +22,21 @@ export const userReducer = createSlice({
   name: "user",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetUserAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeUserAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addUserSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateUserSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.user = action.payload;
@@ -44,21 +44,21 @@ export const userReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionUserFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getUserItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const userActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_USER_ITEM",
+  UPDATE_ITEM: "UPDATE_USER_ITEM",
+  DELETE_ITEM: "DELETE_USER_ITEM",
 };
 
 export const userAction: any = userReducer.actions;

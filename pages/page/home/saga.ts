@@ -20,22 +20,24 @@ export function* getClientProfileSaga(): SagaIterator {
       return;
     }
 
-    yield put(homeAction.getItemsSuccess(res.data.me));
+    yield put(homeAction.getHomeItemsSuccess(res.data.me));
     yield put(
-      serviceAction.getItemsSuccess(res.data.services || res.data.services)
+      serviceAction.getServiceItemsSuccess(
+        res.data.services || res.data.services
+      )
     );
-    yield put(taskAction.getItemsSuccess(res.data.tasks || res.data.tasks));
+    yield put(taskAction.getTaskItemsSuccess(res.data.tasks || res.data.tasks));
 
     if (res.data.me?.role?.value == 1) {
-      yield put(roleAction.getItemsSuccess(res.data.roles));
-      yield put(categoryAction.getItemsSuccess(res.data.categories));
-      yield put(conditionAction.getItemsSuccess(res.data.conditions));
-      yield put(countryAction.getItemsSuccess(res.data.countries));
-      yield put(cityAction.getItemsSuccess(res.data.cities));
-      yield put(userAction.getItemsSuccess(res.data.users));
+      yield put(roleAction.getRoleItemsSuccess(res.data.roles));
+      yield put(categoryAction.getCategoryItemsSuccess(res.data.categories));
+      yield put(conditionAction.getConditionItemsSuccess(res.data.conditions));
+      yield put(countryAction.getCountryItemsSuccess(res.data.countries));
+      yield put(cityAction.getCityItemsSuccess(res.data.cities));
+      yield put(userAction.getUserItemsSuccess(res.data.users));
     }
   } catch (error) {
-    yield put(homeAction.actionFailed(`${error}`));
+    yield put(homeAction.actionHomeFailed(`${error}`));
     console.error(error);
   }
 }

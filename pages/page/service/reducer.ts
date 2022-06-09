@@ -22,21 +22,21 @@ export const serviceReducer = createSlice({
   name: "service",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetServiceAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeServiceAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addServiceSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateServiceSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.service = action.payload;
@@ -44,21 +44,21 @@ export const serviceReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionServiceFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getServiceItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const serviceActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_SERVICE_ITEM",
+  UPDATE_ITEM: "UPDATE_SERVICE_ITEM",
+  DELETE_ITEM: "DELETE_SERVICE_ITEM",
 };
 
 export const serviceAction: any = serviceReducer.actions;

@@ -4,23 +4,24 @@ import { SagaIterator } from "redux-saga";
 import { UPLOAD_IMAGE } from "./constants";
 import { uploadImageFailure, uploadImageSuccess } from "./actions";
 import { uploadImageRequest } from "./request";
+import { imageAction, imageActionSaga } from "./reducer";
 
 export function* uploadImageSaga(action: any): SagaIterator {
   try {
-    const res = yield call(uploadImageRequest, action.data);
+    const res = yield call(uploadImageRequest, action.payload);
     if (res.data) {
-      yield put(uploadImageSuccess(res.data));
+      yield put(imageAction.uploadSuccess(res.data));
     } else {
       yield put(
-        uploadImageFailure("Could not upload image, try with an other")
+        imageAction.uploadFailure("Could not upload image, try with an other")
       );
     }
   } catch (error) {
-    yield put(uploadImageFailure(`${error}`));
-    console.error(error);
+    yield put(imageAction.uploadFailure(`${error}`));
+    // console.error(error);
   }
 }
 
 export function* imageSagas(): Generator {
-  yield takeEvery(UPLOAD_IMAGE, uploadImageSaga);
+  yield takeEvery(imageActionSaga.ADD_ITEM!, uploadImageSaga);
 }

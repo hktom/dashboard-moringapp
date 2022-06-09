@@ -20,13 +20,14 @@ import { useRouter } from "next/router";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { useSelector } from "react-redux";
-import { IRootState } from "../../../config/reducer";
+// import { IRootState } from "../../../config/reducer";
 import { IHomeState } from "./reducer";
 import { IMenu, menu1 } from "../../../layout/IMenu";
 import { columnsJob } from "../../../components/columnsJob";
+import { useAppSelector, AppState } from "../../../config/hooks";
 
 const Home: NextPage = () => {
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  const homeState = useAppSelector((state: AppState) => state.home);
   const router = useRouter();
 
   return (
@@ -78,7 +79,7 @@ const Home: NextPage = () => {
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
                 sx={{ border: "none" }}
-                rows={homeState?.jobs || []}
+                rows={homeState?.user?.jobs || []}
                 columns={columnsJob}
                 pageSize={5}
                 rowsPerPageOptions={[5]}

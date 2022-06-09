@@ -64,83 +64,84 @@ export const updateCategoryRequest = (data: ICategory) => {
           }
       }`;
 
+
   return mutateMethods(req);
 };
 
-export const getCategoryListRequest = () => {
-  let req = `
-    {
-        categories{
-            id
-            name
-            description
-            image
-            name_fr
-            slug
-            slug_fr
-            service{
-                id
-                name
-            }
-            tasks{
-                id
-                name
-                image
-            }
-            parent{
-                id
-                name
-            }
-            condition{
-                id
-                name
-            }
-            created_at
-            updated_at
-        }
+// export const getCategoryListRequest = () => {
+//   let req = `
+//     {
+//         categories{
+//             id
+//             name
+//             description
+//             image
+//             name_fr
+//             slug
+//             slug_fr
+//             service{
+//                 id
+//                 name
+//             }
+//             tasks{
+//                 id
+//                 name
+//                 image
+//             }
+//             parent{
+//                 id
+//                 name
+//             }
+//             condition{
+//                 id
+//                 name
+//             }
+//             created_at
+//             updated_at
+//         }
 
-    }`;
+//     }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
-export const getCategoryRequest = (id: string) => {
-  let req = `
-      {
-          category(id:"${id}"){
-              id
-              name
-              description
-              image
-              name_fr
-              slug
-              slug_fr
-              service{
-                  id
-                  name
-              }
-              tasks{
-                  id
-                  name
-                  image
-              }
-              parent{
-                  id
-                  name
-              }
-              condition{
-                  id
-                  name
-                  value
-              }
-              created_at
-              updated_at
-          }
+// export const getCategoryRequest = (id: string) => {
+//   let req = `
+//       {
+//           category(id:"${id}"){
+//               id
+//               name
+//               description
+//               image
+//               name_fr
+//               slug
+//               slug_fr
+//               service{
+//                   id
+//                   name
+//               }
+//               tasks{
+//                   id
+//                   name
+//                   image
+//               }
+//               parent{
+//                   id
+//                   name
+//               }
+//               condition{
+//                   id
+//                   name
+//                   value
+//               }
+//               created_at
+//               updated_at
+//           }
   
-      }`;
+//       }`;
 
-  return queryMethods(req);
-};
+//   return queryMethods(req);
+// };
 
 export const deleteCategoryRequest = (data: ICategory) => {
   let req = `mutation{

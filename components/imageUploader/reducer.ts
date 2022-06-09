@@ -32,7 +32,7 @@ export const imageReducer = createSlice({
 });
 
 export const imageActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
+  ADD_ITEM: "IMAGE_ADD_ITEM",
 };
 
 export const imageAction: any = imageReducer.actions;

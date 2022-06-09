@@ -9,9 +9,10 @@ import { grey } from "@mui/material/colors";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HOST_URL } from "../../config/apollo";
-import { IRootState } from "../../config/reducer";
+import { useAppSelector, AppState, useAppDispatch } from "../../config/hooks";
+// import { IRootState } from "../../config/reducer";
 import { uploadImage, uploadImageFailure } from "./actions";
-import { IImageState } from "./reducer";
+import { IImageState, imageAction, imageActionSaga } from "./reducer";
 
 interface IProps {
   setImageField: (image: string | undefined) => void;
@@ -20,24 +21,25 @@ interface IProps {
 
 function ImageUploader(props: IProps) {
   const dispatch = useDispatch();
-  const imageState = useSelector(
-    (state: IRootState): IImageState => state.image
-  );
+  const appDispatch = useAppDispatch();
+  const imageState = useAppSelector((state: AppState) => state.image);
 
   const { setImageField, image } = props;
   const fileInputRef = React.useRef<any>();
 
   const submitImage = () => {
-    if (fileInputRef.current.files.length) {
-      console.log(fileInputRef.current.files[0]);
-      dispatch(uploadImage(fileInputRef.current.files[0]));
-      // handleFiles(fileInputRef.current.files);
+    if (fileInputRef.current.files.length > 0) {
+      appDispatch(imageAction.uploadImage());
+      dispatch({
+        type: imageActionSaga.ADD_ITEM,
+        payload: fileInputRef.current.files[0],
+      });
     }
   };
 
   const removeImage = () => {
     setImageField(undefined);
-    dispatch(uploadImageFailure(undefined));
+    appDispatch(imageAction.uploadSuccess(undefined));
   };
 
   const fileInputClicked = () => {
@@ -65,7 +67,7 @@ function ImageUploader(props: IProps) {
           <CardMedia
             component="img"
             alt={image}
-            sx={{ maxWidth: "300px", maxHeight:'300px' }}
+            sx={{ maxWidth: "300px", maxHeight: "300px" }}
             src={`${HOST_URL}storage/${image}`}
           />
           <Button

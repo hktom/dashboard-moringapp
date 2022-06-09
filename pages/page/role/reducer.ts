@@ -22,21 +22,21 @@ export const roleReducer = createSlice({
   name: "role",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetRoleAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeRoleAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addRoleSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateRoleSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.role = action.payload;
@@ -44,21 +44,21 @@ export const roleReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionRoleFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getRoleItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const roleActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_ROLE_ITEM",
+  UPDATE_ITEM: "UPDATE_ROLE_ITEM",
+  DELETE_ITEM: "DELETE_ROLE_ITEM",
 };
 
 export const roleAction: any = roleReducer.actions;

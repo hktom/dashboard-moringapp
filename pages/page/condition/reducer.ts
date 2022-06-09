@@ -22,21 +22,21 @@ export const conditionReducer = createSlice({
   name: "condition",
   initialState,
   reducers: {
-    resetAction: (state) => {
+    resetConditionAction: (state) => {
       state.isLoading = false;
       state.success = false;
       state.error = undefined;
     },
-    activeAction: (state, action: any) => {
+    activeConditionAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
-    actionSuccessAdd: (state, action: any) => {
+    addConditionSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.list!.push(action.payload);
     },
-    actionSuccessUpdate: (state, action: any) => {
+    updateConditionSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
       state.condition = action.payload;
@@ -44,21 +44,21 @@ export const conditionReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionFailed: (state, action: any) => {
+    actionConditionFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getConditionItemsSuccess: (state, action: any) => {
       state.list = action.payload;
     },
   },
 });
 
 export const conditionActionSaga: IActionSaga = {
-  ADD_ITEM: "ADD_ITEM",
-  UPDATE_ITEM: "UPDATE_ITEM",
-  DELETE_ITEM: "DELETE_ITEM",
+  ADD_ITEM: "ADD_CONDITION_ITEM",
+  UPDATE_ITEM: "UPDATE_CONDITION_ITEM",
+  DELETE_ITEM: "DELETE_CONDITION_ITEM",
 };
 
 export const conditionAction: any = conditionReducer.actions;

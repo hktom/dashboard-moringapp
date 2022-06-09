@@ -18,16 +18,16 @@ export const homeReducer = createSlice({
   name: "home",
   initialState,
   reducers: {
-    activeAction: (state, action: any) => {
+    activeHomeAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
     },
 
-    actionFailed: (state, action: any) => {
+    actionHomeFailed: (state, action: any) => {
       state.isLoading = false;
       state.error = action.payload;
     },
-    getItemsSuccess: (state, action: any) => {
+    getHomeItemsSuccess: (state, action: any) => {
       state.user = action.payload;
       state.isLoading = false;
       state.error = undefined;
@@ -36,7 +36,7 @@ export const homeReducer = createSlice({
 });
 
 export const homeActionSaga: IActionSaga = {
-  GET_ITEM: "GET_ITEM",
+  GET_ITEM: "GET_HOME_ITEM",
 };
 
 export const homeAction: any = homeReducer.actions;
