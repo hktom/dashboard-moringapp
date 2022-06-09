@@ -5,39 +5,30 @@ import {
   Breadcrumbs,
   Button,
   CircularProgress,
-  // FormControl,
-  // FormControlLabel,
   Grid,
-  // InputAdornment,
-  // InputLabel,
-  // MenuItem,
-  // OutlinedInput,
   Paper,
-  // Select,
-  // SelectChangeEvent,
-  // Switch,
   TextField,
   Typography,
 } from "@mui/material";
 
 import Link from "next/link";
-// import { grey } from "@mui/material/colors";
+
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
 import {
-  addRole,
-  addRoleFailure,
-  getRole,
-  getRoleListSuccess,
-  getRoleSuccess,
+  // addRole,
+  // addRoleFailure,
+  // getRole,
+  // getRoleListSuccess,
+  // getRoleSuccess,
   IRole,
-  updateRole,
+  // updateRole,
 } from "../action";
-// import ImageUploader from "../../../../components/imageUploader/ImageUploader";
+
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { IRoleState } from "../reducer";
-// import { uploadImageFailure } from "../../../store/image/actions";
+
+import { IRoleState, roleActionSaga } from "../reducer";
+import { useAppSelector, AppState } from "../../../../config/hooks";
 
 interface IProps {
   pid?: string;
@@ -46,11 +37,8 @@ interface IProps {
 function CreateRole(props: IProps) {
   const { pid } = props;
 
-  const state = useSelector((state: IRootState): IRoleState => state.role);
+  const state = useAppSelector((state: AppState) => state.role);
   const initialState = React.useRef<number>(0);
-
-  // const [active, setActive] = React.useState<boolean>(false);
-  // const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
 
@@ -65,30 +53,36 @@ function CreateRole(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (pid) {
-      dispatch(updateRole({ ...data, id: pid }));
+      dispatch({
+        type: roleActionSaga.UPDATE_ITEM,
+        payload: { ...data, id: pid },
+      });
     } else {
-      dispatch(addRole(data));
+      dispatch({
+        type: roleActionSaga.UPDATE_ITEM,
+        payload: data,
+      });
     }
     initialState.current = 1;
   };
 
-  React.useEffect(() => {
-    if (state.success && initialState.current === 1) {
-      dispatch(
-        getRoleListSuccess(
-          state.list
-            ?.filter((i: IRole) => i.id !== state.role?.id)
-            .concat(state.role!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [dispatch, state.list, state.role, state.success]);
+  // React.useEffect(() => {
+  //   if (state.success && initialState.current === 1) {
+  //     dispatch(
+  //       getRoleListSuccess(
+  //         state.list
+  //           ?.filter((i: IRole) => i.id !== state.role?.id)
+  //           .concat(state.role!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [dispatch, state.list, state.role, state.success]);
 
   React.useEffect(() => {
     if (pid && initialState.current === 0) {
       let role: IRole = state.list?.find((item: IRole) => item.id === pid)!;
-      dispatch(getRoleSuccess(role));
+      // dispatch(getRoleSuccess(role));
       setValue("name", role?.name!);
       setValue("value", role?.value!);
       initialState.current++;

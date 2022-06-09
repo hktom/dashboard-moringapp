@@ -20,28 +20,22 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
+
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import {
-  addTask,
-  addTaskFailure,
-  getTask,
-  getTaskListSuccess,
-  getTaskSuccess,
-  ITask,
-  updateTask,
-} from "../action";
+import { addTaskFailure, ITask } from "../action";
 import { ICategory } from "../../category/action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { ITaskState } from "../reducer";
-import { ICategoryState } from "../../category/reducer";
-import { IHomeState } from "../../home/reducer";
-import { IConditionState } from "../../condition/reducer";
+
 import { ICondition } from "../../condition/action";
 import { useRouter } from "next/router";
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../config/hooks";
+import { taskAction, taskActionSaga } from "../reducer";
 
 export interface IProps {
   pid?: string;
@@ -50,8 +44,7 @@ function CreateTask(props: IProps) {
   const [category, setCategory] = React.useState<string>("");
   const { pid } = props;
   const router = useRouter();
-  // const [age, setAge] = React.useState("");
-  // const [categoryList, setCategoryList] = React.useState<ICategory[]>([]);
+
   const [can_be_booked, setCanBeBooked] = React.useState<boolean>(false);
   const [can_be_urgent, setCanBeUrgent] = React.useState<boolean>(false);
   const [accept_offer, setAcceptOffer] = React.useState<boolean>(false);
@@ -59,14 +52,9 @@ function CreateTask(props: IProps) {
   const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
-  const conditionState = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
-  const me = useSelector((state: IRootState): IHomeState => state.home);
-  const state = useSelector((state: IRootState): ITaskState => state.task);
-  const categoryState = useSelector(
-    (state: IRootState): ICategoryState => state.category
-  );
+  const appDispatch = useAppDispatch();
+
+  const state = useAppSelector((state: AppState) => state);
 
   const initialState = React.useRef<number>(0);
 
@@ -78,97 +66,66 @@ function CreateTask(props: IProps) {
     formState: { errors },
   } = useForm<ITask>();
 
-  const update = (data: any, _condition: any) => {
-    dispatch(
-      updateTask({
-        ...data,
-        image: image,
-        can_be_booked: +can_be_booked,
-        can_be_urgent: +can_be_urgent,
-        accept_offer: +accept_offer,
-        active: { id: active },
-        category: { id: category },
-        user: { id: me.user?.id },
-        condition: _condition && _condition[0],
-        id: pid,
-      })
-    );
-  };
-
   const onSubmit = (data: any) => {
     if (!image || !category) {
-      dispatch(addTaskFailure("Please select image and category"));
+      appDispatch(
+        taskAction.actionTaskFailure("Please select image and category")
+      );
       return;
     }
 
-    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+    let _condition: ICondition[] | undefined = state.condition?.list?.filter(
       (i: any) => i.value == +active
     );
 
-    if (pid) {
-      update(data, _condition);
-      return;
-    }
+    let payload: any = {
+      ...data,
+      image: image,
+      can_be_booked: +can_be_booked,
+      can_be_urgent: +can_be_urgent,
+      accept_offer: +accept_offer,
+      active: { id: active },
+      category: { id: category },
+      user: { id: state.home.user?.id },
+      condition: _condition && _condition[0],
+    };
 
-    dispatch(
-      addTask({
-        ...data,
-        image: image,
-        can_be_booked: +can_be_booked,
-        can_be_urgent: +can_be_urgent,
-        accept_offer: +accept_offer,
-        active: { id: active },
-        category: { id: category },
-        user: { id: me.user?.id },
-        condition: _condition && _condition[0],
-      })
-    );
+    if (pid) {
+      dispatch({
+        type: taskActionSaga.ADD_ITEM,
+        payload: { ...payload, id: pid },
+      });
+    } else {
+      dispatch({ type: taskActionSaga.ADD_ITEM, payload: payload });
+    }
   };
 
   React.useEffect(() => {
-    if (pid && state.list && initialState.current == 0) {
-      dispatch(
-        getTaskSuccess(
-          (state.list!.find((i: ITask) => i.id == pid) as ITask) || undefined
-        )
-      );
+    if (pid && state.task.list!.length > 0 && initialState.current == 0) {
+      let task: ITask = state.task.list!.find(
+        (i: ITask) => i.id == pid
+      ) as ITask;
+      setValue("name", task.name);
+      setValue("min_price", task.min_price);
+      setValue("price_by_hour", task.price_by_hour);
+      setValue("description", task.description);
+
+      setCanBeUrgent(task.can_be_urgent == 1 ?? false);
+      setCanBeBooked(task.can_be_booked == 1 ?? false);
+      setAcceptOffer(task.accept_offer == 1 ?? false);
+      setActive(task.condition?.value == 1 ?? false);
+
+      setImage(task.image);
+
+      setCategory(task.category?.id);
+
       initialState.current++;
-    }
-  }, [dispatch, pid, state.list, state.task]);
-
-  React.useEffect(() => {
-    if (pid && state.task) {
-      setValue("name", state.task.name);
-      setValue("min_price", state.task.min_price);
-      setValue("price_by_hour", state.task.price_by_hour);
-      setValue("description", state.task.description);
-
-      setCanBeUrgent(state.task.can_be_urgent == 1 ?? false);
-      setCanBeBooked(state.task.can_be_booked == 1 ?? false);
-      setAcceptOffer(state.task.accept_offer == 1 ?? false);
-      setActive(state.task.condition?.value == 1 ?? false);
-
-      setImage(state.task.image);
-
-      setCategory(state.task.category?.id);
     }
   }, [pid, setValue, state.task]);
 
   const handleChangeCategory = (event: SelectChangeEvent) => {
     setCategory(event.target.value as string);
   };
-
-  React.useEffect(() => {
-    if (state.success) {
-      dispatch(
-        getTaskListSuccess(
-          state
-            .list!.filter((i: ITask) => i.id != state.task?.id)
-            .concat(state.task!)
-        )
-      );
-    }
-  }, [dispatch, pid, state.list, state.success, state.task]);
 
   return (
     <Layout>
@@ -197,13 +154,13 @@ function CreateTask(props: IProps) {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {state.error && (
+            {state.task.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {state.error}
+                {state.task.error}
               </Alert>
             )}
 
-            {state.success && (
+            {state.task.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -397,7 +354,7 @@ function CreateTask(props: IProps) {
                       onChange={handleChangeCategory}
                     >
                       {(
-                        categoryState?.list?.filter(
+                        state.category?.list?.filter(
                           (c: ICategory) => c.condition?.value == 1
                         ) ?? []
                       ).map((i: ICategory) => (
@@ -435,7 +392,7 @@ function CreateTask(props: IProps) {
                   type="submit"
                 >
                   Create{" "}
-                  {state.isLoading && (
+                  {state.task.isLoading && (
                     <CircularProgress
                       color="secondary"
                       size={20}

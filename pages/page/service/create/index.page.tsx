@@ -8,14 +8,14 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-  InputAdornment,
-  InputLabel,
+  // InputAdornment,
+  // InputLabel,
   Link,
-  MenuItem,
-  OutlinedInput,
+  // MenuItem,
+  // OutlinedInput,
   Paper,
-  Select,
-  SelectChangeEvent,
+  // Select,
+  // SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -26,7 +26,7 @@ import { useForm } from "react-hook-form";
 import {
   addService,
   addServiceFailure,
-  getService,
+  // getService,
   getServiceListSuccess,
   getServiceSuccess,
   IService,
@@ -34,12 +34,18 @@ import {
 } from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { IServiceState } from "../reducer";
+// import { IRootState } from "../../../../config/reducer";
+// import { Istate.service } from "../reducer";
 // import { uploadImageFailure } from "../../../store/image/actions";
-import { IConditionState } from "../../condition/reducer";
+// import { IConditionState } from "../../condition/reducer";
 import { ICondition } from "../../condition/action";
 import { useRouter } from "next/router";
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../../config/hooks";
+import { serviceAction, serviceActionSaga } from "../reducer";
 
 interface IProps {
   pid?: string;
@@ -50,19 +56,18 @@ function CreateService(props: IProps) {
 
   const router = useRouter();
 
-  const serviceState = useSelector(
-    (state: IRootState): IServiceState => state.service
-  );
+  const state = useAppSelector((state: AppState) => state);
 
-  const conditionState = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
+  // const conditionState = useSelector(
+  //   (state: IRootState): IConditionState => state.condition
+  // );
 
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
   const initialState = React.useRef<number>(0);
 
   const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
 
   const {
     register,
@@ -75,60 +80,61 @@ function CreateService(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (!image) {
-      return dispatch(addServiceFailure("Please upload an image"));
+      return appDispatch(
+        serviceAction.actionServiceFailure("Please upload an image")
+      );
     }
 
-    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+    let _condition: ICondition[] | undefined = state.condition?.list?.filter(
       (i: any) => i.value == +active
     );
 
     initialState.current = 1;
 
-    if (pid) {
-      return dispatch(
-        updateService({
-          ...data,
-          image: image,
-          id: pid,
-          condition: _condition && _condition[0],
-        })
-      );
-    }
+    let payload: any = {
+      ...data,
+      image: image,
+      condition: _condition && _condition[0],
+    };
 
-    dispatch(
-      addService({
-        ...data,
-        image: image,
-        condition: _condition && _condition[0],
-      })
-    );
+    if (pid) {
+      dispatch({
+        type: serviceActionSaga.UPDATE_ITEM,
+        payload: { ...payload, id: pid },
+      });
+    } else {
+      dispatch({
+        type: serviceActionSaga.ADD_ITEM,
+        payload: payload,
+      });
+    }
   };
 
-  React.useEffect(() => {
-    if (initialState.current == 1 && serviceState.success) {
-      dispatch(
-        getServiceListSuccess(
-          serviceState.list
-            ?.filter((i: IService) => i.id != pid)
-            .concat(serviceState.service!)!
-        )
-      );
-      initialState.current++;
-    }
-  }, [
-    dispatch,
-    pid,
-    serviceState.list,
-    serviceState.service,
-    serviceState.success,
-  ]);
+  // React.useEffect(() => {
+  //   if (initialState.current == 1 && state.service.success) {
+  //     dispatch(
+  //       getServiceListSuccess(
+  //         state.service.list
+  //           ?.filter((i: IService) => i.id != pid)
+  //           .concat(state.service.service!)!
+  //       )
+  //     );
+  //     initialState.current++;
+  //   }
+  // }, [
+  //   dispatch,
+  //   pid,
+  //   state.service.list,
+  //   state.service.service,
+  //   state.service.success,
+  // ]);
 
   React.useEffect(() => {
     if (initialState.current == 0 && pid) {
-      let service: IService = serviceState.list?.find(
+      let service: IService = state.service.list?.find(
         (i: IService) => i.id === pid
       )!;
-      dispatch(getServiceSuccess(service!));
+      // dispatch(getServiceSuccess(service!));
       setValue("name", service?.name);
       setValue("description", service?.description);
       setValue("name_fr", service?.name_fr);
@@ -137,7 +143,7 @@ function CreateService(props: IProps) {
 
       initialState.current++;
     }
-  }, [dispatch, pid, serviceState.list, setValue]);
+  }, [dispatch, pid, state.service.list, setValue]);
 
   return (
     <Layout>
@@ -162,13 +168,13 @@ function CreateService(props: IProps) {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {serviceState.error && (
+            {state.service.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {serviceState.error}
+                {state.service.error}
               </Alert>
             )}
 
-            {serviceState.success && (
+            {state.service.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
@@ -307,7 +313,7 @@ function CreateService(props: IProps) {
                   type="submit"
                 >
                   Create{" "}
-                  {serviceState.isLoading && (
+                  {state.service.isLoading && (
                     <CircularProgress
                       color="secondary"
                       size={20}
