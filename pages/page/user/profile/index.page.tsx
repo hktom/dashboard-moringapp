@@ -2,120 +2,68 @@ import {
   Avatar,
   Box,
   Button,
-  CardMedia,
   Chip,
   Divider,
-  FormControl,
   Grid,
-  InputAdornment,
-  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText,
-  OutlinedInput,
   Paper,
   TextField,
   Typography,
 } from "@mui/material";
 
-import {
-  GridColDef,
-  GridValueGetterParams,
-  GridRenderCellParams,
-  DataGrid,
-} from "@mui/x-data-grid";
-
 import * as React from "react";
 import Layout from "../../../../layout/Layout";
-import AddIcon from "@mui/icons-material/Add";
-import SearchIcon from "@mui/icons-material/Search";
-import EditIcon from "@mui/icons-material/Edit";
 
-import ImageIcon from "@mui/icons-material/Image";
-import WorkIcon from "@mui/icons-material/Work";
-import BeachAccessIcon from "@mui/icons-material/BeachAccess";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { grey } from "@mui/material/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { IHomeState } from "../../home/reducer";
-import { IRootState } from "../../../../config/reducer";
+
 import { HOST_URL } from "../../../../config/apollo";
 import { useRouter } from "next/router";
 import { getUser, getUserSuccess, IUser } from "../action";
 import { IUserState } from "../reducer";
+import { AppState, useAppSelector } from "../../../../config/hooks";
+import { ProfileItem } from "./profileItem";
 
-interface IProps {
-  label: string;
-  value: string | undefined | number;
+interface IProfileProps {
+  pid?: string;
 }
 
-function ProfileItem(props: IProps) {
-  const { label, value } = props;
-  return (
-    <>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "start",
-          flexDirection: { md: "row", xs: "column" },
-          flexWrap: "wrap",
-          py: 2,
-        }}
-      >
-        <Box sx={{ minWidth: 200 }}>
-          <Typography variant="body1">{label}</Typography>
-        </Box>
-        <Box>
-          <Typography variant="body1" sx={{ color: grey[500] }}>
-            {value}
-          </Typography>
-        </Box>
-      </Box>
-      <Divider />
-    </>
-  );
-}
-
-// interface IProfileProps {
-//   pid?: string;
-// }
-
-function Profile() {
+function Profile(props: IProfileProps) {
   const [state, setState] = React.useState<IUser | any>(undefined);
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  const userState = useSelector((state: IRootState): IUserState => state.user);
-  const dispatch = useDispatch();
+  const homeState = useAppSelector((state: AppState) => state);
+
   const router = useRouter();
-  const pid: any = router.query?.pid;
+  const pid: any = props?.pid || router.query?.pid;
   const initialState = React.useRef<number>(0);
 
   React.useEffect(() => {
-    if (pid && initialState.current === 0 && userState?.list!.length > 0) {
-      let user: IUser = userState?.list?.find((i: IUser) => i.id == pid)!;
-      dispatch(getUserSuccess(user || undefined));
+    if (
+      pid &&
+      initialState.current === 0 &&
+      homeState?.home?.user &&
+      homeState?.home?.user?.role?.value == 1
+    ) {
+      let user: IUser = homeState.user?.list?.find((i: IUser) => i.id == pid)!;
       setState(user || undefined);
       initialState.current++;
     }
-  }, [dispatch, pid, userState?.list]);
 
-  React.useEffect(() => {
-    if (!pid && initialState.current === 0 && userState?.list!.length > 0) {
-      setState({
-        ...homeState.user,
-        role: homeState?.role,
-        condition: homeState?.condition,
-      });
+    if (
+      pid &&
+      initialState.current === 0 &&
+      homeState?.home?.user &&
+      homeState?.home?.user?.role?.value != 1
+    ) {
+      setState(homeState?.home?.user);
       initialState.current++;
     }
-  }, [
-    homeState?.condition,
-    homeState?.role,
-    homeState.user,
-    pid,
-    userState?.list,
-  ]);
+  }, [homeState?.home?.user, homeState.user?.list, pid]);
 
   return (
     <>
@@ -186,7 +134,7 @@ function Profile() {
                 onClick={() =>
                   router.push(
                     "/page/" +
-                      (homeState.role?.value == 1 ? "user" : "profile") +
+                      (state.role?.value == 1 ? "user" : "profile") +
                       "/update?pid=" +
                       state?.id
                   )

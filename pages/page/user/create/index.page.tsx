@@ -6,48 +6,41 @@ import {
   Button,
   CircularProgress,
   FormControl,
-  FormControlLabel,
   Grid,
   IconButton,
   InputAdornment,
   InputLabel,
-  MenuItem,
   OutlinedInput,
   Paper,
-  Select,
-  SelectChangeEvent,
-  Switch,
-  TextField,
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import Layout from "../../../../layout/Layout";
 import { useForm } from "react-hook-form";
-import {
-  addUser,
-  addUserFailure,
-  getUser,
-  getUserSuccess,
-  IUser,
-  updateUser,
-} from "../action";
-import ImageUploader from "../../../../components/imageUploader/ImageUploader";
+import { IUser, updateUser } from "../action";
+// import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { IRootState } from "../../../../config/reducer";
-import { IUserState } from "../reducer";
-// import { uploadImageFailure } from "../../../store/image/actions";
-import { IConditionState } from "../../condition/reducer";
+
+import { IUserState, userAction } from "../reducer";
+
 import { ICondition } from "../../condition/action";
 import { useRouter } from "next/router";
-import { IRoleState } from "../../role/reducer";
-import { ICityState } from "../../city/reducer";
-import { IRole } from "../../role/action";
-import { ICity } from "../../city/action";
+
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import Link from "next/link";
 import { registerUser, updatePassword } from "../../../auth/actions";
-import { ILoginState } from "../../../auth/reducer";
-import { IHomeState } from "../../home/reducer";
+
+import {
+  useAppSelector,
+  AppState,
+  useAppDispatch,
+} from "../../../../config/hooks";
+import { SectionEmail } from "./sectionMail";
+import { SectionBasic } from "./sectionBasic";
+import { SectionAvatar } from "./sectionAvatar";
+import { SectionRole } from "./sectionRole";
+import { SectionCity } from "./sectionCity";
+import { SectionCondition } from "./sectionCondition";
 
 interface IProps {
   pid?: string;
@@ -56,20 +49,7 @@ interface IProps {
 function CreateUser(props: IProps) {
   const { pid } = props;
   const router = useRouter();
-  const homeState = useSelector((state: IRootState): IHomeState => state.home);
-  const state = useSelector((state: IRootState): IUserState => state.user);
-  const authState = useSelector(
-    (state: IRootState): ILoginState => state.login
-  );
-
-  const conditionState = useSelector(
-    (state: IRootState): IConditionState => state.condition
-  );
-  const roleState = useSelector((state: IRootState): IRoleState => state.role);
-  const cityState = useSelector((state: IRootState): ICityState => state.city);
-
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const state = useAppSelector((state: AppState) => state);
 
   const [role, setRole] = React.useState<string>("");
   const [city, setCity] = React.useState<string>("");
@@ -79,27 +59,33 @@ function CreateUser(props: IProps) {
   const initialState = React.useRef<number>(0);
 
   const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
 
   const updatePasswordAction = (data: IUser) => {
     if (data.password != data.confirm_password) {
-      return dispatch(
-        addUserFailure("Password and Confirm Password must be same")
-      );
-    } else {
-      return dispatch(
-        updatePassword({
-          email: data.email,
-          password: data.password!,
-          confirmNewPassword: data.confirm_password!,
-        })
+      return appDispatch(
+        userAction.actionUserFailure(
+          "Password and Confirm Password must be same"
+        )
       );
     }
+
+    dispatch({
+      type: "",
+      payload: {
+        email: data.email,
+        password: data.password!,
+        confirmNewPassword: data.confirm_password!,
+      },
+    });
   };
 
   const createUserAction = (data: IUser, condition: any) => {
     if (data.password != data.confirm_password) {
-      return dispatch(
-        addUserFailure("Password and Confirm Password must be same")
+      return appDispatch(
+        userAction.actionUserFailure(
+          "Password and Confirm Password must be same"
+        )
       );
     }
 
@@ -127,7 +113,7 @@ function CreateUser(props: IProps) {
   } = useForm<IUser | {}>();
 
   const onSubmit = (data: any) => {
-    let _condition: ICondition[] | undefined = conditionState?.list?.filter(
+    let _condition: ICondition[] | undefined = state.condition?.list?.filter(
       (i: any) => i.value == +active
     );
 
@@ -147,7 +133,6 @@ function CreateUser(props: IProps) {
     };
 
     if (pid) {
-      // update user
       if (data.password == "" && data.confirm_password == "") {
         return dispatch(
           updateUser({
@@ -156,34 +141,17 @@ function CreateUser(props: IProps) {
           })
         );
       } else {
-        // update password
         return updatePasswordAction(data);
       }
     }
 
-    // create user
     return createUserAction(data, _condition);
   };
 
   React.useEffect(() => {
-    if (
-      state.success ||
-      authState.register?.success ||
-      authState.updatePassword?.success
-    ) {
-      router.reload();
-    }
-  }, [
-    authState.register?.success,
-    authState.updatePassword?.success,
-    router,
-    state.success,
-  ]);
+    if (initialState.current == 0 && pid && state.home?.user) {
+      let user: IUser = state.user.list?.find((i: IUser) => i.id == pid)!;
 
-  React.useEffect(() => {
-    if (initialState.current == 0 && pid) {
-      let user: IUser = state.list?.find((i: IUser) => i.id == pid)!;
-      dispatch(getUserSuccess(user || undefined));
       setValue("first_name", user?.first_name || "");
       setValue("last_name", user?.last_name || "");
       setValue("email", user?.email || "");
@@ -198,300 +166,7 @@ function CreateUser(props: IProps) {
       setCity(user?.city?.id || "");
       initialState.current++;
     }
-  }, [dispatch, pid, setValue, state.list]);
-
-  const handleChangeRole = (event: SelectChangeEvent) => {
-    setRole(event.target.value as string);
-  };
-
-  const handleChangeCity = (event: SelectChangeEvent) => {
-    setCity(event.target.value as string);
-  };
-
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  const citySection = () => {
-    return (
-      <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              City *
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <TextField
-              label="Zip code"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("zip_code", { required: false })}
-            />
-
-            <TextField
-              label="Street"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("street", { required: false })}
-            />
-
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">City</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={city}
-                label="City"
-                onChange={handleChangeCity}
-              >
-                {(cityState?.list ?? []).map((i: ICity) => (
-                  <MenuItem value={i.id} key={i.id}>
-                    {i.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
-
-  const sectionAvatar = (
-    setImage: React.Dispatch<React.SetStateAction<string | undefined>>,
-    image: string | undefined
-  ) => {
-    return (
-      <Paper elevation={0} sx={{ mt: 2, p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4} sx={{ pr: 5 }}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              Avatar
-            </Typography>
-
-            <Typography variant="body2" component="p">
-              The image will appear on your profile
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <ImageUploader setImageField={setImage} image={image} />
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
-
-  const sectionBasic = () => {
-    return (
-      <Paper elevation={0} sx={{ p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              Basic details
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <TextField
-              id="name"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              label="First name"
-              variant="outlined"
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("first_name", { required: true })}
-            />
-
-            <TextField
-              id="name"
-              label="Last name"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("last_name", { required: false })}
-            />
-
-            <TextField
-              id="description"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              label="Bio"
-              multiline
-              fullWidth
-              sx={{ my: 1 }}
-              color="info"
-              rows={4}
-              {...register("bio", { required: false })}
-            />
-
-            <TextField
-              label="Mobile"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("mobile", { required: false })}
-            />
-
-            <TextField
-              id="name"
-              label="Website link"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("url", { required: false })}
-            />
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
-
-  const sectionEmail = () => {
-    return (
-      <Paper elevation={0} sx={{ p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              Basic details
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <TextField
-              id="name"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              label="First name"
-              variant="outlined"
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("first_name", { required: true })}
-            />
-
-            <TextField
-              id="name"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              label="Last name"
-              variant="outlined"
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("last_name", { required: true })}
-            />
-
-            <TextField
-              id="name"
-              label="Email"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              fullWidth
-              color="info"
-              sx={{ my: 1 }}
-              {...register("email", { required: true })}
-            />
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
-
-  const sectionCondition = () => {
-    return (
-      <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              Active User
-            </Typography>
-
-            <Typography variant="body2" component="p" sx={{ pr: 3 }}>
-              only active Users will be displayed on website
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <FormControl fullWidth sx={{ my: 1 }}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    color="success"
-                    value={active}
-                    checked={active}
-                    onChange={() => setActive(!active)}
-                  />
-                }
-                label="Active"
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
-
-  const sectionRole = () => {
-    return (
-      <Paper elevation={0} sx={{ mt: 4, p: 4 }}>
-        <Grid container>
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" component="h2" sx={{ fontWeight: "bold" }}>
-              Role *
-            </Typography>
-          </Grid>
-          <Grid item xs={12} md={8}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Role</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={role}
-                label="Role"
-                onChange={handleChangeRole}
-              >
-                {(roleState?.list ?? []).map((i: IRole) => (
-                  <MenuItem value={i.id} key={i.id}>
-                    {i.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Paper>
-    );
-  };
+  }, [dispatch, pid, setValue, state.home?.user, state.user]);
 
   return (
     <Layout>
@@ -505,7 +180,7 @@ function CreateUser(props: IProps) {
             <Link href="/page/">
               <a style={{ textDecoration: "none" }}>Dashboard</a>
             </Link>
-            {state.user?.role?.value == 1 && (
+            {state.user?.user?.role?.value == 1 && (
               <Link href="/page/user">
                 <a style={{ textDecoration: "none" }}>Users</a>
               </Link>
@@ -523,108 +198,35 @@ function CreateUser(props: IProps) {
             sx={{ mt: 5 }}
             onSubmit={handleSubmit(onSubmit)}
           >
-            {(state.error ||
-              authState.register?.error ||
-              authState.updatePassword?.error) && (
+            {state.user?.error && (
               <Alert severity="error" sx={{ my: 1 }}>
-                {state.error ||
-                  authState.register?.error ||
-                  authState.updatePassword?.error}
+                {state.user?.error}
               </Alert>
             )}
 
-            {(state.success ||
-              authState.register?.success ||
-              authState.updatePassword?.success) && (
+            {state.user?.success && (
               <Alert severity="success" sx={{ my: 1 }}>
                 Operation Successful
               </Alert>
             )}
 
-            {!pid && sectionEmail()}
+            {!pid && <SectionEmail register={register} />}
 
-            {pid && sectionBasic()}
+            {pid && <SectionBasic register={register} />}
 
-            {pid && sectionAvatar(setImage, image)}
+            {pid && <SectionAvatar image={image} setImage={setImage} />}
 
-            {pid && citySection()}
+            {pid && (
+              <SectionCity city={city} setCity={setCity} register={register} />
+            )}
 
-            {homeState.role?.value == 1 && sectionRole()}
+            {state.home.user?.role?.value == 1 && (
+              <SectionRole role={role} setRole={setRole} />
+            )}
 
-            {homeState.role?.value == 1 && sectionCondition()}
-
-            <Paper elevation={0} sx={{ p: 4, mt: 4 }}>
-              <Grid container>
-                <Grid item xs={12} md={4}>
-                  <Typography
-                    variant="h6"
-                    component="h2"
-                    sx={{ fontWeight: "bold" }}
-                  >
-                    Password
-                  </Typography>
-
-                  <Typography variant="body2" component="p" sx={{ pr: 3 }}>
-                    {"Leave blank if you don't want to change it"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} md={8}>
-                  <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={showPassword ? "text" : "password"}
-                      {...register("password", { required: false })}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() => setShowPassword(!showPassword)}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                    />
-                  </FormControl>
-
-                  <FormControl sx={{ m: 1, width: "100%" }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Confirm password
-                    </InputLabel>
-                    <OutlinedInput
-                      id="outlined-adornment-password"
-                      type={showConfirmPassword ? "text" : "password"}
-                      {...register("confirm_password", { required: false })}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={() =>
-                              setShowConfirmPassword(!showConfirmPassword)
-                            }
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {showConfirmPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                      label="Password"
-                    />
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Paper>
+            {state.home.user?.role?.value == 1 && (
+              <SectionCondition active={active} setActive={setActive} />
+            )}
 
             <Grid container sx={{ mt: 4 }}>
               {/* <Grid item xs={12} md={8}>
@@ -650,9 +252,7 @@ function CreateUser(props: IProps) {
                   type="submit"
                 >
                   Create{" "}
-                  {(state.isLoading ||
-                    authState.register?.loading ||
-                    authState.updatePassword?.loading) && (
+                  {state.user?.isLoading && (
                     <CircularProgress
                       color="secondary"
                       size={20}
