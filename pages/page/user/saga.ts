@@ -5,7 +5,7 @@ import { userAction, userActionSaga } from "./reducer";
 
 export function* updateUserSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateUserRequest, action.data);
+    const res = yield call(updateUserRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(userAction.actionUserFailure(res.errors));
     } else {

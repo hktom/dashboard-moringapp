@@ -44,7 +44,7 @@ export const userReducer = createSlice({
         .filter((item) => item.id !== action.payload.id)
         .concat(action.payload);
     },
-    actionUserFailed: (state, action: any) => {
+    actionUserFailure: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;

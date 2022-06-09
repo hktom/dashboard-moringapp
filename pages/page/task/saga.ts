@@ -6,7 +6,7 @@ import { taskAction, taskActionSaga } from "./reducer";
 
 export function* addTaskSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addTaskRequest, action.data);
+    const res = yield call(addTaskRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(taskAction.actionTaskFailure(res.errors));
     } else {
@@ -19,7 +19,7 @@ export function* addTaskSaga(action: any): SagaIterator {
 
 export function* updateTaskSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateTaskRequest, action.data);
+    const res = yield call(updateTaskRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(taskAction.actionTaskFailure(res.errors));
     } else {

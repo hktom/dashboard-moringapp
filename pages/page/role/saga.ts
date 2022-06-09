@@ -6,7 +6,7 @@ import { roleAction, roleActionSaga } from "./reducer";
 
 export function* addRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addRoleRequest, action.data);
+    const res = yield call(addRoleRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(roleAction.actionRoleFailure(res.errors));
     } else {
@@ -19,7 +19,7 @@ export function* addRoleSaga(action: any): SagaIterator {
 
 export function* updateRoleSaga(action: any): SagaIterator {
   try {
-    const res = yield call(updateRoleRequest, action.data);
+    const res = yield call(updateRoleRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(roleAction.actionRoleFailure(res.errors));
     } else {

@@ -14,7 +14,7 @@ import { userAction, userActionSaga } from "../page/user/reducer";
 
 function* loginUserSaga(action: any): SagaIterator {
   try {
-    const res = yield call(loginUserRequest, action.data);
+    const res = yield call(loginUserRequest, action.payload);
     if (!res.data?.login?.token) {
       yield put(authAction.loginUserFail("credentials not found or invalid"));
     } else {
@@ -38,13 +38,13 @@ function* logoutUserSaga(): SagaIterator {
 
 function* registerUser(action: any): SagaIterator {
   try {
-    const res = yield call(registerUserRequest, action.data);
+    const res = yield call(registerUserRequest, action.payload);
     if (!res.data?.register?.token) {
       yield put(
         userAction.actionUserFailure("credentials not found or invalid")
       );
     } else {
-      yield put(userAction.actionUserSuccess());
+      yield put(userAction.addUserSuccess());
       window.location.reload();
     }
   } catch (error) {
@@ -54,7 +54,7 @@ function* registerUser(action: any): SagaIterator {
 
 function* updatePassword(action: any): SagaIterator {
   try {
-    const res = yield call(updatePasswordRequest, action.data);
+    const res = yield call(updatePasswordRequest, action.payload);
     if (!res.data?.updatePassword?.token) {
       yield put(updatePasswordFail("credentials not found or invalid"));
     } else {

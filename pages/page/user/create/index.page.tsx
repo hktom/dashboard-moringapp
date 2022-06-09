@@ -65,6 +65,7 @@ function CreateUser(props: IProps) {
   } = useForm<IUser | {}>();
 
   const onSubmitPassword = (data: any) => {
+    appDispatch(userAction.activeUserAction());
     if (data.password != data.confirm_password) {
       return appDispatch(
         userAction.actionUserFailure(
@@ -103,6 +104,8 @@ function CreateUser(props: IProps) {
       condition: _condition && _condition[0],
     };
 
+    appDispatch(userAction.activeUserAction());
+
     if (pid) {
       return dispatch({
         type: userActionSaga.UPDATE_ITEM,
@@ -117,6 +120,8 @@ function CreateUser(props: IProps) {
         )
       );
     }
+
+    console.log('payload', payload);
 
     dispatch({
       type: userActionSaga.ADD_ITEM,
