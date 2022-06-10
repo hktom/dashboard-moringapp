@@ -53,6 +53,7 @@ let admin_redirection = [
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
+  baseUrl: ".",
   pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
   async redirects() {
     return process.env.NEXT_PUBLIC_APP_URL == "https://app.moringapp.com"

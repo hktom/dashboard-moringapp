@@ -12,6 +12,9 @@ import { RoleSagas } from "../pages/page/role/saga";
 import { ServiceSagas } from "../pages/page/service/saga";
 import { taskSagas } from "../pages/page/task/saga";
 import { UserSagas } from "../pages/page/user/saga";
+import { forumSagas } from "../pages/page/forum/saga";
+import { chatSagas } from "../pages/page/chat/saga";
+import { contentSagas } from "../pages/page/content/saga";
 
 export function* rootSaga(): IterableIterator<SimpleEffect<"FORK">> {
   yield fork(loginSagas);
@@ -28,4 +31,7 @@ export function* rootSaga(): IterableIterator<SimpleEffect<"FORK">> {
   yield fork(RoleSagas);
   yield fork(UserSagas);
   yield fork(imageSagas);
+  yield fork(forumSagas);
+  yield fork(chatSagas)
+  yield fork(contentSagas);
 }
