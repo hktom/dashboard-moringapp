@@ -188,3 +188,76 @@ export const REQ_USER = `
 
 
 `;
+export const REQ_QUESTION = `questions{
+    id
+    content
+    image
+    like{
+        id
+        user{
+            id
+            first_name
+            last_name
+            avatar
+        }
+    }
+    replies{
+        id
+        image
+        content
+        user{
+            id
+            first_name
+            last_name
+            avatar
+        }
+    }
+    user{
+        id
+        first_name
+        last_name
+        avatar
+    }
+    created_at
+}`;
+
+export const REQ_CONTENT = `pages{
+    id
+    title
+    content
+    image
+    value
+    label
+    link
+}`;
+
+export const REQ_ROOM = `rooms{
+    id
+    delete_from
+    delete_to
+    chats{
+        id
+        content
+        image
+        created_at
+        user{
+            id
+            first_name
+            last_name
+            avatar
+        }
+    }
+    user_from{
+        id
+        first_name
+        last_name
+        avatar
+    }
+    user_to{
+        id
+        first_name
+        last_name
+        avatar
+    }
+    created_at
+}`;

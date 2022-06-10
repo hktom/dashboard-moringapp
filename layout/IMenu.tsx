@@ -10,6 +10,9 @@ import PeopleIcon from "@mui/icons-material/People";
 import SecurityIcon from "@mui/icons-material/Security";
 import ZoomOutMapIcon from "@mui/icons-material/ZoomOutMap";
 import WrongLocationIcon from "@mui/icons-material/WrongLocation";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import CampaignOutlinedIcon from "@mui/icons-material/CampaignOutlined";
+import PushPinOutlinedIcon from "@mui/icons-material/PushPinOutlined";
 
 export interface IMenu {
   label: string;
@@ -26,24 +29,28 @@ export const menu1: Array<IMenu> = [
   },
   {
     label: "Jobs",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <EqualizerIcon sx={{ color: "#fff" }} />,
     path: "/page/job/",
   },
   {
     label: "Task",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <FormatListBulletedIcon sx={{ color: "#fff" }} />,
     path: "/page/task/",
   },
   {
     label: "Payment",
-    description:
-      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Soluta laborum veritatis debitis nihil voluptate! Error laboriosam voluptas molestias",
     icon: <LocalAtmIcon sx={{ color: "#fff" }} />,
     path: "/page/payment/",
+  },
+  {
+    label: "Chat",
+    icon: <ChatOutlinedIcon sx={{ color: "#fff" }} />,
+    path: "/page/chat/",
+  },
+  {
+    label: "Forum",
+    icon: <CampaignOutlinedIcon sx={{ color: "#fff" }} />,
+    path: "/page/forum/",
   },
   // {
   //   label: "Profile",
@@ -59,6 +66,11 @@ export const menu2: Array<IMenu> = [
     label: "User",
     icon: <PeopleIcon sx={{ color: "#fff" }} />,
     path: "/page/user/",
+  },
+  {
+    label: "Content",
+    icon: <PushPinOutlinedIcon sx={{ color: "#fff" }} />,
+    path: "/page/content/",
   },
   {
     label: "Service",

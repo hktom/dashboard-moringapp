@@ -10,6 +10,9 @@ import { conditionAction } from "../condition/reducer";
 import { countryAction } from "../country/reducer";
 import { cityAction } from "../city/reducer";
 import { homeAction, homeActionSaga } from "./reducer";
+import { contentAction } from "../content/reducer";
+import { forumAction } from "../forum/reducer";
+import { chatAction } from "../chat/reducer";
 
 export function* getClientProfileSaga(): SagaIterator {
   try {
@@ -27,6 +30,10 @@ export function* getClientProfileSaga(): SagaIterator {
       )
     );
     yield put(taskAction.getTaskItemsSuccess(res.data.tasks || res.data.tasks));
+    yield put(
+      forumAction.getForumItemsSuccess(res.data.questions || res.data.questions)
+    );
+    yield put(chatAction.getChatItemsSuccess(res.data.rooms || res.data.rooms));
 
     if (res.data.me?.role?.value == 1) {
       yield put(roleAction.getRoleItemsSuccess(res.data.roles));
@@ -35,6 +42,7 @@ export function* getClientProfileSaga(): SagaIterator {
       yield put(countryAction.getCountryItemsSuccess(res.data.countries));
       yield put(cityAction.getCityItemsSuccess(res.data.cities));
       yield put(userAction.getUserItemsSuccess(res.data.users));
+      yield put(contentAction.getContentItemsSuccess(res.data.pages));
     }
   } catch (error) {
     yield put(homeAction.actionHomeFailed(`${error}`));

@@ -3,8 +3,11 @@ import {
   REQ_CATEGORY,
   REQ_CITY,
   REQ_CONDITION,
+  REQ_CONTENT,
   REQ_COUNTRY,
+  REQ_QUESTION,
   REQ_ROLE,
+  REQ_ROOM,
   REQ_SERVICE,
   REQ_TASK,
   REQ_USER,
@@ -21,6 +24,9 @@ export const getUserProfileRequest = () => {
     cities:${REQ_CITY}
     conditions:${REQ_CONDITION}
     countries:${REQ_COUNTRY}
+    pages:${REQ_CONTENT}
+    rooms:${REQ_ROOM}
+    questions:${REQ_QUESTION}
   }`;
 
   //   console.log(request);
