@@ -30,6 +30,8 @@ import {
 } from "../../../../config/hooks";
 import Head from "next/head";
 import dynamic from "next/dynamic";
+import CustomTextField from "../../../../components/CustomTextField";
+import { contentActionSaga } from "../reducer";
 
 interface IProps {
   pid?: string;
@@ -40,6 +42,7 @@ function CreateContent(props: IProps) {
 
   const state = useAppSelector((state: AppState) => state.content);
   const [editorState, setEditorState] = React.useState("");
+  const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
   const appDispatch = useAppDispatch();
@@ -56,19 +59,33 @@ function CreateContent(props: IProps) {
 
   const onSubmit = (data: any) => {
     if (pid) {
+      dispatch({
+        type: contentActionSaga.UPDATE_ITEM,
+        payload: { ...data, content: editorState, image: image, id: pid },
+      });
     } else {
+      dispatch({
+        type: contentActionSaga.ADD_ITEM,
+        payload: { ...data, content: editorState, image: image },
+      });
     }
     initialState.current = 1;
   };
 
   React.useEffect(() => {
-    if (pid && initialState.current == 0 && state.list) {
-      let condition: any | undefined = state.list.find(
+    if (pid && initialState.current == 0 && state.list!.length > 0) {
+      let content: any | undefined = state.list!.find(
         (item: any) => item.id == pid
       );
 
-      setValue("name", condition?.name!);
-      setValue("value", condition?.value!);
+      // console.log(content, state.list);
+
+      setValue("title", content?.title!);
+      setValue("value", content?.value!);
+      setValue("label", content?.label!);
+      setValue("link", content?.link!);
+      setImage(content?.image!);
+      setEditorState(content?.content!);
 
       initialState.current++;
     }
@@ -120,31 +137,28 @@ function CreateContent(props: IProps) {
                     </Typography>
                   </Grid>
                   <Grid item xs={12} md={8}>
-                    {/* <TextField
-                    id="name"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    label="value"
-                    variant="outlined"
-                    fullWidth
-                    color="info"
-                    sx={{ my: 1 }}
-                    {...register("value", { required: true })}
-                  /> */}
+                    <CustomTextField
+                      id="title"
+                      data="title"
+                      register={register}
+                    />
 
-                    <TextField
-                      id="name"
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      label="Name"
-                      variant="outlined"
-                      fullWidth
-                      color="info"
-                      sx={{ my: 1 }}
-                      {...register("name", { required: true })}
+                    <CustomTextField
+                      id="value"
+                      data="value"
+                      register={register}
+                    />
+
+                    <CustomTextField
+                      id="Button Label"
+                      data="label"
+                      register={register}
+                    />
+
+                    <CustomTextField
+                      id="Button Link"
+                      data="link"
+                      register={register}
                     />
 
                     <Box>
@@ -153,22 +167,27 @@ function CreateContent(props: IProps) {
                         onChange={setEditorState}
                       />
                     </Box>
+                  </Grid>
+                </Grid>
+              </Paper>
 
-                    {/* 
-                    <Editor
-                      
-                      
-                      editorState={editorState}
-                      wrapperClassName="demo-wrapper"
-                      editorClassName="demo-editor"
-                      
-                    /> */}
-                    {/* <textarea
-                      disabled
-                      value={draftToHtml(
-                        convertToRaw(editorState.getCurrentContent())
-                      )}
-                    /> */}
+              <Paper elevation={0} sx={{ mt: 2, p: 4 }}>
+                <Grid container>
+                  <Grid item xs={12} md={4} sx={{ pr: 5 }}>
+                    <Typography
+                      variant="h6"
+                      component="h2"
+                      sx={{ fontWeight: "bold" }}
+                    >
+                      Images
+                    </Typography>
+
+                    <Typography variant="body2" component="p">
+                      The image will appear on website and mobile app.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12} md={8}>
+                    <ImageUploader setImageField={setImage} image={image} />
                   </Grid>
                 </Grid>
               </Paper>

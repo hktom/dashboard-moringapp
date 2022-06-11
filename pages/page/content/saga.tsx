@@ -2,33 +2,32 @@ import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import { contentAction, contentActionSaga } from "./reducer";
 import { addContentRequest, updateContentRequest } from "./request";
-// import { addContentRequest, updateContentRequest } from "./request";
-
-// import { ContentAction, ContentActionSaga } from "./reducer";
 
 export function* addContentSaga(action: any): SagaIterator {
   try {
+    yield put(contentAction.activeContentAction());
     const res = yield call(addContentRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(contentAction.actionContentFailure(res.errors));
+      yield put(contentAction.actionContentFailed(res.errors));
     } else {
-      yield put(contentAction.addContentSuccess(res.data.createContent));
+      yield put(contentAction.addContentSuccess(res.data.createPage));
     }
   } catch (error: any) {
-    yield put(contentAction.actionContentFailure(error?.toString()));
+    yield put(contentAction.actionContentFailed(error?.toString()));
   }
 }
 
 export function* updateContentSaga(action: any): SagaIterator {
   try {
+    yield put(contentAction.activeContentAction());
     const res = yield call(updateContentRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(contentAction.actionContentFailure(res.errors));
+      yield put(contentAction.actionContentFailed(res.errors));
     } else {
-      yield put(contentAction.updateContentSuccess(res.data.updateContent));
+      yield put(contentAction.updateContentSuccess(res.data.updatePage));
     }
   } catch (error: any) {
-    yield put(contentAction.actionContentFailure(error?.toString()));
+    yield put(contentAction.actionContentFailed(error?.toString()));
   }
 }
 

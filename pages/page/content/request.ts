@@ -28,7 +28,7 @@ export const addContentRequest = (data: any) => {
 
 export const updateContentRequest = (data: any) => {
   let req = `mutation{
-          createPage(input:{
+          updatePage(input:{
               id: "${data.id}",
               title:"${data.title}",
               image:"${data.image}",
@@ -46,6 +46,7 @@ export const updateContentRequest = (data: any) => {
               created_at
           }
       }`;
+
 
   return mutateMethods(req);
 };
