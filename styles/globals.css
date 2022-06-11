@@ -1,5 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap");
 
+.quill > .ql-toolbar:first-child {
+  display: none !important;
+}
+
+.ql-editor.ql-blank{
+  min-height: 200px !important;
+}
+
 /* html,
 body {
   padding: 0;

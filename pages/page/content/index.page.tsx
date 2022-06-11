@@ -48,7 +48,7 @@ function Content() {
                 component="h1"
                 sx={{ fontWeight: "bold" }}
               >
-                Condition
+                Content
               </Typography>
 
               <Button

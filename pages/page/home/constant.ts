@@ -233,8 +233,8 @@ export const REQ_CONTENT = `pages{
 
 export const REQ_ROOM = `rooms{
     id
-    delete_from
-    delete_to
+    deleted_from
+    deleted_to
     chats{
         id
         content
