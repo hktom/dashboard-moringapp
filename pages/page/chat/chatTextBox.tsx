@@ -23,11 +23,11 @@ function ChatTextBox() {
       room: state.chat?.room,
       user: state?.home?.user,
     };
-    console.log(payload);
     dispatch({
       type: chatActionSaga.UPDATE_ITEM,
       payload: payload,
     });
+    setValue("content", "");
   };
   return (
     <Box

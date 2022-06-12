@@ -1,12 +1,22 @@
 // import { ChatBubble } from "@mui/icons-material";
 import { Paper, Typography, Box } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useEffect, useRef } from "react";
 import { AppState, useAppSelector } from "../../../config/hooks";
 import ChatBubble from "./chatBubble";
 import ChatTextBox from "./chatTextBox";
 
 function MessagesContent() {
   const state = useAppSelector((state: AppState) => state);
+  const ref = useRef<any>(null);
+  const initialState = useRef<number>(0);
+
+  useEffect(() => {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
+  });
   return (
     <Paper
       color="secondary"
@@ -43,7 +53,7 @@ function MessagesContent() {
             key={item.id}
             sx={{
               display: "flex",
-              px:4,
+              px: 4,
               justifyContent:
                 state.home.user?.id == item?.user?.id
                   ? "flex-end"
@@ -53,6 +63,7 @@ function MessagesContent() {
             <ChatBubble chat={item} />
           </Box>
         ))}
+        <div ref={ref}></div>
       </Box>
 
       <ChatTextBox />

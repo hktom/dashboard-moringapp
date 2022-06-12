@@ -20,15 +20,19 @@ function Chat() {
     dispatch(chatAction.setRoomChats(chat));
   };
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     console.log(state.chat?.rooms);
-  },[state.chat?.rooms]);
-  
+  }, [state.chat?.rooms]);
+
   return (
     <Layout>
       <Grid container spacing={3} sx={{ mt: 1, mb: 10 }}>
         <Grid item xs={12} md={4}>
-          <Paper color="secondary" elevation={0} sx={{ px: 2, pb: 2, pt: 3 }}>
+          <Paper
+            color="secondary"
+            elevation={0}
+            sx={{ px: 2, pb: 2, pt: 3, height: "100%" }}
+          >
             <Typography
               component="h2"
               variant="h6"
