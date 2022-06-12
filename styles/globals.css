@@ -4,23 +4,49 @@
   display: none !important;
 }
 
-.ql-editor.ql-blank{
+.ql-editor.ql-blank {
   min-height: 200px !important;
 }
 
-/* html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+.chat-bubble {
+  width: 300px;
+  margin: 50px auto;
+  border-radius: 15px;
+  background: #00bfb6;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-weight: 900;
+  font-family: arial;
+  position: relative;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* speech bubble 13 */
+
+.chat-bubble-from:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 15px solid #00bfb6;
+  border-right: 15px solid transparent;
+  border-top: 15px solid #00bfb6;
+  border-bottom: 15px solid transparent;
+  right: -16px;
+  top: 0px;
 }
 
-* {
-  box-sizing: border-box;
-} */
+/* speech bubble 14 */
+
+.chat-bubble-to:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 15px solid transparent;
+  border-right: 15px solid #00bfb6;
+  border-top: 15px solid #00bfb6;
+  border-bottom: 15px solid transparent;
+  left: -16px;
+  top: 0px;
+}

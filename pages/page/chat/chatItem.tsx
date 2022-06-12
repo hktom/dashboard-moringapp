@@ -51,12 +51,12 @@ function ChatItem(props: IProps) {
                   {props.chat.length > 0 &&
                     props.chat[0]?.content?.substr(0, 20)}
                 </Typography>
-                <ReactTimeAgo
+                {/* <ReactTimeAgo
                   date={
                     props.chat.length > 0 && props.chat[0]?.content?.created_at
                   }
                   locale="en-US"
-                />
+                /> */}
               </React.Fragment>
             }
           />

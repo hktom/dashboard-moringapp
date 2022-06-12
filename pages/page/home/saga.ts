@@ -33,7 +33,7 @@ export function* getClientProfileSaga(): SagaIterator {
     yield put(
       forumAction.getForumItemsSuccess(res.data.questions || res.data.questions)
     );
-    yield put(chatAction.getChatItemsSuccess(res.data.rooms || res.data.rooms));
+    yield put(chatAction.getRoomItemsSuccess(res.data.rooms || res.data.rooms));
 
     if (res.data.me?.role?.value == 1) {
       yield put(roleAction.getRoleItemsSuccess(res.data.roles));

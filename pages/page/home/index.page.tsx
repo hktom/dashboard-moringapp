@@ -117,7 +117,7 @@ const Home: NextPage = () => {
                 key={item.id}
                 user={item.user_to}
                 chat={item.chats}
-                onClick={() => goToChat(item.chats)}
+                onClick={() => goToChat(item)}
               />
             ))}
           </Paper>

@@ -3,7 +3,7 @@ import { IActionSaga } from "../../../config/hooks";
 
 export interface IChatState {
   rooms: any[] | undefined;
-  chats: any[] | undefined;
+  room: any | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
@@ -11,7 +11,7 @@ export interface IChatState {
 
 export const initialState: IChatState = {
   rooms: [],
-  chats: [],
+  room: undefined,
   error: undefined,
   isLoading: false,
   success: false,
@@ -31,27 +31,35 @@ export const chatReducer = createSlice({
       state.error = undefined;
     },
     addChatSuccess: (state, action: any) => {
-      state.success = true;
-      state.isLoading = false;
+      state.rooms = [...state.rooms!, action.payload];
+      // state.success = true;
+      // state.isLoading = false;
       // state.list!.push(action.payload);
     },
     updateChatSuccess: (state, action: any) => {
-      state.success = true;
-      state.isLoading = false;
+      // state.room = {
+      //   ...state.room,
+      //   chats: [...state.room.chats].concat(action.payload),
+      // };
+
+      console.log(action.payload);
+
+      // state.success = true;
+      // state.isLoading = false;
       // state.chat = action.payload;
       // state.list = [...state.list!]
       //   .filter((item) => item.id !== action.payload.id)
       //   .concat(action.payload);
     },
     actionChatFailed: (state, action: any) => {
-      state.isLoading = false;
-      state.success = false;
+      // state.isLoading = false;
+      // state.success = false;
       state.error = action.payload;
     },
-    getChatsItemSuccess: (state, action: any) => {
-      state.chats = action.payload;
+    setRoomChats: (state, action: any) => {
+      state.room = action.payload;
     },
-    getChatItemsSuccess: (state, action: any) => {
+    getRoomItemsSuccess: (state, action: any) => {
       state.rooms = action.payload;
     },
   },

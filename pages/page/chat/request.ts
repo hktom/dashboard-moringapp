@@ -47,9 +47,9 @@ export const addChatRequest = (data: any) => {
           createChat(input:{
               id: "${uuidv4()}",
               content:"${data.content}",
-                image:"${data.image}",
-                room: {connect: {id: "${data.room}"}},
-              user: {connect: {id: "${data.to}"}},
+              image:"${data.image}",
+              room_id: "${data.room?.id}",
+              user_id: "${data.user?.id}",
           }){
               id
               content
