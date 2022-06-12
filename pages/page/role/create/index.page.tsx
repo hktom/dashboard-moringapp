@@ -59,7 +59,7 @@ function CreateRole(props: IProps) {
       });
     } else {
       dispatch({
-        type: roleActionSaga.UPDATE_ITEM,
+        type: roleActionSaga.ADD_ITEM,
         payload: data,
       });
     }

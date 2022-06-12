@@ -37,10 +37,10 @@ export const chatReducer = createSlice({
       // state.list!.push(action.payload);
     },
     updateChatSuccess: (state, action: any) => {
-      // state.room = {
-      //   ...state.room,
-      //   chats: [...state.room.chats].concat(action.payload),
-      // };
+      state.room = {
+        ...state.room,
+        chats: [...state.room.chats].concat(action.payload),
+      };
 
       console.log(action.payload);
 

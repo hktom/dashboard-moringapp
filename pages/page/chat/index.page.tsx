@@ -39,9 +39,9 @@ function Chat() {
 
             {state.chat?.rooms?.map((item: any) => (
               <ChatItem
-                key={item.id || ""}
-                user={item.user_to || ""}
-                chat={item.chats || []}
+                key={item?.id || ""}
+                user={item?.user_to || ""}
+                chat={item?.chats || []}
                 onClick={() => goToChat(item)}
               />
             ))}

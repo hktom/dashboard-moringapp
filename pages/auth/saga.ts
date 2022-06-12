@@ -16,12 +16,12 @@ function* loginUserSaga(action: any): SagaIterator {
   try {
     const res = yield call(loginUserRequest, action.payload);
     if (!res.data?.login?.token) {
-      yield put(authAction.loginUserFail("credentials not found or invalid"));
+      yield put(authAction.loginFailure("credentials not found or invalid"));
     } else {
-      yield put(authAction.loginUserSuccess(res.data?.login?.token));
+      yield put(authAction.loginSuccess(res.data?.login?.token));
     }
   } catch (error) {
-    yield put(authAction.loginUserFail(`${error}`));
+    yield put(authAction.loginFailure(`${error}`));
   }
 }
 

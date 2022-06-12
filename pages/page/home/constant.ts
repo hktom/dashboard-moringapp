@@ -83,6 +83,37 @@ export const REQ_ROLE = `roles{
     value
 }`;
 
+export const REQ_ROOM = `
+    id
+    deleted_from
+    deleted_to
+    chats{
+        id
+        content
+        image
+        created_at
+        user{
+            id
+            first_name
+            last_name
+            avatar
+        }
+    }
+    user_from{
+        id
+        first_name
+        last_name
+        avatar
+    }
+    user_to{
+        id
+        first_name
+        last_name
+        avatar
+    }
+    created_at
+`;
+
 export const REQ_USER = `
     id
     first_name
@@ -97,6 +128,8 @@ export const REQ_USER = `
     bio
     zip_code
     url
+    user_rooms{${REQ_ROOM}}
+    user_invited_rooms{${REQ_ROOM}}
     role{
         id
         name
@@ -231,33 +264,4 @@ export const REQ_CONTENT = `pages{
     link
 }`;
 
-export const REQ_ROOM = `rooms{
-    id
-    deleted_from
-    deleted_to
-    chats{
-        id
-        content
-        image
-        created_at
-        user{
-            id
-            first_name
-            last_name
-            avatar
-        }
-    }
-    user_from{
-        id
-        first_name
-        last_name
-        avatar
-    }
-    user_to{
-        id
-        first_name
-        last_name
-        avatar
-    }
-    created_at
-}`;
+

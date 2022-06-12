@@ -1,7 +1,12 @@
+// import { ChatBubble } from "@mui/icons-material";
 import { Paper, Typography, Box } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { AppState, useAppSelector } from "../../../config/hooks";
+import ChatBubble from "./chatBubble";
 import ChatTextBox from "./chatTextBox";
 
 function MessagesContent() {
+  const state = useAppSelector((state: AppState) => state);
   return (
     <Paper
       color="secondary"
@@ -10,9 +15,6 @@ function MessagesContent() {
         px: 2,
         pb: 2,
         pt: 3,
-        height: "85vh",
-        maxHeight: "85vh",
-        overflowY: "scroll",
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
@@ -27,7 +29,31 @@ function MessagesContent() {
         Messages
       </Typography>
 
-      <Box sx={{ flexGrow: 1 }}></Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          height: "65vh",
+          maxHeight: "65vh",
+          overflowY: "scroll",
+          backgroundColor: grey[100],
+        }}
+      >
+        {state.chat?.room?.chats.map((item: any) => (
+          <Box
+            key={item.id}
+            sx={{
+              display: "flex",
+              px:4,
+              justifyContent:
+                state.home.user?.id == item?.user?.id
+                  ? "flex-end"
+                  : "flex-start",
+            }}
+          >
+            <ChatBubble chat={item} />
+          </Box>
+        ))}
+      </Box>
 
       <ChatTextBox />
     </Paper>

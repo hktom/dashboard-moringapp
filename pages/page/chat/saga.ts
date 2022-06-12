@@ -6,9 +6,9 @@ import { addChatRequest, addRoomRequest } from "./request";
 
 // import { ChatAction, ChatActionSaga } from "./reducer";
 
-export function* addChatSaga(action: any): SagaIterator {
+export function* addRoomSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addChatRequest, action.payload);
+    const res = yield call(addRoomRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(chatAction.actionChatFailed(res.errors));
     } else {
@@ -19,13 +19,13 @@ export function* addChatSaga(action: any): SagaIterator {
   }
 }
 
-export function* addRoomSaga(action: any): SagaIterator {
+export function* addChatSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addRoomRequest, action.payload);
+    const res = yield call(addChatRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(chatAction.actionChatFailed(res.errors));
     } else {
-      // yield put(chatAction.updateChatSuccess(res.data.createChat));
+      yield put(chatAction.updateChatSuccess(res.data.createChat));
     }
   } catch (error: any) {
     yield put(chatAction.actionChatFailed(error?.toString()));

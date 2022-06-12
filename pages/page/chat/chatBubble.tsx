@@ -17,10 +17,7 @@ function ChatBubble(props: IProps) {
       }`}
     >
       <Typography component="p" variant="body1">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos dolore
-        dolorum quasi illo culpa provident, aperiam totam excepturi praesentium
-        beatae labore! Aperiam, perspiciatis! Maxime laudantium quos, voluptate
-        architecto ut minima?
+        {props.chat?.content}
       </Typography>
       <Typography component="p" variant="subtitle1">
         <ReactTimeAgo

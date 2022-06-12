@@ -25,10 +25,11 @@ export const getUserProfileRequest = () => {
     conditions:${REQ_CONDITION}
     countries:${REQ_COUNTRY}
     pages:${REQ_CONTENT}
-    rooms:${REQ_ROOM}
     questions:${REQ_QUESTION}
+    rooms:rooms{${REQ_ROOM}}
   }`;
-
+  
+  // rooms:${REQ_ROOM}
   //   console.log(request);
   return queryMethods(request);
 };

@@ -8,12 +8,12 @@ export function* addRoleSaga(action: any): SagaIterator {
   try {
     const res = yield call(addRoleRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(roleAction.actionRoleFailure(res.errors));
+      yield put(roleAction.actionRoleFailed(res.errors));
     } else {
       yield put(roleAction.addRoleSuccess(res.data.createRole));
     }
   } catch (error: any) {
-    yield put(roleAction.actionRoleFailure(error?.toString()));
+    yield put(roleAction.actionRoleFailed(error?.toString()));
   }
 }
 
@@ -21,12 +21,12 @@ export function* updateRoleSaga(action: any): SagaIterator {
   try {
     const res = yield call(updateRoleRequest, action.payload);
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(roleAction.actionRoleFailure(res.errors));
+      yield put(roleAction.actionRoleFailed(res.errors));
     } else {
       yield put(roleAction.updateRoleSuccess(res.data.updateRole));
     }
   } catch (error: any) {
-    yield put(roleAction.actionRoleFailure(error?.toString()));
+    yield put(roleAction.actionRoleFailed(error?.toString()));
   }
 }
 

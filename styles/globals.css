@@ -10,7 +10,8 @@
 
 .chat-bubble {
   width: 300px;
-  margin: 50px auto;
+  /* margin: 50px auto; */
+  margin: 50px 0px 50px 0px;
   border-radius: 15px;
   background: #00bfb6;
   color: #fff;

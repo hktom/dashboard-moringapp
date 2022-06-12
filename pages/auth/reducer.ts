@@ -36,7 +36,7 @@ export const authReducer = createSlice({
       state.login = { loading: true };
     },
     loginSuccess: (state, action: any) => {
-      state.login = { success: true };
+      state.login = { success: true, token: action.payload };
     },
     loginFailure: (state, action: any) => {
       state.login = { error: action.payload };
