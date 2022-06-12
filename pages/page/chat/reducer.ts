@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IActionSaga } from "../../../config/hooks";
 
 export interface IChatState {
-  list: any[] | undefined;
-  chat: any | undefined;
+  rooms: any[] | undefined;
+  chats: any[] | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
 }
 
 export const initialState: IChatState = {
-  list: [],
-  chat: undefined,
+  rooms: [],
+  chats: [],
   error: undefined,
   isLoading: false,
   success: false,
@@ -33,23 +33,26 @@ export const chatReducer = createSlice({
     addChatSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
-      state.list!.push(action.payload);
+      // state.list!.push(action.payload);
     },
     updateChatSuccess: (state, action: any) => {
       state.success = true;
       state.isLoading = false;
-      state.chat = action.payload;
-      state.list = [...state.list!]
-        .filter((item) => item.id !== action.payload.id)
-        .concat(action.payload);
+      // state.chat = action.payload;
+      // state.list = [...state.list!]
+      //   .filter((item) => item.id !== action.payload.id)
+      //   .concat(action.payload);
     },
     actionChatFailed: (state, action: any) => {
       state.isLoading = false;
       state.success = false;
       state.error = action.payload;
     },
+    getChatsItemSuccess: (state, action: any) => {
+      state.chats = action.payload;
+    },
     getChatItemsSuccess: (state, action: any) => {
-      state.list = action.payload;
+      state.rooms = action.payload;
     },
   },
 });

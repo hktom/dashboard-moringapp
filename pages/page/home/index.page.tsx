@@ -24,11 +24,26 @@ import { useSelector } from "react-redux";
 import { IHomeState } from "./reducer";
 import { IMenu, menu1 } from "../../../layout/IMenu";
 import { columnsJob } from "../../../components/columnsJob";
-import { useAppSelector, AppState } from "../../../config/hooks";
+import {
+  useAppSelector,
+  AppState,
+  useAppDispatch,
+} from "../../../config/hooks";
+import ChatItem from "../chat/chatItem";
+import { chatAction } from "../chat/reducer";
+
+// import "react-chat-elements/dist/main.css";
+// import { ChatItem } from "react-chat-elements-typescript";
 
 const Home: NextPage = () => {
-  const homeState = useAppSelector((state: AppState) => state.home);
+  const state = useAppSelector((state: AppState) => state);
+  const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const goToChat = (chat: any) => {
+    dispatch(chatAction.getChatsItemSuccess(chat));
+    router.push(`/page/chat/`);
+  };
 
   return (
     <Layout>
@@ -79,7 +94,7 @@ const Home: NextPage = () => {
             <div style={{ height: 400, width: "100%" }}>
               <DataGrid
                 sx={{ border: "none" }}
-                rows={homeState?.user?.jobs || []}
+                rows={state?.home?.user?.jobs || []}
                 columns={columnsJob}
                 pageSize={5}
                 rowsPerPageOptions={[5]}
@@ -97,79 +112,17 @@ const Home: NextPage = () => {
               Inbox
             </Typography>
 
-            <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            >
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar
-                    alt="Remy Sharp"
-                    src="https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/d5/d55b21c2d44d79dfa40fce867ba36b54b758e67a.jpg"
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary="Brunch this weekend?"
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "inline" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        Ali Connors
-                      </Typography>
-                      {" — I'll be in your neighborhood doing errands this…"}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-
-              <Button
-                variant="text"
-                sx={{ color: "primary.light", fontWeight: "bold", mt: 3 }}
-                disableElevation
-              >
-                Go to chat
-              </Button>
-            </List>
+            {state.chat?.rooms?.map((item: any) => (
+              <ChatItem
+                key={item.id}
+                user={item.user_to}
+                chat={item.chats}
+                onClick={() => goToChat(item.chats)}
+              />
+            ))}
           </Paper>
         </Grid>
       </Grid>
-
-      {/* <Grid container spacing={3} sx={{ mt: 5 }}>
-        {menu1
-          .filter((i: IMenu) => i.description)
-          .map((value: IMenu) => (
-            <Grid item xs={12} md={6} key={`${value.path}`}>
-              <Card elevation={1}>
-                <CardContent>
-                  <Typography
-                    sx={{ fontSize: "1.2rem" }}
-                    color="primary.main"
-                    gutterBottom
-                  >
-                    {value.label}
-                  </Typography>
-                  <Typography variant="h5" component="div"></Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {value.description}
-                  </Typography>
-                </CardContent>
-                <CardActions>
-                  <Button
-                    size="small"
-                    color="info"
-                    onClick={() => router.push(value.path)}
-                  >
-                    Learn More
-                  </Button>
-                </CardActions>
-              </Card>
-            </Grid>
-          ))}
-      </Grid> */}
     </Layout>
   );
 };

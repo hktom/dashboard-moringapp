@@ -5,6 +5,8 @@ import { FC } from "react";
 import { ThemeProvider } from "@mui/material";
 import theme from "../config/theme";
 import { Provider } from "react-redux";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en.json";
 
 // const WrappedApp: FC<AppProps> = ({ Component, pageProps }: any) => (
 //   <ThemeProvider theme={theme}>
@@ -13,6 +15,7 @@ import { Provider } from "react-redux";
 // );
 
 // export default wrapper.withRedux(WrappedApp);
+TimeAgo.addDefaultLocale(en);
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
