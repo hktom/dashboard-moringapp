@@ -7,6 +7,9 @@ import theme from "../config/theme";
 import { Provider } from "react-redux";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
+// import ApolloProvider from "@apollo/react-hooks";
+import { apolloClient } from "../config/apollo";
+import { ApolloProvider } from "@apollo/client";
 
 // const WrappedApp: FC<AppProps> = ({ Component, pageProps }: any) => (
 //   <ThemeProvider theme={theme}>
@@ -21,7 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
       </ThemeProvider>
     </Provider>
   );

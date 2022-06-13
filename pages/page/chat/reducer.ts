@@ -4,6 +4,7 @@ import { IActionSaga } from "../../../config/hooks";
 export interface IChatState {
   rooms: any[] | undefined;
   room: any | undefined;
+  chats: any[] | undefined;
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
@@ -11,6 +12,7 @@ export interface IChatState {
 
 export const initialState: IChatState = {
   rooms: [],
+  chats: undefined,
   room: undefined,
   error: undefined,
   isLoading: false,
@@ -42,7 +44,7 @@ export const chatReducer = createSlice({
         chats: [...state.room.chats].concat(action.payload),
       };
 
-      console.log(action.payload);
+      // console.log(action.payload);
 
       // state.success = true;
       // state.isLoading = false;
@@ -50,6 +52,9 @@ export const chatReducer = createSlice({
       // state.list = [...state.list!]
       //   .filter((item) => item.id !== action.payload.id)
       //   .concat(action.payload);
+    },
+    streamChatSuccess: (state, action: any) => {
+      state.chats = action.payload;
     },
     actionChatFailed: (state, action: any) => {
       // state.isLoading = false;
@@ -69,6 +74,7 @@ export const chatActionSaga: IActionSaga = {
   ADD_ITEM: "ADD_CHAT_ITEM",
   UPDATE_ITEM: "UPDATE_CHAT_ITEM",
   DELETE_ITEM: "DELETE_CHAT_ITEM",
+  // STREAM_ITEM: "STREAM_CHAT_ITEM",
 };
 
 export const chatAction: any = chatReducer.actions;

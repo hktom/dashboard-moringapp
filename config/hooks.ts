@@ -25,4 +25,5 @@ export interface IActionSaga {
   ADD_ITEM?: string;
   UPDATE_ITEM?: string;
   DELETE_ITEM?: string;
+  STREAM_ITEM?: string;
 }

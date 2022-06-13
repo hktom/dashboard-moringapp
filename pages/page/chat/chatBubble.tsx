@@ -20,10 +20,10 @@ function ChatBubble(props: IProps) {
         {props.chat?.content}
       </Typography>
       <Typography component="p" variant="subtitle1">
-        <ReactTimeAgo
+        {/* <ReactTimeAgo
           date={props.chat.length > 0 && props.chat[0]?.content?.created_at}
           locale="en-US"
-        />
+        /> */}
       </Typography>
     </Box>
   );

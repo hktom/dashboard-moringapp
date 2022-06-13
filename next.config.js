@@ -51,7 +51,7 @@ let admin_redirection = [
 ];
 
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   trailingSlash: true,
   baseUrl: ".",
   pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],

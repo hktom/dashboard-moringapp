@@ -1,7 +1,7 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import { chatAction, chatActionSaga } from "./reducer";
-import { addChatRequest, addRoomRequest } from "./request";
+import { addChatRequest, addRoomRequest, streamChatRequest } from "./request";
 // import { addChatRequest, updateChatRequest } from "./request";
 
 // import { ChatAction, ChatActionSaga } from "./reducer";
@@ -32,7 +32,23 @@ export function* addChatSaga(action: any): SagaIterator {
   }
 }
 
+// export function* streamChatSaga(action: any): SagaIterator {
+//   try {
+//     const res = yield call(streamChatRequest, action.payload);
+//     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+//       yield put(chatAction.actionChatFailed(res.errors));
+//     } else {
+//       // yield put(chatAction.streamChatSuccess(res.data.newMessagesInRoom));
+//       console.log('res.data.newMessagesInRoom', res.data);
+//     }
+//   } catch (error: any) {
+//     yield put(chatAction.actionChatFailed(error?.toString()));
+//     console.error(error);
+//   }
+// }
+
 export function* chatSagas(): Generator {
   yield takeEvery(chatActionSaga.ADD_ITEM!, addRoomSaga);
   yield takeEvery(chatActionSaga.UPDATE_ITEM!, addChatSaga);
+  // yield takeEvery(chatActionSaga.STREAM_ITEM!, streamChatSaga);
 }
