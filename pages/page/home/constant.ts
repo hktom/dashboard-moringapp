@@ -8,6 +8,7 @@ export const REQ_CONDITION = `conditions{
     name
     name_fr
     value
+    created_at
 }`;
 export const REQ_CITY = `cities{
     id
@@ -81,6 +82,7 @@ export const REQ_ROLE = `roles{
     id
     name
     value
+    created_at
 }`;
 
 export const REQ_ROOM = `

@@ -8,6 +8,7 @@ export interface IUserState {
   error: string | undefined;
   isLoading: boolean;
   success: boolean;
+  passwordActivity: any;
 }
 
 export const initialState: IUserState = {
@@ -16,6 +17,7 @@ export const initialState: IUserState = {
   error: undefined,
   isLoading: false,
   success: false,
+  passwordActivity: {},
 };
 
 export const userReducer = createSlice({
@@ -30,6 +32,15 @@ export const userReducer = createSlice({
     activeUserAction: (state, action: any) => {
       state.isLoading = true;
       state.error = undefined;
+    },
+    activePasswordAction: (state) => {
+      state.passwordActivity = { loading: true };
+    },
+    passwordSuccess: (state) => {
+      state.passwordActivity = { success: true };
+    },
+    passwordFailed: (state, action) => {
+      state.passwordActivity = { error: action.payload };
     },
     addUserSuccess: (state, action: any) => {
       state.success = true;

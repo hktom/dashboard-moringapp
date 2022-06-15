@@ -54,14 +54,15 @@ function* registerUser(action: any): SagaIterator {
 
 function* updatePassword(action: any): SagaIterator {
   try {
+    yield put(userAction.activePasswordAction());
     const res = yield call(updatePasswordRequest, action.payload);
     if (!res.data?.updatePassword?.token) {
-      yield put(updatePasswordFail("credentials not found or invalid"));
+      yield put(userAction.passwordFailed("credentials not found or invalid"));
     } else {
-      yield put(updatePasswordSuccess());
+      yield put(userAction.passwordSuccess());
     }
   } catch (error) {
-    yield put(updatePasswordFail(`${error}`));
+    yield put(userAction.passwordFailed(`${error}`));
   }
 }
 

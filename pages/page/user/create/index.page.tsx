@@ -1,153 +1,64 @@
 import * as React from "react";
-import {
-  Alert,
-  Box,
-  Breadcrumbs,
-  Button,
-  CircularProgress,
-  Grid,
-  Typography,
-} from "@mui/material";
-
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import Layout from "../../../../layout/Layout";
-import { useForm } from "react-hook-form";
-import { IUser, updateUser } from "../action";
-
-import { useDispatch, useSelector } from "react-redux";
-
-import { IUserState, userAction, userActionSaga } from "../reducer";
-
-import { ICondition } from "../../condition/action";
-import { useRouter } from "next/router";
-
+import { Grid, Breadcrumbs, Alert } from "@mui/material";
 import Link from "next/link";
-import { registerUser, updatePassword } from "../../../auth/actions";
+import { pid } from "process";
+import state from "pusher-js/types/src/core/http/state";
+import { useAppSelector, AppState } from "../../../../config/hooks";
+import FormGeneral from "./formGeneral";
+import FormPassword from "./formPassword";
+import FormAdmin from "./formAdmin";
+import FormLocation from "./formLocation";
 
-import {
-  useAppSelector,
-  AppState,
-  useAppDispatch,
-} from "../../../../config/hooks";
-import { SectionEmail } from "./sectionMail";
-import { SectionBasic } from "./sectionBasic";
-import { SectionAvatar } from "./sectionAvatar";
-import { SectionRole } from "./sectionRole";
-import { SectionCity } from "./sectionCity";
-import { SectionCondition } from "./sectionCondition";
-import { SectionPassword } from "./sectionPassword";
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <div>{children}</div>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 
 interface IProps {
   pid?: string;
 }
 
-function CreateUser(props: IProps) {
-  const router = useRouter();
-  const { pid } = props;
+export default function CreateUser(props: IProps) {
   const state = useAppSelector((state: AppState) => state);
+  const { pid } = props;
+  const [value, setValue] = React.useState(0);
 
-  const [role, setRole] = React.useState<string>("");
-  const [city, setCity] = React.useState<string>("");
-  const [active, setActive] = React.useState<boolean>(false);
-  const [image, setImage] = React.useState<string | undefined>(undefined);
-
-  const initialState = React.useRef<number>(0);
-
-  const dispatch = useDispatch();
-  const appDispatch = useAppDispatch();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    formState: { errors },
-  } = useForm<IUser | {}>();
-
-  const onSubmitPassword = (data: any) => {
-    appDispatch(userAction.activeUserAction());
-    if (data.password != data.confirm_password) {
-      return appDispatch(
-        userAction.actionUserFailure(
-          "Password and Confirm Password must be same"
-        )
-      );
-    }
-
-    dispatch({
-      type: userActionSaga.UPDATE_PASSWORD,
-      payload: {
-        email: data.email,
-        password: data.password!,
-        confirmNewPassword: data.confirm_password!,
-      },
-    });
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
-
-  const onSubmit = (data: any) => {
-    let _condition: ICondition[] | undefined = state.condition?.list?.filter(
-      (i: any) => i.value == +active
-    );
-
-    let payload: IUser = {
-      ...data,
-      first_name: data.first_name,
-      last_name: data.last_name,
-      email: data.email,
-      bio: data.bio,
-      street: data.street,
-      zip_code: data.zip_code,
-      url: data.url,
-      avatar: image,
-      role: { id: role },
-      city: { id: city },
-      condition: _condition && _condition[0],
-    };
-
-    appDispatch(userAction.activeUserAction());
-
-    if (pid) {
-      return dispatch({
-        type: userActionSaga.UPDATE_ITEM,
-        payload: { ...payload, id: pid },
-      });
-    }
-
-    if (data.password != data.confirm_password) {
-      return appDispatch(
-        userAction.actionUserFailure(
-          "Password and Confirm Password must be same"
-        )
-      );
-    }
-
-    console.log('payload', payload);
-
-    dispatch({
-      type: userActionSaga.ADD_ITEM,
-      payload: payload,
-    });
-  };
-
-  React.useEffect(() => {
-    if (initialState.current == 0 && pid && state.home?.user) {
-      let user: IUser = state.user.list?.find((i: IUser) => i.id == pid)!;
-
-      setValue("first_name", user?.first_name || "");
-      setValue("last_name", user?.last_name || "");
-      setValue("email", user?.email || "");
-      setValue("street", user?.street || "");
-      setValue("mobile", user?.mobile || "");
-      setValue("zip_code", user?.zip_code || "");
-      setValue("url", user?.url || "");
-      setValue("bio", user?.bio || "");
-      setActive(user?.condition?.value === 1 ?? false);
-      setImage(user?.avatar || "");
-      setRole(user?.role?.id || "");
-      setCity(user?.city?.id || "");
-      initialState.current++;
-    }
-  }, [dispatch, pid, setValue, state.home?.user, state.user]);
 
   return (
     <Layout>
@@ -157,115 +68,79 @@ function CreateUser(props: IProps) {
             {pid ? "Edit User" : "Create a new User"}
           </Typography>
 
-          <Breadcrumbs aria-label="breadcrumb">
-            <Link href="/page/">
-              <a style={{ textDecoration: "none" }}>Dashboard</a>
-            </Link>
-            {state.user?.user?.role?.value == 1 && (
-              <Link href="/page/user">
-                <a style={{ textDecoration: "none" }}>Users</a>
-              </Link>
-            )}
-          </Breadcrumbs>
-
-          <Box
-            component="form"
-            sx={{ mt: 5 }}
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            {state.user?.error && (
-              <Alert severity="error" sx={{ my: 1 }}>
-                {state.user?.error}
-              </Alert>
-            )}
-
-            {state.user?.success && (
-              <Alert severity="success" sx={{ my: 1 }}>
-                Operation Successful
-              </Alert>
-            )}
-
-            {!pid && <SectionEmail register={register} />}
-
-            {pid && <SectionBasic register={register} />}
-
-            {pid && <SectionAvatar image={image} setImage={setImage} />}
-
-            {pid && (
-              <SectionCity city={city} setCity={setCity} register={register} />
-            )}
-
-            {state.home.user?.role?.value == 1 && (
-              <SectionRole role={role} setRole={setRole} />
-            )}
-
-            {state.home.user?.role?.value == 1 && (
-              <SectionCondition active={active} setActive={setActive} />
-            )}
-
-            {!pid && <SectionPassword register={register} />}
-
-            <Grid container sx={{ mt: 4 }}>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                sx={{ justifyContent: "end", display: "flex" }}
-              >
-                <Button variant="outlined" color="info" sx={{ mx: 2 }}>
-                  Cancel
-                </Button>
-
-                <Button
-                  variant="contained"
-                  color="info"
-                  disableElevation
-                  type="submit"
-                >
-                  Create{" "}
-                  {state.user?.isLoading && (
-                    <CircularProgress
-                      color="secondary"
-                      size={20}
-                      sx={{ ml: 2 }}
-                    />
-                  )}
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-
-          {pid && state.home?.user?.role?.value == 1 && (
-            <Box
-              component="form"
-              sx={{ mt: 5 }}
-              onSubmit={handleSubmit(onSubmitPassword)}
-            >
-              <SectionPassword register={register} />
-
-              <Box sx={{ mt: 3, display: "flex", justifyContent: "end" }}>
-                <Button
-                  variant="contained"
-                  color="info"
-                  disableElevation
-                  type="submit"
-                >
-                  Create{" "}
-                  {state.user?.isLoading && (
-                    <CircularProgress
-                      color="secondary"
-                      size={20}
-                      sx={{ ml: 2 }}
-                    />
-                  )}
-                </Button>
-              </Box>
-            </Box>
+          {(state.user?.error || state.user.passwordActivity?.error) && (
+            <Alert severity="error" sx={{ my: 1 }}>
+              {state.user?.error}
+            </Alert>
           )}
+
+          {(state.user?.success || state.user.passwordActivity?.success) && (
+            <Alert severity="success" sx={{ my: 1 }}>
+              Operation Successful
+            </Alert>
+          )}
+
+          <Box sx={{ width: "100%", mt: 5 }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                component="div"
+              >
+                {pid && state.home?.user?.id == pid && (
+                  <Tab label="General Info" {...a11yProps(0)} component="div" />
+                )}
+                {pid && state.home?.user?.id == pid && (
+                  <Tab label="Location" {...a11yProps(1)} component="div" />
+                )}
+                {pid && state.home?.user?.id == pid && (
+                  <Tab
+                    label="Password config"
+                    {...a11yProps(2)}
+                    component="div"
+                  />
+                )}
+
+                {pid && state.home?.user?.role?.value == 1 && (
+                  <Tab
+                    label="Admin"
+                    {...a11yProps(state.home?.user?.id == pid ? 3 : 0)}
+                    component="div"
+                  />
+                )}
+              </Tabs>
+            </Box>
+
+            {pid && state.home?.user?.id == pid && (
+              <TabPanel value={value} index={0}>
+                <FormGeneral pid={pid} />
+              </TabPanel>
+            )}
+
+            {pid && state.home?.user?.id == pid && (
+              <TabPanel value={value} index={1}>
+                <FormLocation pid={pid} />
+              </TabPanel>
+            )}
+
+            {pid && state.home?.user?.id == pid && (
+              <TabPanel value={value} index={2}>
+                <FormPassword />
+              </TabPanel>
+            )}
+
+            {pid && state.home?.user?.role?.value == 1 && (
+              <TabPanel
+                value={value}
+                index={state.home?.user?.id == pid ? 3 : 0}
+              >
+                <FormAdmin pid={pid} />
+              </TabPanel>
+            )}
+          </Box>
         </Grid>
       </Grid>
     </Layout>
   );
 }
-
-export default CreateUser;

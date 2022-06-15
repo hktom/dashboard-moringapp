@@ -31,10 +31,11 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <Paper
+        elevation={0}
         sx={{
           width: "100%",
           minHeight: "200px",
-          backgroundColor: "info.light",
+          backgroundColor: "warning.light",
           mt: 5,
           py: 3,
           px: 10,

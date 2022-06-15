@@ -9,9 +9,10 @@ export function* updateUserSaga(action: any): SagaIterator {
     if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
       yield put(userAction.actionUserFailure(res.errors));
     } else {
-      yield put(userAction.updateUserSuccess(res.data.user));
+      yield put(userAction.updateUserSuccess(res.data.updateUser));
     }
   } catch (error: any) {
+    console.error(error);
     yield put(userAction.actionUserFailure(error?.toString()));
   }
 }

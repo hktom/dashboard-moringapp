@@ -8,14 +8,8 @@ import {
   FormControl,
   FormControlLabel,
   Grid,
-  // InputAdornment,
-  // InputLabel,
   Link,
-  // MenuItem,
-  // OutlinedInput,
   Paper,
-  // Select,
-  // SelectChangeEvent,
   Switch,
   TextField,
   Typography,
@@ -26,7 +20,6 @@ import { useForm } from "react-hook-form";
 import {
   addService,
   addServiceFailure,
-  // getService,
   getServiceListSuccess,
   getServiceSuccess,
   IService,
@@ -34,10 +27,7 @@ import {
 } from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-// import { IRootState } from "../../../../config/reducer";
-// import { Istate.service } from "../reducer";
-// import { uploadImageFailure } from "../../../store/image/actions";
-// import { IConditionState } from "../../condition/reducer";
+
 import { ICondition } from "../../condition/action";
 import { useRouter } from "next/router";
 import {
@@ -57,10 +47,6 @@ function CreateService(props: IProps) {
   const router = useRouter();
 
   const state = useAppSelector((state: AppState) => state);
-
-  // const conditionState = useSelector(
-  //   (state: IRootState): IConditionState => state.condition
-  // );
 
   const [active, setActive] = React.useState<boolean>(false);
   const [image, setImage] = React.useState<string | undefined>(undefined);
@@ -110,31 +96,12 @@ function CreateService(props: IProps) {
     }
   };
 
-  // React.useEffect(() => {
-  //   if (initialState.current == 1 && state.service.success) {
-  //     dispatch(
-  //       getServiceListSuccess(
-  //         state.service.list
-  //           ?.filter((i: IService) => i.id != pid)
-  //           .concat(state.service.service!)!
-  //       )
-  //     );
-  //     initialState.current++;
-  //   }
-  // }, [
-  //   dispatch,
-  //   pid,
-  //   state.service.list,
-  //   state.service.service,
-  //   state.service.success,
-  // ]);
-
   React.useEffect(() => {
     if (initialState.current == 0 && pid) {
       let service: IService = state.service.list?.find(
         (i: IService) => i.id === pid
       )!;
-      // dispatch(getServiceSuccess(service!));
+
       setValue("name", service?.name);
       setValue("description", service?.description);
       setValue("name_fr", service?.name_fr);
