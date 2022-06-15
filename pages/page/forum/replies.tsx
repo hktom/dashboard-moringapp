@@ -9,10 +9,15 @@ import {
 } from "../../../config/hooks";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { forumAction } from "./reducer";
+import { useEffect } from "react";
 
 function Replies() {
   const state = useAppSelector((state: AppState) => state);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log(state.forum.forum);
+  });
   return (
     <Paper
       color="secondary"

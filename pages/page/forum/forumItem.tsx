@@ -69,11 +69,29 @@ function ForumItem(props: IProps) {
                   {props.question?.content}
                 </Typography>
 
-                <ReactTimeAgo
-                  date={Date.parse(props.question?.created_at)}
-                  locale="en-US"
-                  style={{ fontSize: "0.7rem", marginTop: "6px" }}
-                />
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "end",
+                  }}
+                >
+                  <ReactTimeAgo
+                    date={Date.parse(props.question?.created_at)}
+                    locale="en-US"
+                    style={{ fontSize: "0.7rem", marginTop: "6px" }}
+                  />
+
+                  {props.question?.replies && (
+                    <Typography
+                      sx={{ fontSize: "0.7rem", marginTop: "6px" }}
+                      component="span"
+                      color="text.primary"
+                    >
+                      {props.question?.replies.length} replies
+                    </Typography>
+                  )}
+                </span>
               </span>
             }
           />

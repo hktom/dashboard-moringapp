@@ -240,6 +240,7 @@ export const REQ_QUESTION = `questions{
         id
         image
         content
+        created_at
         user{
             id
             first_name

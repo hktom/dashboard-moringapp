@@ -46,7 +46,7 @@ export const forumReducer = createSlice({
     addReplySuccess: (state, action: any) => {
       state.forum = {
         ...state.forum,
-        replies: [...state.forum.reply].concat(action.payload),
+        replies: [...state.forum.replies].concat(action.payload),
       };
     },
 
