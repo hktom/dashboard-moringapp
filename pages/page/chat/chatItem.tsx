@@ -7,9 +7,10 @@ import {
   Typography,
   Divider,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { HOST_URL } from "../../../config/apollo";
 import ReactTimeAgo from "react-time-ago";
+import { AppState, useAppSelector } from "../../../config/hooks";
 
 interface IProps {
   user: any;
@@ -39,9 +40,20 @@ function ChatItem(props: IProps) {
             />
           </ListItemAvatar>
           <ListItemText
-            primary={props.user?.first_name + " " + props.user?.last_name}
+            primary={
+              <span style={{ fontWeight: "700" }}>
+                {props.user?.first_name + " " + props.user?.last_name}
+              </span>
+            }
             secondary={
-              <React.Fragment>
+              <span
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "end",
+                  marginTop: "5px",
+                }}
+              >
                 <Typography
                   sx={{ display: "inline" }}
                   component="span"
@@ -49,15 +61,16 @@ function ChatItem(props: IProps) {
                   color="text.primary"
                 >
                   {props.chat.length > 0 &&
-                    props.chat[0]?.content?.substr(0, 20)}
+                    [...props.chat].reverse()[0]?.content?.substring(0, 20)}
+                  ...
                 </Typography>
-                {/* <ReactTimeAgo
-                  date={
-                    props.chat.length > 0 && props.chat[0]?.content?.created_at
-                  }
+
+                <ReactTimeAgo
+                  date={Date.parse(props.chat[0]?.created_at)}
                   locale="en-US"
-                /> */}
-              </React.Fragment>
+                  style={{ fontSize: "0.7rem" }}
+                />
+              </span>
             }
           />
         </ListItem>

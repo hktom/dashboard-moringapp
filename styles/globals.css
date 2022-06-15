@@ -13,8 +13,8 @@
   /* margin: 50px auto; */
   margin: 50px 0px 50px 0px;
   border-radius: 15px;
-  background: #00bfb6;
-  color: #fff;
+  /* background: #00bfb6; */
+  /* color: #fff; */
   padding: 20px;
   text-align: center;
   font-weight: 900;
@@ -24,14 +24,24 @@
 
 /* speech bubble 13 */
 
+.chat-bubble.chat-bubble-from {
+  background-color: #e1ffc2;
+  color: #000;
+}
+
+.chat-bubble.chat-bubble-to {
+  background-color: #f2f2f2;
+  color: #000;
+}
+
 .chat-bubble-from:before {
   content: "";
   width: 0px;
   height: 0px;
   position: absolute;
-  border-left: 15px solid #00bfb6;
+  border-left: 15px solid #e1ffc2;
   border-right: 15px solid transparent;
-  border-top: 15px solid #00bfb6;
+  border-top: 15px solid #e1ffc2;
   border-bottom: 15px solid transparent;
   right: -16px;
   top: 0px;
@@ -45,8 +55,8 @@
   height: 0px;
   position: absolute;
   border-left: 15px solid transparent;
-  border-right: 15px solid #00bfb6;
-  border-top: 15px solid #00bfb6;
+  border-right: 15px solid #f2f2f2;
+  border-top: 15px solid #f2f2f2;
   border-bottom: 15px solid transparent;
   left: -16px;
   top: 0px;

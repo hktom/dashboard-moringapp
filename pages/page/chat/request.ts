@@ -3,33 +3,8 @@ import {
   mutateMethods,
   subscriptionMethods,
 } from "../../../config/apollo";
-// import { ICondition } from "./action";
+
 import { v4 as uuidv4 } from "uuid";
-
-export const streamChatRequest = (data: any) => {
-  let req = `subscription{
-        newMessagesInRoom(room_id: "${data.id}"){
-            id
-            content
-            image
-            user{
-                id
-                first_name
-                last_name
-                avatar
-                email
-            }
-            room{
-                id
-            }
-            created_at
-        }
-    }`;
-
-    console.log(req);
-
-  return subscriptionMethods(req);
-};
 
 export const addRoomRequest = (data: any) => {
   let req = `mutation{
@@ -73,7 +48,7 @@ export const addRoomRequest = (data: any) => {
 
 export const addChatRequest = (data: any) => {
   let req = `mutation{
-          createChat(input:{
+    createChat:createChat(input:{
               id: "${uuidv4()}",
               content:"${data.content}",
               image:"${data.image}",
@@ -83,6 +58,7 @@ export const addChatRequest = (data: any) => {
               id
               content
               image
+              created_at
               user{
                   id
                   first_name
@@ -94,7 +70,7 @@ export const addChatRequest = (data: any) => {
               }
           }
       }`;
-// console.log(req);
+
   return mutateMethods(req);
 };
 

@@ -16,13 +16,8 @@ function Chat() {
   const dispatch = useAppDispatch();
 
   const goToChat = (chat: any) => {
-    console.log(chat);
     dispatch(chatAction.setRoomChats(chat));
   };
-
-  React.useEffect(() => {
-    console.log(state.chat?.rooms);
-  }, [state.chat?.rooms]);
 
   return (
     <Layout>
@@ -43,8 +38,12 @@ function Chat() {
 
             {state.chat?.rooms?.map((item: any) => (
               <ChatItem
-                key={item?.id || ""}
-                user={item?.user_to || ""}
+                key={item?.id}
+                user={
+                  item?.user_to?.id == state.home?.user?.id
+                    ? item?.user_from
+                    : item?.user_to
+                }
                 chat={item?.chats || []}
                 onClick={() => goToChat(item)}
               />

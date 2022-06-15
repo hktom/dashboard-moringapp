@@ -16,14 +16,22 @@ function ChatBubble(props: IProps) {
           : "chat-bubble-to"
       }`}
     >
-      <Typography component="p" variant="body1">
+      <Typography
+        component="p"
+        variant="body1"
+        sx={{ textAlign: state?.id == props.chat?.user?.id ? "left" : "right" }}
+      >
         {props.chat?.content}
       </Typography>
-      <Typography component="p" variant="subtitle1">
-        {/* <ReactTimeAgo
-          date={props.chat.length > 0 && props.chat[0]?.content?.created_at}
-          locale="en-US"
-        /> */}
+      <Typography
+        component="p"
+        variant="subtitle1"
+        sx={{
+          fontSize: "0.7rem",
+          textAlign: state?.id != props.chat?.user?.id ? "left" : "right",
+        }}
+      >
+        <ReactTimeAgo date={Date.parse(props.chat.created_at)} locale="en-US" />
       </Typography>
     </Box>
   );

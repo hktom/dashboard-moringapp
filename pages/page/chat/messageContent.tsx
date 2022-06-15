@@ -1,19 +1,22 @@
-// import { ChatBubble } from "@mui/icons-material";
 import { Paper, Typography, Box } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useEffect, useRef } from "react";
-// import { useDispatch } from "react-redux";
-import { AppState, useAppSelector } from "../../../config/hooks";
+
+import {
+  AppState,
+  useAppDispatch,
+  useAppSelector,
+} from "../../../config/hooks";
 import ChatBubble from "./chatBubble";
 import ChatTextBox from "./chatTextBox";
-// import { chatActionSaga } from "./reducer";
+
 import { useSubscription, gql } from "@apollo/client";
+import { chatAction } from "./reducer";
 
 function MessagesContent() {
   const state = useAppSelector((state: AppState) => state);
   const ref = useRef<any>(null);
-  // const initialState = useRef<number>(0);
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { loading, error, data } = useSubscription(
     gql`
@@ -46,10 +49,18 @@ function MessagesContent() {
   });
 
   useEffect(() => {
-    console.log("data", data?.newMessagesInRoom);
-    console.log("loading", loading);
-    console.error("error", error);
-  }, [data, error, loading]);
+    if (
+      data?.newMessagesInRoom &&
+      state.chat?.room?.chats.findIndex(
+        (chat: any) => chat.id == data.newMessagesInRoom.id
+      ) === -1
+    ) {
+      dispatch(chatAction.updateChatSuccess(data?.newMessagesInRoom));
+      data && console.log("data", data?.newMessagesInRoom);
+    }
+
+    error && console.error("error", error);
+  }, [data, dispatch, error, loading, state.chat?.room?.chats]);
   return (
     <Paper
       color="secondary"
@@ -61,7 +72,6 @@ function MessagesContent() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "flex-end",
-        // alignItems:"flex-end"
       }}
     >
       <Typography
@@ -78,27 +88,25 @@ function MessagesContent() {
           height: "65vh",
           maxHeight: "65vh",
           overflowY: "scroll",
-          backgroundColor: grey[100],
+          backgroundColor: '#EBDBCD',
         }}
       >
         {state.chat?.room?.chats &&
-          state.chat?.room?.chats
-            .concat(data?.newMessagesInRoom || [])
-            .map((item: any) => (
-              <Box
-                key={item.id}
-                sx={{
-                  display: "flex",
-                  px: 4,
-                  justifyContent:
-                    state.home.user?.id == item?.user?.id
-                      ? "flex-end"
-                      : "flex-start",
-                }}
-              >
-                <ChatBubble chat={item} />
-              </Box>
-            ))}
+          state.chat?.room?.chats.map((item: any) => (
+            <Box
+              key={item?.id}
+              sx={{
+                display: "flex",
+                px: 4,
+                justifyContent:
+                  state.home.user?.id == item?.user?.id
+                    ? "flex-end"
+                    : "flex-start",
+              }}
+            >
+              <ChatBubble chat={item} />
+            </Box>
+          ))}
 
         {/* {loading && <Box>Loading...</Box>} */}
         {/* {error && <Box>{error}</Box>} */}

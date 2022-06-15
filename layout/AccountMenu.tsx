@@ -16,6 +16,7 @@ import { HOST_URL } from "../config/apollo";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../pages/auth/actions";
+import { authActionSaga } from "../pages/auth/reducer";
 
 interface IProps {
   user?: any;
@@ -36,7 +37,7 @@ export default function AccountMenu(props: IProps) {
   };
 
   const logout = () => {
-    dispatch(logoutUser());
+    dispatch({ type: authActionSaga.LOGOUT });
   };
   return (
     <React.Fragment>
@@ -44,7 +45,6 @@ export default function AccountMenu(props: IProps) {
         <Typography sx={{ minWidth: 100 }}>
           Hi, {user?.first_name} {user?.last_name}
         </Typography>
-        {/* <Typography sx={{ minWidth: 100 }}>Profile</Typography> */}
         <Tooltip title="Account settings">
           <IconButton
             onClick={handleClick}
@@ -102,18 +102,7 @@ export default function AccountMenu(props: IProps) {
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        {/* <MenuItem>
-          <ListItemIcon>
-            <PersonAdd fontSize="small" />
-          </ListItemIcon>
-          Add another account
-        </MenuItem> */}
-        {/* <MenuItem>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem> */}
+
         <MenuItem onClick={() => logout()}>
           <ListItemIcon>
             <Logout fontSize="small" />
