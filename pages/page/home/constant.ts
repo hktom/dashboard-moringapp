@@ -227,7 +227,7 @@ export const REQ_QUESTION = `questions{
     id
     content
     image
-    like{
+    likes{
         id
         user{
             id

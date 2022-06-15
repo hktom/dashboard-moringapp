@@ -35,7 +35,7 @@ import {
 } from "../action";
 import ImageUploader from "../../../../components/imageUploader/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-// import { IRootState } from "../../../../config/reducer";
+
 import { conditionActionSaga, IConditionState } from "../reducer";
 import {
   AppState,
@@ -43,7 +43,6 @@ import {
   useAppSelector,
 } from "../../../../config/hooks";
 import { cityActionSaga } from "../../city/reducer";
-// import { uploadImageFailure } from "../../../store/image/actions";
 
 interface IProps {
   pid?: string;
@@ -53,9 +52,6 @@ function CreateCondition(props: IProps) {
   const { pid } = props;
 
   const state = useAppSelector((state: AppState) => state.condition);
-
-  // const [active, setActive] = React.useState<boolean>(false);
-  // const [image, setImage] = React.useState<string | undefined>(undefined);
 
   const dispatch = useDispatch();
   const appDispatch = useAppDispatch();
@@ -90,7 +86,6 @@ function CreateCondition(props: IProps) {
       let condition: ICondition | undefined = state.list.find(
         (item: ICondition) => item.id == pid
       );
-      // dispatch(getConditionSuccess(condition!));
 
       setValue("name", condition?.name!);
       setValue("value", condition?.value!);
@@ -98,20 +93,6 @@ function CreateCondition(props: IProps) {
       initialState.current++;
     }
   }, [dispatch, pid, setValue, state.list]);
-
-  // React.useEffect(() => {
-  //   if (state.success && initialState.current == 1) {
-  //     console.log("success");
-  //     dispatch(
-  //       getConditionListSuccess(
-  //         state.list
-  //           ?.filter((item: ICondition) => item.id != state.condition?.id)
-  //           ?.concat(state.condition!)!
-  //       )
-  //     );
-  //     initialState.current++;
-  //   }
-  // }, [dispatch, state.condition, state.list, state.success]);
 
   return (
     <Layout>

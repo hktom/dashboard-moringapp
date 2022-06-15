@@ -10,10 +10,11 @@ export const addContentRequest = (data: any) => {
             image:"${data.image}",
             content:"${data.content}",
             label:"${data.label}",
-            value:${data.value},
+            value:"${data.value}",
             link:"${data.link}",
         }){
             id
+            title
             value
             image
             content
@@ -34,10 +35,11 @@ export const updateContentRequest = (data: any) => {
               image:"${data.image}",
               content:"${data.content}",
               label:"${data.label}",
-              value:${data.value},
+              value:"${data.value}",
               link:"${data.link}",
           }){
               id
+              title
               value
               image
               content

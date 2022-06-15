@@ -8,11 +8,27 @@ export const addForumRequest = (data: any) => {
             id: "${uuidv4()}",
             image:"${data.image}",
             content:"${data.content}",
-            user:{connect:{id:"${data.userId}"}}
+            condition: {connect:"${data.condition.id}"}
+            user:{connect:"${data.user.id}"}
+            ${data.category ? `category:{connect:"${data.category.id}"}` : ""}
+            ${data.service ? `service:{connect:"${data.service.id}"}` : ""}
         }){
             id
             image
             content
+            condition{
+                id
+                name
+                value
+            }
+            category{
+                id
+                name
+            }
+            service{
+                id
+                name
+            }
             replies{
                 id
                 content
@@ -23,7 +39,7 @@ export const addForumRequest = (data: any) => {
                     last_name
                 }
             }
-            like{
+            likes{
                 id
                 user{
                     id
@@ -44,18 +60,38 @@ export const addForumRequest = (data: any) => {
   return mutateMethods(req);
 };
 
-export const addReplyRequest = (data: any) => {
+export const updateForumRequest = (data: any) => {
   let req = `mutation{
-          createReply(input:{
-              id: "${uuidv4()}",
-              image:"${data.image}",
-              content:"${data.content}",
-              user:{connect:{id:"${data.userId}"}}
-              question:{connect:{id:"${data.questionId}"}}
+          updateQuestion(input:{
+              id: "${data.id}",
+              condition: {connect:"${data.condition.id}"}
           }){
               id
               image
               content
+              condition{
+                  id
+                  name
+                  value
+              }
+              category{
+                  id
+                  name
+              }
+              service{
+                  id
+                  name
+              }
+              replies{
+                  id
+                  content
+                  image
+                  user{
+                      id
+                      first_name
+                      last_name
+                  }
+              }
               like{
                   id
                   user{
@@ -77,6 +113,39 @@ export const addReplyRequest = (data: any) => {
   return mutateMethods(req);
 };
 
+export const addReplyRequest = (data: any) => {
+  let req = `mutation{
+          createReply(input:{
+              id: "${uuidv4()}",
+              image:"${data.image}",
+              content:"${data.content}",
+              user:{connect:"${data.user?.id}"}
+              question:{connect:"${data.question?.id}"}
+          }){
+              id
+              image
+              content
+              likes{
+                  id
+                  user{
+                      id
+                      first_name
+                      last_name
+                  }
+              }
+              user{
+                  id
+                  first_name
+                  last_name
+                  avatar
+              }
+              created_at
+          }
+      }`;
+//   console.log(req);
+  return mutateMethods(req);
+};
+
 export const deleteForumRequest = (data: any) => {
   let req = `mutation{
           deleteQuestion(id:"${data.id}"){
@@ -87,12 +156,22 @@ export const deleteForumRequest = (data: any) => {
   return mutateMethods(req);
 };
 
-export const deleteReplyRequest = (data: any) => {
+export const deleteQuestionRequest = (data: any) => {
   let req = `mutation{
-            deleteReply(id:"${data.id}"){
+            deleteQuestion(id:"${data.id}"){
                 id
             }
         }`;
+
+  return mutateMethods(req);
+};
+
+export const deleteReplyRequest = (data: any) => {
+  let req = `mutation{
+              deleteReply(id:"${data.id}"){
+                  id
+              }
+          }`;
 
   return mutateMethods(req);
 };

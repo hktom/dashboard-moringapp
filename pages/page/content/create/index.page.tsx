@@ -61,12 +61,12 @@ function CreateContent(props: IProps) {
     if (pid) {
       dispatch({
         type: contentActionSaga.UPDATE_ITEM,
-        payload: { ...data, content: editorState, image: image, id: pid },
+        payload: { ...data, image: image, id: pid },
       });
     } else {
       dispatch({
         type: contentActionSaga.ADD_ITEM,
-        payload: { ...data, content: editorState, image: image },
+        payload: { ...data, image: image },
       });
     }
     initialState.current = 1;
@@ -85,7 +85,7 @@ function CreateContent(props: IProps) {
       setValue("label", content?.label!);
       setValue("link", content?.link!);
       setImage(content?.image!);
-      setEditorState(content?.content!);
+      // setEditorState(content?.content!);
 
       initialState.current++;
     }
@@ -161,12 +161,18 @@ function CreateContent(props: IProps) {
                       register={register}
                     />
 
-                    <Box>
-                      <ReactQuill
+                    <CustomTextField
+                      id="Content"
+                      data="content"
+                      register={register}
+                    />
+
+                    {/* <Box> */}
+                    {/* <ReactQuill
                         value={editorState}
                         onChange={setEditorState}
-                      />
-                    </Box>
+                      /> */}
+                    {/* </Box> */}
                   </Grid>
                 </Grid>
               </Paper>
