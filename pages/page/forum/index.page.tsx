@@ -21,13 +21,34 @@ import Replies from "./replies";
 function Forums() {
   const state = useAppSelector((state: AppState) => state);
   const initialState = useRef<number>(0);
-  // const [forumPage, setForumPage] = useState<any>(undefined);
-
+  const [category, setCategory] = useState<string>("");
+  const [service, setService] = useState<string>("");
   const [forum, setForum] = useState<any[]>([]);
+
+  const filterCategory = (id: string) => {
+    if (id == category) {
+      setCategory("");
+      setForum(state.forum?.list!);
+      return;
+    }
+    setCategory(id);
+    setForum(
+      state.forum?.list!.filter((item: any) => item.category?.id === id)
+    );
+  };
+
+  const filterService = (id: string) => {
+    if (id == service) {
+      setCategory("");
+      setForum(state.forum?.list!);
+      return;
+    }
+    setCategory(id);
+    setForum(state.forum?.list!.filter((item: any) => item.service?.id === id));
+  };
 
   useEffect(() => {
     if (state.home?.user && initialState.current == 0) {
-      // setForumPage(state.content?.list?.find((i: any) => i.value == "forum"));
       setForum(state.forum?.list!);
       initialState.current++;
     }
@@ -78,25 +99,6 @@ function Forums() {
               )}
             </Grid>
             <Grid item xs={12} md={4}>
-              {/* {forumPage && (
-                <Card elevation={0}>
-                  <CardMedia
-                    component="img"
-                    src={HOST_URL + "storage/" + forumPage.image}
-                    alt="Forum"
-                    sx={{ width: "100%", height: "250px" }}
-                  />
-
-                  <Typography
-                    component="h3"
-                    variant="h5"
-                    sx={{ fontWeight: "bold", px: 2, mb: 2 }}
-                  >
-                    {forumPage.title}
-                  </Typography>
-                </Card>
-              )} */}
-
               <Paper elevation={0} color="secondary" sx={{ px: 2, py: 2 }}>
                 <Typography
                   component="h3"
@@ -119,7 +121,13 @@ function Forums() {
                   }}
                 >
                   {state.category.list?.map((i: any) => (
-                    <Chip key={i.id} label={i.name} sx={{ my: 1, mx: 1 }} />
+                    <Chip
+                      key={i.id}
+                      label={i.name}
+                      sx={{ my: 1, mx: 1 }}
+                      color={category == i.id ? "primary" : "default"}
+                      onClick={() => filterCategory(i.id)}
+                    />
                   ))}
                 </Box>
 
@@ -135,7 +143,13 @@ function Forums() {
                   }}
                 >
                   {state.service.list?.map((i: any) => (
-                    <Chip key={i.id} label={i.name} sx={{ my: 1, mx: 1 }} />
+                    <Chip
+                      key={i.id}
+                      label={i.name}
+                      sx={{ my: 1, mx: 1 }}
+                      color={category == i.id ? "primary" : "default"}
+                      onClick={() => filterService(i.id)}
+                    />
                   ))}
                 </Box>
               </Paper>
