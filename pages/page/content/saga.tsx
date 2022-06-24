@@ -1,7 +1,11 @@
 import { put, takeEvery, call } from "redux-saga/effects";
 import { SagaIterator } from "redux-saga";
 import { contentAction, contentActionSaga } from "./reducer";
-import { addContentRequest, updateContentRequest } from "./request";
+import {
+  addContentRequest,
+  deleteContentRequest,
+  updateContentRequest,
+} from "./request";
 
 export function* addContentSaga(action: any): SagaIterator {
   try {
@@ -31,7 +35,18 @@ export function* updateContentSaga(action: any): SagaIterator {
   }
 }
 
+export function* deleteContentSaga(action: any): SagaIterator {
+  try {
+    yield call(deleteContentRequest, action.payload);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    window.location.href = "/page/content";
+  }
+}
+
 export function* contentSagas(): Generator {
   yield takeEvery(contentActionSaga.ADD_ITEM!, addContentSaga);
   yield takeEvery(contentActionSaga.UPDATE_ITEM!, updateContentSaga);
+  yield takeEvery(contentActionSaga.DELETE_ITEM!, deleteContentSaga);
 }

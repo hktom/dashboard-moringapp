@@ -199,11 +199,22 @@ function CreateContent(props: IProps) {
               </Paper>
 
               <Grid container sx={{ mt: 4 }}>
-                <Grid item xs={12} md={8}>
-                  <Button variant="text" color="error">
-                    Delete
-                  </Button>
-                </Grid>
+                {pid && (
+                  <Grid item xs={12} md={8}>
+                    <Button
+                      variant="text"
+                      color="error"
+                      onClick={() => {
+                        dispatch({
+                          type: contentActionSaga.DELETE_ITEM,
+                          payload: { id: pid },
+                        });
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </Grid>
+                )}
 
                 <Grid
                   item
