@@ -23,7 +23,7 @@ const theme = createTheme({
       main: "#C72C30",
     },
     warning: {
-      main: "#F38219",
+      main: "#f7941f",
     },
     success: {
       main: "#17B06D",

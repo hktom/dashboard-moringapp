@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         sx={{
           width: "100%",
           minHeight: "200px",
-          backgroundColor: "warning.light",
+          backgroundColor: "warning.main",
           mt: 5,
           py: 3,
           px: 10,

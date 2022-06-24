@@ -24,8 +24,6 @@ function IndexPage() {
       {params == undefined && <Home />}
     </>
   );
-
-  // return <>{params.get("id") ? <Login /> : <Home />}</>;
 }
 
 export default IndexPage;
