@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { getCookie, setCookies } from "cookies-next";
+
 import Cookies from "js-cookie";
 import {
   Alert,
@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { authActionSaga, ILoginState } from "./reducer";
 import { useForm } from "react-hook-form";
 import { ILoginData, loginUser, ssoLogin } from "./actions";
-// import { IRootState } from "../../config/reducer";
+
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { AppState, useAppSelector } from "../../config/hooks";
@@ -54,27 +54,17 @@ function Login() {
 
   const onSubmit = (data: any) => {
     dispatch({ type: authActionSaga.LOGIN!, payload: data });
-    console.log(data);
   };
 
   useEffect(() => {
     if (router?.query?.access_token && router?.query?.redirect) {
-      setOpenBackdrop(true);
       Cookies.set("token", router?.query?.access_token!, { expires: 7 });
       window.location.href = "/page/" + router?.query?.redirect;
     }
   }, [router?.query?.access_token, router?.query?.redirect]);
 
   useEffect(() => {
-    if (loginState.login?.token) {
-      Cookies.set("token", loginState.login.token!, { expires: 7 });
-      window.location.href = "/page/home";
-    }
-  }, [loginState.login.token]);
-
-  useEffect(() => {
-    let token = Cookies.get("token");
-    if (token) {
+    if (Cookies.get("token")) {
       window.location.href = "/page/home";
     }
   }, []);
@@ -150,9 +140,6 @@ function Login() {
                   autoComplete="email"
                   disabled={loginState.login.loading}
                   autoFocus
-                  // defaultValue={
-                  //   new URLSearchParams(window.location.search)?.get("id") ?? ""
-                  // }
                   {...register("email", { required: true })}
                 />
                 <TextField
