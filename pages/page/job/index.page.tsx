@@ -1,32 +1,14 @@
-import {
-  // Box,
-  // Button,
-  // Card,
-  // CardActions,
-  // CardContent,
-  // Chip,
-  // Divider,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
-import {
-  // GridColDef,
-  // GridValueGetterParams,
-  // GridRenderCellParams,
-  DataGrid,
-} from "@mui/x-data-grid";
+import { Grid, Paper, Typography } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import * as React from "react";
-// import { useSelector } from "react-redux";
+
 import { columnsJob } from "../../../components/columnsJob";
 import { useAppSelector, AppState } from "../../../config/hooks";
-// import { IRootState } from "../../../config/reducer";
+
 import Layout from "../../../layout/Layout";
-// import { IHomeState } from "../home/reducer";
 
 function Job() {
   const homeState = useAppSelector((state: AppState) => state.home);
-  // const [jobFilters, setJobFilters] = React.useState<{}>({});
 
   return (
     <Layout>

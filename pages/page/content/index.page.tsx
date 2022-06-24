@@ -1,21 +1,21 @@
 import {
   Box,
   Button,
-  // CardMedia,
-  // Chip,
-  // FormControl,
+  
+  
+  
   Grid,
-  // InputAdornment,
-  // InputLabel,
-  // OutlinedInput,
+  
+  
+  
   Paper,
-  // TextField,
+  
   Typography,
 } from "@mui/material";
 
 import {
-  // GridValueGetterParams,
-  // GridRenderCellParams,
+  
+  
   DataGrid,
   GridRowParams,
   MuiEvent,
@@ -24,12 +24,12 @@ import {
 import * as React from "react";
 import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
-// import SearchIcon from "@mui/icons-material/Search";
-// import { useDispatch, useSelector } from "react-redux";
+
+
 import { useRouter } from "next/router";
-// import { IRootState } from "../../../config/reducer";
-// import { IConditionState } from "./reducer";
-// import { getConditionList } from "./action";
+
+
+
 import { AppState, useAppSelector } from "../../../config/hooks";
 import { columns } from "./columns";
 

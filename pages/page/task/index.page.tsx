@@ -3,11 +3,11 @@ import {
   Button,
   FormControl,
   Grid,
-  // InputAdornment,
+  
   InputLabel,
   OutlinedInput,
   Paper,
-  // TextField,
+  
   Typography,
 } from "@mui/material";
 
@@ -18,10 +18,10 @@ import Layout from "../../../layout/Layout";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDispatch, useSelector } from "react-redux";
-// import { IRootState } from "../../../config/reducer";
-// import { IHomeState } from "../../../store/home/reducer";
+
+
 import { ITaskState } from "./reducer";
-// import { getTaskList, ITask } from "../../../store/task/action";
+
 import { useRouter } from "next/router";
 import { IHomeState } from "../home/reducer";
 import { columns } from "./columns";
@@ -31,7 +31,7 @@ function Task() {
   const router = useRouter();
   const [search, setSearch] = React.useState("");
   const state = useAppSelector((state: AppState) => state);
-  // const homeState = useSelector((state: IRootState): IHomeState => state.home);
+  
 
   return (
     <>

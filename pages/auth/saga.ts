@@ -19,6 +19,8 @@ function* loginUserSaga(action: any): SagaIterator {
       yield put(authAction.loginFailure("credentials not found or invalid"));
     } else {
       yield put(authAction.loginSuccess(res.data?.login?.token));
+      Cookies.set("token", res.data?.login?.token, { expires: 7 });
+      window.location.href = "/page/home";
     }
   } catch (error) {
     yield put(authAction.loginFailure(`${error}`));
@@ -29,10 +31,9 @@ function* logoutUserSaga(): SagaIterator {
   try {
     yield call(logoutUserRequest);
   } catch (error) {
-    console.log(error);
   } finally {
     Cookies.remove("token");
-    window.location.href = "/";
+    window.location.href = "/auth/login";
   }
 }
 
