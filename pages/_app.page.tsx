@@ -14,6 +14,7 @@ import { ApolloProvider } from "@apollo/client";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,15 +32,14 @@ const firebaseConfig = {
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
-
+export const firebaseDB = getFirestore(firebaseApp);
 
 TimeAgo.addDefaultLocale(en);
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-  useEffect(()=>{
+  useEffect(() => {
     const analytics = getAnalytics(firebaseApp);
-  },[]);
+  }, []);
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>

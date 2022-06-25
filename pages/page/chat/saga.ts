@@ -5,27 +5,29 @@ import { addChatRequest, addRoomRequest } from "./request";
 
 export function* addRoomSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addRoomRequest, action.payload);
-    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(chatAction.actionChatFailed(res.errors));
-    } else {
-      yield put(chatAction.addChatSuccess(res.data.createRoom));
-    }
+    yield call(addRoomRequest, action.payload);
+    // if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+    //   yield put(chatAction.actionChatFailed(res.errors));
+    // } else {
+    //   // yield put(chatAction.addChatSuccess(res.data.createRoom));
+    // }
   } catch (error: any) {
     yield put(chatAction.actionChatFailed(error?.toString()));
+    console.error(error);
   }
 }
 
 export function* addChatSaga(action: any): SagaIterator {
   try {
-    const res = yield call(addChatRequest, action.payload);
-    if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
-      yield put(chatAction.actionChatFailed(res.errors));
-    } else {
-      yield put(chatAction.updateChatSuccess(res.data.createChat));
-    }
+    yield call(addChatRequest, action.payload);
+    // if (res.data?.hasOwnProperty("errors") || res.hasOwnProperty("errors")) {
+    //   yield put(chatAction.actionChatFailed(res.errors));
+    // } else {
+    //   // yield put(chatAction.updateChatSuccess(res.data.createChat));
+    // }
   } catch (error: any) {
     yield put(chatAction.actionChatFailed(error?.toString()));
+    console.error(error);
   }
 }
 

@@ -70,23 +70,29 @@ function MessagesContent() {
         }}
       >
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
-        {loading && <span>Collection: Loading...</span>}
+        {/* {loading && <span>Collection: Loading...</span>} */}
         {value &&
-          value.docs.map((doc) => (
-            <Box
-              key={doc.id}
-              sx={{
-                display: "flex",
-                px: 4,
-                justifyContent:
-                  state.home.user?.id == doc.data().user
-                    ? "flex-end"
-                    : "flex-start",
-              }}
-            >
-              <ChatBubble chat={doc.data()} />
-            </Box>
-          ))}
+          value?.docs
+            .sort(
+              (a: any, b: any) =>
+                a.data().created_at.seconds * 1000 -
+                b.data().created_at.seconds * 1000
+            )
+            .map((doc: any) => (
+              <Box
+                key={doc.id}
+                sx={{
+                  display: "flex",
+                  px: 4,
+                  justifyContent:
+                    state.home.user?.id == doc.data().user
+                      ? "flex-end"
+                      : "flex-start",
+                }}
+              >
+                <ChatBubble chat={doc.data()} />
+              </Box>
+            ))}
 
         <div ref={ref}></div>
       </Box>

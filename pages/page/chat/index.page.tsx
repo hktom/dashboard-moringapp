@@ -66,13 +66,19 @@ function Chat() {
             {error && <strong>Error: {JSON.stringify(error)}</strong>}
             {loading && <span>Collection: Loading...</span>}
             {value &&
-              value.docs.map((doc) => (
-                <ChatItem
-                  key={doc.id}
-                  data={doc.data()}
-                  onClick={() => goToChat(doc.id)}
-                />
-              ))}
+              value?.docs
+                .sort(
+                  (a: any, b: any) =>
+                    a.data().updated_at.seconds * 1000 -
+                    b.data().updated_at.seconds * 1000
+                )
+                .map((doc) => (
+                  <ChatItem
+                    key={doc.id}
+                    data={doc.data()}
+                    onClick={() => goToChat(doc.id)}
+                  />
+                ))}
           </Paper>
         </Grid>
         <Grid item xs={12} md={8}>
