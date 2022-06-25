@@ -2,6 +2,9 @@ import * as React from "react";
 import { Button, Grid, Paper, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { getFirestore, collection, query, where } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { getDatabase, ref, set } from "firebase/database";
 
 import Layout from "../../../layout/Layout";
 
@@ -17,11 +20,22 @@ import {
 } from "../../../config/hooks";
 import ChatItem from "../chat/chatItem";
 import { chatAction } from "../chat/reducer";
+import { firebaseApp } from "../../_app.page";
 
 const Home: NextPage = () => {
   const state = useAppSelector((state: AppState) => state);
   const dispatch = useAppDispatch();
   const router = useRouter();
+
+  const [value, loading, error] = useCollection(
+    query(
+      collection(getFirestore(firebaseApp), "rooms"),
+      where("users", "array-contains", state.home.user?.id || "")
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   const goToChat = (chat: any) => {
     dispatch(chatAction.setRoomChats(chat));
@@ -85,14 +99,16 @@ const Home: NextPage = () => {
               Inbox
             </Typography>
 
-            {state.chat?.rooms?.map((item: any) => (
-              <ChatItem
-                key={item.id}
-                user={item.user_to}
-                chat={item.chats}
-                onClick={() => goToChat(item)}
-              />
-            ))}
+            {error && <strong>Error: {JSON.stringify(error)}</strong>}
+            {loading && <span>Collection: Loading...</span>}
+            {value &&
+              value.docs.map((doc) => (
+                <ChatItem
+                  key={doc.id}
+                  data={doc.data()}
+                  onClick={() => goToChat(doc.id)}
+                />
+              ))}
           </Paper>
         </Grid>
       </Grid>

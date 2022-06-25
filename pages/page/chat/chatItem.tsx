@@ -13,12 +13,15 @@ import ReactTimeAgo from "react-time-ago";
 import { AppState, useAppSelector } from "../../../config/hooks";
 
 interface IProps {
-  user: any;
-  chat: any;
+  data: any;
   onClick: (chats: any) => void;
 }
 
 function ChatItem(props: IProps) {
+  const { data, onClick } = props;
+  const state = useAppSelector((state: AppState) => state);
+  const user = state.home.user?.id == data.from?.id ? data.to : data.from;
+
   return (
     <>
       <List
@@ -33,16 +36,14 @@ function ChatItem(props: IProps) {
         <ListItem alignItems="flex-start">
           <ListItemAvatar>
             <Avatar
-              alt={props.user?.first_name + "-" + props.user?.last_name}
-              src={
-                props.user?.avatar && HOST_URL + "storage/" + props.user?.avatar
-              }
+              alt={user?.first_name + "-" + user?.last_name}
+              src={user?.avatar && HOST_URL + "storage/" + user?.avatar}
             />
           </ListItemAvatar>
           <ListItemText
             primary={
               <span style={{ fontWeight: "700" }}>
-                {props.user?.first_name + " " + props.user?.last_name}
+                {user?.first_name + " " + user?.last_name}
               </span>
             }
             secondary={
@@ -60,13 +61,12 @@ function ChatItem(props: IProps) {
                   variant="body2"
                   color="text.primary"
                 >
-                  {props.chat.length > 0 &&
-                    [...props.chat].reverse()[0]?.content?.substring(0, 20)}
+                  {data.last_message.substring(0, 20)}
                   ...
                 </Typography>
 
                 <ReactTimeAgo
-                  date={Date.parse(props.chat[0]?.created_at)}
+                  date={new Date(data.updated_at.seconds * 1000)}
                   locale="en-US"
                   style={{ fontSize: "0.7rem" }}
                 />
