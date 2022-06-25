@@ -13,32 +13,23 @@ import ChatTextBox from "./chatTextBox";
 import { useSubscription, gql } from "@apollo/client";
 import { chatAction } from "./reducer";
 
+import { getFirestore, collection, query, where } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { firebaseApp } from "../../_app.page";
+
 function MessagesContent() {
   const state = useAppSelector((state: AppState) => state);
   const ref = useRef<any>(null);
   const dispatch = useAppDispatch();
 
-  const { loading, error, data } = useSubscription(
-    gql`
-    subscription{
-      newMessagesInRoom(room_id: "${state?.chat?.room?.id}"){
-          id
-          content
-          image
-          user{
-              id
-              first_name
-              last_name
-              avatar
-              email
-          }
-          room{
-              id
-          }
-          created_at
-      }
-  }
-    `
+  const [value, loading, error] = useCollection(
+    query(
+      collection(getFirestore(firebaseApp), "messages"),
+      where("room", "==", state.chat.room)
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
   );
 
   useEffect(() => {
@@ -48,19 +39,6 @@ function MessagesContent() {
     });
   });
 
-  useEffect(() => {
-    if (
-      data?.newMessagesInRoom &&
-      state.chat?.room?.chats.findIndex(
-        (chat: any) => chat.id == data.newMessagesInRoom.id
-      ) === -1
-    ) {
-      dispatch(chatAction.updateChatSuccess(data?.newMessagesInRoom));
-      data && console.log("data", data?.newMessagesInRoom);
-    }
-
-    error && console.error("error", error);
-  }, [data, dispatch, error, loading, state.chat?.room?.chats]);
   return (
     <Paper
       color="secondary"
@@ -88,29 +66,28 @@ function MessagesContent() {
           height: "65vh",
           maxHeight: "65vh",
           overflowY: "scroll",
-          backgroundColor: '#EBDBCD',
+          backgroundColor: "#EBDBCD",
         }}
       >
-        {state.chat?.room?.chats &&
-          state.chat?.room?.chats.map((item: any) => (
+        {error && <strong>Error: {JSON.stringify(error)}</strong>}
+        {loading && <span>Collection: Loading...</span>}
+        {value &&
+          value.docs.map((doc) => (
             <Box
-              key={item?.id}
+              key={doc.id}
               sx={{
                 display: "flex",
                 px: 4,
                 justifyContent:
-                  state.home.user?.id == item?.user?.id
+                  state.home.user?.id == doc.data().user
                     ? "flex-end"
                     : "flex-start",
               }}
             >
-              <ChatBubble chat={item} />
+              <ChatBubble chat={doc.data()} />
             </Box>
           ))}
 
-        {/* {loading && <Box>Loading...</Box>} */}
-        {/* {error && <Box>{error}</Box>} */}
-        {/* {data && } */}
         <div ref={ref}></div>
       </Box>
 

@@ -11,15 +11,13 @@ function ChatBubble(props: IProps) {
   return (
     <Box
       className={`chat-bubble ${
-        state?.id == props.chat?.user?.id
-          ? "chat-bubble-from"
-          : "chat-bubble-to"
+        state?.id == props.chat?.user ? "chat-bubble-from" : "chat-bubble-to"
       }`}
     >
       <Typography
         component="p"
         variant="body1"
-        sx={{ textAlign: state?.id == props.chat?.user?.id ? "left" : "right" }}
+        sx={{ textAlign: state?.id == props.chat?.user ? "left" : "right" }}
       >
         {props.chat?.content}
       </Typography>
@@ -28,10 +26,13 @@ function ChatBubble(props: IProps) {
         variant="subtitle1"
         sx={{
           fontSize: "0.7rem",
-          textAlign: state?.id != props.chat?.user?.id ? "left" : "right",
+          textAlign: state?.id != props.chat?.user ? "left" : "right",
         }}
       >
-        <ReactTimeAgo date={Date.parse(props.chat.created_at)} locale="en-US" />
+        <ReactTimeAgo
+          date={new Date(props.chat.created_at.seconds * 1000)}
+          locale="en-US"
+        />
       </Typography>
     </Box>
   );

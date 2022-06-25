@@ -11,9 +11,23 @@ import ChatTextBox from "./chatTextBox";
 import MessagesContent from "./messageContent";
 import { chatAction } from "./reducer";
 
+import { getFirestore, collection, query, where } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { firebaseApp } from "../../_app.page";
+
 function Chat() {
   const state = useAppSelector((state: AppState) => state);
   const dispatch = useAppDispatch();
+
+  const [value, loading, error] = useCollection(
+    query(
+      collection(getFirestore(firebaseApp), "rooms"),
+      where("users", "array-contains", state.home.user?.id || "")
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   const goToChat = (chat: any) => {
     dispatch(chatAction.setRoomChats(chat));
@@ -36,7 +50,7 @@ function Chat() {
               Inbox
             </Typography>
 
-            {state.chat?.rooms?.map((item: any) => (
+            {/* {state.chat?.rooms?.map((item: any) => (
               <ChatItem
                 key={item?.id}
                 user={
@@ -47,7 +61,18 @@ function Chat() {
                 chat={item?.chats || []}
                 onClick={() => goToChat(item)}
               />
-            ))}
+            ))} */}
+
+            {error && <strong>Error: {JSON.stringify(error)}</strong>}
+            {loading && <span>Collection: Loading...</span>}
+            {value &&
+              value.docs.map((doc) => (
+                <ChatItem
+                  key={doc.id}
+                  data={doc.data()}
+                  onClick={() => goToChat(doc.id)}
+                />
+              ))}
           </Paper>
         </Grid>
         <Grid item xs={12} md={8}>
