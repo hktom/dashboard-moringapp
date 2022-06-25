@@ -26,7 +26,6 @@ export const getUserProfileRequest = () => {
     countries:${REQ_COUNTRY}
     pages:${REQ_CONTENT}
     questions:${REQ_QUESTION}
-    rooms:rooms{${REQ_ROOM}}
   }`;
   
   // rooms:${REQ_ROOM}

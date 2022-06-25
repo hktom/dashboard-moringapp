@@ -37,32 +37,21 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-const pusherLink = new PusherLink({
-  pusher: new Pusher(PUSHER_API_KEY, {
-    cluster: PUSHER_CLUSTER,
-    authEndpoint: `${HOST_URL}graphql/subscriptions/auth`,
-    auth: {
-      headers: {
-        authorization: "Bearer " + TOKEN,
-      },
-    },
-  }),
-});
-
-// const ErrorLink = onError(({ graphQLErrors, networkError }) => {
-//   if (graphQLErrors)
-//     graphQLErrors.map(({ message, locations, path }) =>
-//       console.log(
-//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-//       )
-//     );
-
-//   if (networkError) console.log(`[Network error]: ${networkError}`);
+// const pusherLink = new PusherLink({
+//   pusher: new Pusher(PUSHER_API_KEY, {
+//     cluster: PUSHER_CLUSTER,
+//     authEndpoint: `${HOST_URL}graphql/subscriptions/auth`,
+//     auth: {
+//       headers: {
+//         authorization: "Bearer " + TOKEN,
+//       },
+//     },
+//   }),
 // });
 
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([authMiddleware, pusherLink, httpLink]) as any,
+  link: from([authMiddleware, httpLink]) as any,
 });
 
 export const subscriptionMethods = async (object: any) => {
@@ -72,8 +61,6 @@ export const subscriptionMethods = async (object: any) => {
     `,
   });
 };
-
-
 
 export const queryMethods = async (object: any) => {
   return await apolloClient.query({
